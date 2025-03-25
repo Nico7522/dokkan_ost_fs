@@ -25,6 +25,7 @@ export class CardDetailsComponent {
   private readonly cardService = inject(CardsService);
   private readonly spinnerService = inject(NgxSpinnerService);
   lwfInstance: any;
+  attachedMovie: any;
   entranceOstText = signal('Play OST');
   activeSkillOstText = signal('Play OST');
   showAnimation = signal(false);
@@ -83,6 +84,7 @@ export class CardDetailsComponent {
             }
             this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
             this.animate();
+            this.attachedMovie = attachedMovie;
           },
           onerror: (error: any) => {
             console.error('Erreur lors du chargement de LWF :', error);
@@ -156,11 +158,15 @@ export class CardDetailsComponent {
   }
 
   showAnimationComponent(type: 'entrance' | 'activeSkill') {
+    console.log(this.attachedMovie);
+    this.attachedMovie.gotoAndStop();
     this.showAnimation.set(true);
     this.animationType.set(type === 'entrance' ? 'intro' : 'active_skills');
   }
 
   hideAnimationComponent() {
     this.showAnimation.set(false);
+
+    this.loadArtwork();
   }
 }

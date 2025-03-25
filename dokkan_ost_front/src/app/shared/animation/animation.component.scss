@@ -10,10 +10,11 @@
 }
 
 .intro {
-  width: 500px;
-  height: 795px;
+  width: 550px;
+  // height: 795px;
   overflow: hidden;
-  margin: 5px auto;
+  height: 98vh;
+  margin: auto;
   border: 1px solid black;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
@@ -24,7 +25,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 30px auto;
+  align-items: center;
+  justify-content: center;
+  // margin: 30px auto;
+  margin: 5px auto;
 }
 
 img {

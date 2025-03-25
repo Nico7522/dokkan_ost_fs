@@ -1,0 +1,29 @@
+<nav>
+    <div class="logo">
+        <div class="logo-img">
+            <img src="db.png" alt="">
+            <img class="headphone" src="headphone.jpg" alt="">
+        </div>
+
+        <h1>Dokkan OST</h1>
+    </div>
+    <span (click)="openMenu()">| | |</span>
+    <ul class="desktop">
+        <li [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" routerLink="/home">
+            Home
+        </li>
+        <li [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" routerLink="/cards">Cards</li>
+        <li>Events</li>
+    </ul>
+    @if (isMenuClosed()) {
+    <ul class="mobile">
+        <p (click)="closeMenu()">X</p>
+        <li>
+            Home
+        </li>
+        <li>Cards</li>
+        <li>Events</li>
+    </ul>
+
+    }
+</nav>

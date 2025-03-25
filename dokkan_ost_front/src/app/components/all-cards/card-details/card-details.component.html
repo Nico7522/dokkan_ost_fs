@@ -1,0 +1,59 @@
+@if (card$ | async; as card) {
+<div [class]="'header' ">
+    <div class="artwork">
+        @if (card.isLegendary) {
+        <div class="artwork-anim">
+            <canvas #cardArtwork width="0" height="0"></canvas>
+        </div>
+        } @else {
+        <div class="art">
+            <div class="card-static-art">
+                <img [src]="'bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_bg.png'" alt="">
+                <img [src]="'bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_character.png'" alt="">
+                <img [src]="'bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_effect.png'" alt="">
+            </div>
+        </div>
+        <!-- <div class="test">
+            <img src="bg/1023490/card_1023490_bg.png" alt="">
+            <img src="bg/1023490/card_1023490_character.png" alt="">
+            <img src="bg/1023490/card_1023490_effect.png" alt="">
+        </div> -->
+        }
+
+    </div>
+    <div class="card">
+        <app-card [card]="card" />
+        <h2>{{card.name}}</h2>
+        @if (card.entranceBgmId) {
+        <div class="entry">
+
+            <h2>Intro</h2>
+            <button (click)="playOst('entrance')" [class]="card.type.toLowerCase()">{{entranceOstText()}}</button>
+            <button (click)="showAnimationComponent('entrance')" [class]="card.type.toLowerCase()">Play OST +
+                Animation</button>
+            <audio #entranceOst id="entranceOst">
+                <source [src]="'bgm/' + 'bgm_' + card.entranceBgmId + '.wav'" type="audio/mpeg" />
+            </audio>
+        </div>
+        }
+        @if (card.asBgmId) {
+        <div class="active-skill">
+            <h2>Active Skill</h2>
+            <button (click)="playOst('activeSkill')" [class]="card.type.toLowerCase()">{{activeSkillOstText()}}</button>
+            <button (click)="showAnimationComponent('activeSkill')" [class]="card.type.toLowerCase()">Play OST +
+                Animation</button>
+            <audio #activeSkillOst id="activeSkillOst">
+                <source [src]="'bgm/' + 'bgm_' + card.asBgmId + '.wav'" type="audio/mpeg" />
+            </audio>
+        </div>
+
+        }
+    </div>
+</div>
+@if (showAnimation()) {
+<app-animation
+    [lwfData]="{prefix: './' + animationType() + '/' + (animationType() === 'intro' ? card.entranceFilename : card.asFilename) + '/fr/', lwf: animationType() === 'intro' ? card.entranceFilename + '.lwf' : card.asFilename + '.lwf'}"
+    (close)="hideAnimationComponent()" />
+
+}
+}

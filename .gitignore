@@ -1,0 +1,13 @@
+./feed_api/db20250321.db
+./feed_api/wav_from_bgm
+./feed_api/wav_from_sample
+./dokkan_ost_back/.env
+./dokkan_ost_back/node_modules
+./dokkan_ost_front/node_modules
+./dokkan_ost_front/public/thumbs
+./dokkan_ost_front/public/bg
+./dokkan_ost_front/public/artworks
+./dokkan_ost_front/public/bgm
+./dokkan_ost_front/public/active_skills
+./dokkan_ost_front/public/intro
+

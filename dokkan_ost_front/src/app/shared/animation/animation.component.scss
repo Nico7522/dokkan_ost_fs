@@ -1,0 +1,50 @@
+.animation {
+  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  position: fixed;
+}
+
+.intro {
+  width: 500px;
+  height: 795px;
+  overflow: hidden;
+  margin: 5px auto;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 30px auto;
+}
+
+img {
+  width: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .intro {
+    width: 300px;
+    height: 568px;
+    overflow: hidden;
+    margin: 5px auto;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+      rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+      rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  }
+}

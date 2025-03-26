@@ -83,8 +83,9 @@ export class CardDetailsComponent {
               );
             }
             this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
-            this.animate();
             this.attachedMovie = attachedMovie;
+            this.animate();
+            this.spinnerService.hide('loader');
           },
           onerror: (error: any) => {
             console.error('Erreur lors du chargement de LWF :', error);
@@ -159,7 +160,8 @@ export class CardDetailsComponent {
 
   showAnimationComponent(type: 'entrance' | 'activeSkill') {
     console.log(this.attachedMovie);
-    this.attachedMovie.gotoAndStop();
+    if (this.attachedMovie) this.attachedMovie.gotoAndStop();
+
     this.showAnimation.set(true);
     this.animationType.set(type === 'entrance' ? 'intro' : 'active_skills');
   }
@@ -167,6 +169,6 @@ export class CardDetailsComponent {
   hideAnimationComponent() {
     this.showAnimation.set(false);
 
-    this.loadArtwork();
+    if (this.attachedMovie) this.loadArtwork();
   }
 }

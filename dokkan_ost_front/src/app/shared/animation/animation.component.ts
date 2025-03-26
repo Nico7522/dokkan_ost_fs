@@ -2,11 +2,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   input,
   Output,
   signal,
   ViewChild,
 } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-animation',
@@ -16,6 +18,7 @@ import {
   styleUrl: './animation.component.scss',
 })
 export class AnimationComponent {
+  private readonly spinnerService = inject(NgxSpinnerService);
   previousTick = 0;
   lwfInstance: any;
   lwfData = input.required<{ prefix: string; lwf: string }>();
@@ -28,42 +31,38 @@ export class AnimationComponent {
     this.close.emit(true);
   }
 
-  // getDelta() {
+  getDelta() {
+    const now = Date.now() / 1000;
+    const delta = now - this.previousTick;
+    this.previousTick = now;
+    return delta;
+  }
+
+  animate = () => {
+    if (this.lwfInstance) {
+      this.lwfInstance.exec(this.getDelta());
+      this.lwfInstance.render();
+    }
+    requestAnimationFrame(this.animate);
+  };
+
+  // From dokkan.dev
+  // startAnimation(lwf: any) {
   //   let lastTime = performance.now();
-  //   const now = Date.now() / 1000;
-  //   const delta = (now - lastTime) / 1000;
-  //   lastTime = now;
-  //   return delta;
+
+  //   function render(currentTime: number) {
+  //     if (lwf && lwf.active) {
+  //       const deltaTime = (currentTime - lastTime) / 1000;
+  //       lastTime = currentTime;
+  //       lwf.exec(deltaTime);
+  //       lwf.render();
+  //     }
+  //     requestAnimationFrame(render);
+  //   }
+
+  //   requestAnimationFrame(render);
   // }
 
-  // animate = () => {
-  //   if (this.lwfInstance) {
-  //     this.lwfInstance.exec(this.getDelta());
-  //     this.lwfInstance.render();
-  //   }
-  //   requestAnimationFrame(this.animate);
-  // };
-  startAnimation(lwf: any) {
-    let lastTime = performance.now(); // Capture the starting time
-
-    // Define the render function that updates and renders the animation on each frame.
-    function render(currentTime: number) {
-      if (lwf && lwf.active) {
-        // Calculate the elapsed time (delta) in seconds since the last frame
-        const deltaTime = (currentTime - lastTime) / 1000;
-        lastTime = currentTime;
-        // Update the animation state based on the time elapsed
-        lwf.exec(deltaTime);
-        // Render the current frame of the animation onto the canvas
-        lwf.render();
-      }
-      // Request the next animation frame. This recursive call keeps the loop running.
-      requestAnimationFrame(render);
-    }
-
-    // Start the animation loop by requesting the first frame.
-    requestAnimationFrame(render);
-  }
   playAnimation() {
     // Exemple de lecture audio
     // const audio = this.audioRef.nativeElement;
@@ -87,70 +86,65 @@ export class AnimationComponent {
   }
 
   loadAnimation() {
-    console.log(this.lwfData());
-
-    setTimeout(() => {
-      if (this.canvasRef) {
-        const canvas = this.canvasRef.nativeElement;
-        // Vérifiez si le canvas existe
-        if (!canvas) {
-          console.error('Canvas non trouvé');
-          return;
-        }
-        // Utiliser LWF pour initialiser l'animation
-        LWF.useCanvasRenderer();
-        LWF.ResourceCache.get().loadLWF({
-          lwf: this.lwfData().lwf,
-          prefix: this.lwfData().prefix,
-          stage: canvas,
-          onload: (loadedLwfInstance: any) => {
-            this.lwfInstance = loadedLwfInstance;
-            console.log(loadedLwfInstance);
-
-            this.canvasRef?.nativeElement.classList.add('intro');
-            const attachedMovieBase = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'a',
-              1
-            );
-
-            if (attachedMovieBase) {
-              attachedMovieBase.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-            const attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001b',
-              'b',
-              1
-            );
-            if (attachedMovie2) {
-              attachedMovie2.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-            const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001_u',
-              'c',
-              1
-            );
-
-            if (attachedMovie) {
-              attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-
-            this.startAnimation(loadedLwfInstance);
-          },
-          onerror: (error: any) => {
-            console.error('Erreur lors du chargement de LWF :', error);
-          },
-        });
+    this.spinnerService.show('loader');
+    if (this.canvasRef) {
+      const canvas = this.canvasRef.nativeElement;
+      if (!canvas) {
+        console.error('Canvas non trouvé');
+        return;
       }
-    }, 500);
+      LWF.useCanvasRenderer();
+      LWF.ResourceCache.get().loadLWF({
+        lwf: this.lwfData().lwf,
+        prefix: this.lwfData().prefix,
+        stage: canvas,
+        onload: (loadedLwfInstance: any) => {
+          this.lwfInstance = loadedLwfInstance;
+          console.log(loadedLwfInstance);
+
+          this.canvasRef?.nativeElement.classList.add('intro');
+          const attachedMovieBase = this.lwfInstance.rootMovie.attachMovie(
+            'ef_001',
+            'a',
+            1
+          );
+
+          if (attachedMovieBase) {
+            attachedMovieBase.moveTo(
+              this.lwfInstance.width / 2,
+              this.lwfInstance.height / 2
+            );
+          }
+          const attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
+            'ef_001b',
+            'b',
+            1
+          );
+          if (attachedMovie2) {
+            attachedMovie2.moveTo(
+              this.lwfInstance.width / 2,
+              this.lwfInstance.height / 2
+            );
+          }
+          const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+            'ef_001_u',
+            'c',
+            1
+          );
+
+          if (attachedMovie) {
+            attachedMovie.moveTo(
+              this.lwfInstance.width / 2,
+              this.lwfInstance.height / 2
+            );
+          }
+          this.spinnerService.hide('loader');
+          this.animate();
+        },
+        onerror: (error: any) => {
+          console.error('Erreur lors du chargement de LWF :', error);
+        },
+      });
+    }
   }
 }

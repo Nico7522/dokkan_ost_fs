@@ -50,6 +50,7 @@ export class CardComponent {
           attachedMovie.scaleX = 0.9;
           attachedMovie.scaleY = 0.9;
           this.animate();
+          this.spinnerService.hide('loader');
         },
         onerror: (error: any) => {
           console.error('Erreur lors du chargement de LWF :', error);

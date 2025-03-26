@@ -100,17 +100,39 @@ export class AnimationComponent {
         stage: canvas,
         onload: (loadedLwfInstance: any) => {
           this.lwfInstance = loadedLwfInstance;
-          console.log(loadedLwfInstance);
-
           this.canvasRef?.nativeElement.classList.add('intro');
           const attachedMovieBase = this.lwfInstance.rootMovie.attachMovie(
             'ef_001',
             'a',
             1
           );
+          console.log(attachedMovieBase);
+          attachedMovieBase.addEventHandler('update', () => {
+            console.log(attachedMovieBase.currentFrame);
+            if (
+              attachedMovieBase.currentFrame >=
+              attachedMovieBase.totalFrames - 1
+            ) {
+              console.log('stop');
 
+              attachedMovieBase.gotoAndStop();
+            }
+          });
           if (attachedMovieBase) {
             attachedMovieBase.moveTo(
+              this.lwfInstance.width / 2,
+              this.lwfInstance.height / 2
+            );
+          }
+
+          const attachedMovieA = this.lwfInstance.rootMovie.attachMovie(
+            'ef_002',
+            'b',
+            2
+          );
+
+          if (attachedMovieA) {
+            attachedMovieA.moveTo(
               this.lwfInstance.width / 2,
               this.lwfInstance.height / 2
             );

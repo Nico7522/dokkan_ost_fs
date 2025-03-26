@@ -43,8 +43,6 @@ export class CardDetailsComponent {
       return this.cardService.getCardById(+id).pipe(
         tap((x) => this.thumb.set(x.thumb)),
         map((card) => {
-          console.log('card detail', card);
-
           this.spinnerService.show('loader');
           return keysToCamel(card);
         })
@@ -56,7 +54,6 @@ export class CardDetailsComponent {
     setTimeout(() => {
       if (this.canvasRef) {
         const canvas = this.canvasRef.nativeElement;
-        // Vérifiez si le canvas existe
         if (!canvas) {
           console.error('Canvas non trouvé');
           return;
@@ -85,19 +82,18 @@ export class CardDetailsComponent {
             this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
             this.attachedMovie = attachedMovie;
             this.animate();
-            this.spinnerService.hide('loader');
           },
           onerror: (error: any) => {
             console.error('Erreur lors du chargement de LWF :', error);
           },
         });
       }
+      this.spinnerService.hide('loader');
     }, 500);
   }
   previousTick = 0;
   ngAfterViewInit() {
     this.loadArtwork();
-    this.spinnerService.hide('loader');
   }
 
   getDelta() {

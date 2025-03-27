@@ -18,3 +18,20 @@ export const keysToCamel = (o: any): any => {
   }
   return o;
 };
+
+export function startGokuKaiokenActiveSkill(lwfInstance: any) {
+  let attachedMovieBase = lwfInstance.rootMovie.attachMovie(
+    'ef_001_front',
+    'a',
+    0
+  );
+
+  let scenes = lwfInstance.rootMovie.attachMovie('ef_001_back', 'b', 0);
+  if (attachedMovieBase) {
+    attachedMovieBase.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+  }
+  if (scenes) {
+    scenes.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+  }
+  return scenes;
+}

@@ -20,6 +20,7 @@ import { Router, RouterModule } from '@angular/router';
 export class CardComponent {
   card = input.required<Card>();
   lwfInstance: any;
+  animationId = 0;
   @ViewChild('cardRef', { static: false })
   canvasRef!: ElementRef<HTMLCanvasElement>;
   private readonly spinnerService = inject(NgxSpinnerService);
@@ -60,10 +61,10 @@ export class CardComponent {
       });
     }
   }
-
   ngOnDestroy() {
     if (this.lwfInstance) {
       this.lwfInstance.destroy();
+      cancelAnimationFrame(this.animationId);
     }
   }
 
@@ -73,13 +74,12 @@ export class CardComponent {
     this.previousTick = now;
     return delta;
   }
-
   animate = () => {
     if (this.lwfInstance) {
       this.lwfInstance.exec(this.getDelta());
       this.lwfInstance.render();
     }
-    requestAnimationFrame(this.animate);
+    this.animationId = requestAnimationFrame(this.animate);
   };
 
   goToDetails() {

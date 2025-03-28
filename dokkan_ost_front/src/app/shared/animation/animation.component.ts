@@ -111,6 +111,7 @@ export class AnimationComponent {
         onload: (loadedLwfInstance: any) => {
           this.lwfInstance = loadedLwfInstance;
           console.log(loadedLwfInstance);
+          console.log(this.lwfData());
 
           this.canvasRef?.nativeElement.classList.add('intro');
           if (this.lwfData().lwf === 'sp_effect_a2_00174.lwf') {
@@ -122,7 +123,7 @@ export class AnimationComponent {
               );
             }
             this.i += 1;
-            this.updateScene(scenes);
+            this.updateScene(scenes, this.sp_effect_a2_00174_scenes);
           }
 
           if (this.lwfData().lwf === 'battle_301234.lwf') {
@@ -131,7 +132,7 @@ export class AnimationComponent {
               'a',
               1
             );
-            this.updateScene(attachedMovie);
+            this.updateScene(attachedMovie, this.sp_effect_a1_00364_scenes);
             if (attachedMovie) {
               attachedMovie.moveTo(
                 this.lwfInstance.width / 2,
@@ -189,7 +190,7 @@ export class AnimationComponent {
     }
   }
 
-  updateScene(attachedMovie: any) {
+  updateScene(attachedMovie: any, scenes: string[]) {
     this.i += 1;
     if (attachedMovie) {
       attachedMovie.moveTo(
@@ -200,12 +201,12 @@ export class AnimationComponent {
     attachedMovie.addEventHandler('update', () => {
       if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
         attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-          this.sp_effect_a1_00364_scenes[this.i],
+          scenes[this.i],
           'a',
           1
         );
 
-        this.updateScene(attachedMovie);
+        this.updateScene(attachedMovie, scenes);
       }
     });
   }

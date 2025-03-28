@@ -198,6 +198,7 @@ export class AnimationComponent {
         this.lwfInstance.height / 2
       );
     }
+
     attachedMovie.addEventHandler('update', () => {
       if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
         attachedMovie = this.lwfInstance.rootMovie.attachMovie(

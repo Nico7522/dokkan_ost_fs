@@ -81,6 +81,7 @@ export class CardDetailsComponent {
             }
             this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
             this.attachedMovie = attachedMovie;
+
             this.animate();
           },
           onerror: (error: any) => {
@@ -166,5 +167,9 @@ export class CardDetailsComponent {
     this.showAnimation.set(false);
 
     if (this.attachedMovie) this.loadArtwork();
+  }
+
+  ngOnDestroy() {
+    if (this.lwfInstance) this.lwfInstance.destroy();
   }
 }

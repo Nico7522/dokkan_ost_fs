@@ -49,6 +49,8 @@ export class CardComponent {
 
           attachedMovie.scaleX = 0.9;
           attachedMovie.scaleY = 0.9;
+          console.log('ici');
+
           this.animate();
           this.spinnerService.hide('loader');
         },
@@ -56,6 +58,12 @@ export class CardComponent {
           console.error('Erreur lors du chargement de LWF :', error);
         },
       });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.lwfInstance) {
+      this.lwfInstance.destroy();
     }
   }
 

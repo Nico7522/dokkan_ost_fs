@@ -50,7 +50,6 @@ export class CardComponent {
 
           attachedMovie.scaleX = 0.9;
           attachedMovie.scaleY = 0.9;
-          console.log('ici');
 
           this.animate();
           this.spinnerService.hide('loader');

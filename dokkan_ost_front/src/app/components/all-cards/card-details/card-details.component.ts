@@ -26,6 +26,7 @@ export class CardDetailsComponent {
   private readonly spinnerService = inject(NgxSpinnerService);
   lwfInstance: any;
   attachedMovie: any;
+  animationId = 0;
   entranceOstText = signal('Play OST');
   activeSkillOstText = signal('Play OST');
   showAnimation = signal(false);
@@ -68,19 +69,19 @@ export class CardDetailsComponent {
           onload: (loadedLwfInstance: any) => {
             this.lwfInstance = loadedLwfInstance;
             this.canvasRef?.nativeElement.classList.add('artwork-anim');
-            const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              0
-            );
-            if (attachedMovie) {
-              attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
+            // const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+            //   'ef_001',
+            //   'battle',
+            //   0
+            // );
+            // if (attachedMovie) {
+            //   attachedMovie.moveTo(
+            //     this.lwfInstance.width / 2,
+            //     this.lwfInstance.height / 2
+            //   );
+            // }
             this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
-            this.attachedMovie = attachedMovie;
+            // this.attachedMovie = attachedMovie;
 
             this.animate();
           },
@@ -109,7 +110,7 @@ export class CardDetailsComponent {
       this.lwfInstance.exec(this.getDelta());
       this.lwfInstance.render();
     }
-    requestAnimationFrame(this.animate);
+    this.animationId = requestAnimationFrame(this.animate);
   };
 
   playOst(type: 'entrance' | 'activeSkill') {
@@ -156,9 +157,8 @@ export class CardDetailsComponent {
   }
 
   showAnimationComponent(type: 'entrance' | 'activeSkill') {
-    console.log(this.attachedMovie);
     if (this.attachedMovie) this.attachedMovie.gotoAndStop();
-
+    cancelAnimationFrame(this.animationId);
     this.showAnimation.set(true);
     this.animationType.set(type === 'entrance' ? 'intro' : 'active_skills');
   }
@@ -166,10 +166,13 @@ export class CardDetailsComponent {
   hideAnimationComponent() {
     this.showAnimation.set(false);
 
-    if (this.attachedMovie) this.loadArtwork();
+    requestAnimationFrame(this.animate);
   }
 
   ngOnDestroy() {
-    if (this.lwfInstance) this.lwfInstance.destroy();
+    if (this.lwfInstance) {
+      this.lwfInstance.destroy();
+      cancelAnimationFrame(this.animationId);
+    }
   }
 }

@@ -22,6 +22,7 @@ export class AnimationComponent {
   private readonly spinnerService = inject(NgxSpinnerService);
   previousTick = 0;
   lwfInstance: any;
+  animationId = 0;
   lwfData = input.required<{ prefix: string; lwf: string }>();
   @Output() close = new EventEmitter<boolean>();
   body = document.querySelector('body') as HTMLBodyElement;
@@ -53,7 +54,7 @@ export class AnimationComponent {
       this.lwfInstance.render();
     }
 
-    requestAnimationFrame(this.animate);
+    this.animationId = requestAnimationFrame(this.animate);
   };
 
   // From dokkan.dev
@@ -93,6 +94,7 @@ export class AnimationComponent {
   ngOnDestroy() {
     this.body.classList.remove('no-scroll');
     this.lwfInstance.destroy();
+    cancelAnimationFrame(this.animationId);
   }
 
   loadAnimation() {
@@ -110,8 +112,6 @@ export class AnimationComponent {
         stage: canvas,
         onload: (loadedLwfInstance: any) => {
           this.lwfInstance = loadedLwfInstance;
-          console.log(loadedLwfInstance);
-          console.log(this.lwfData());
 
           this.canvasRef?.nativeElement.classList.add('intro');
           if (this.lwfData().lwf === 'sp_effect_a2_00174.lwf') {

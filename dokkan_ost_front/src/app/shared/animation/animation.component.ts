@@ -37,6 +37,19 @@ export class AnimationComponent {
     'ef_003_front',
   ];
   sp_effect_a1_00364_scenes = ['ef_001', 'ef_002', 'ef_003'];
+
+  sp_effect_a9_00094_scenes = [
+    'ef_001',
+    'ef_002',
+    'ef_003',
+    'ef_004',
+    'ef_005',
+    'ef_006',
+    'ef_007',
+    'ef_008',
+    'ef_009',
+    'ef_010',
+  ];
   i = 0;
   closeComponent() {
     this.close.emit(true);
@@ -112,6 +125,7 @@ export class AnimationComponent {
         stage: canvas,
         onload: (loadedLwfInstance: any) => {
           this.lwfInstance = loadedLwfInstance;
+          console.log(loadedLwfInstance);
 
           this.canvasRef?.nativeElement.classList.add('intro');
           if (this.lwfData().lwf === 'sp_effect_a2_00174.lwf') {
@@ -158,6 +172,21 @@ export class AnimationComponent {
               );
             }
           }
+
+          if (this.lwfData().lwf === 'sp_effect_a9_00094.lwf') {
+            let attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+              this.sp_effect_a9_00094_scenes[this.i],
+              'a',
+              1
+            );
+            this.updateScene(attachedMovie, this.sp_effect_a9_00094_scenes);
+            if (attachedMovie) {
+              attachedMovie.moveTo(
+                this.lwfInstance.width / 2,
+                this.lwfInstance.height / 2
+              );
+            }
+          }
           let attachedMovieBase = this.lwfInstance.rootMovie.attachMovie(
             'ef_001',
             'battle',
@@ -198,7 +227,7 @@ export class AnimationComponent {
         this.lwfInstance.height / 2
       );
     }
-
+    if (this.i === scenes.length) this.i = 0;
     attachedMovie.addEventHandler('update', () => {
       if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
         attachedMovie = this.lwfInstance.rootMovie.attachMovie(

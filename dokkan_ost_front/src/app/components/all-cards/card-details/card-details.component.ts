@@ -69,17 +69,17 @@ export class CardDetailsComponent {
           onload: (loadedLwfInstance: any) => {
             this.lwfInstance = loadedLwfInstance;
             this.canvasRef?.nativeElement.classList.add('artwork-anim');
-            // const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-            //   'ef_001',
-            //   'battle',
-            //   0
-            // );
-            // if (attachedMovie) {
-            //   attachedMovie.moveTo(
-            //     this.lwfInstance.width / 2,
-            //     this.lwfInstance.height / 2
-            //   );
-            // }
+            const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+              'ef_001',
+              'battle',
+              0
+            );
+            if (attachedMovie) {
+              attachedMovie.moveTo(
+                this.lwfInstance.width / 2,
+                this.lwfInstance.height / 2
+              );
+            }
             this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
             // this.attachedMovie = attachedMovie;
 

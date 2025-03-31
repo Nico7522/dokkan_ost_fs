@@ -43,7 +43,8 @@
             <button (click)="showAnimationComponent('activeSkill')" [class]="card.type.toLowerCase()">Play OST +
                 Animation</button>
             <audio #activeSkillOst id="activeSkillOst">
-                <source [src]="'bgm/' + 'bgm_' + card.asBgmId + '.wav'" type="audio/mpeg" />
+                <source [src]="'bgm/' + 'bgm_' + (card.asBgmId >= 100 ?  card.asBgmId : '0'+card.asBgmId) + '.wav'"
+                    type="audio/mpeg" />
             </audio>
         </div>
 

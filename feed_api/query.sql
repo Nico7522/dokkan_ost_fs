@@ -2,7 +2,7 @@
 SELECT * FROM (
 SELECT cards.id as 'card_id', cards.name AS 'card_name', active_skill_sets.name AS 'as_name', active_skill_sets.id AS 'as_id', active_skill_sets.bgm_id FROM active_skill_sets
 JOIN card_active_skills ON active_skill_sets.id = card_active_skills.active_skill_set_id
-JOIN cards ON card_active_skills.card_id = cards.id WHERE bgm_id IS NOT NULL ORDER BY cards.id DESC) WHERE card_id = 1031081 GROUP BY bgm_id 
+JOIN cards ON card_active_skills.card_id = cards.id WHERE bgm_id IS NOT NULL ORDER BY cards.id DESC) WHERE card_id = 1030941 GROUP BY bgm_id 
 
 
 SELECT cards.id as 'card_id', cards.name AS 'card_name', active_skill_sets.name AS 'as_name', active_skill_sets.id AS 'as_id', active_skill_sets.bgm_id FROM active_skill_sets
@@ -31,7 +31,7 @@ ON passive_skills.passive_skill_effect_id = passive_skill_effects.id
 AND passive_skill_effects.bgm_id 
 IS NOT NULL 
 ORDER BY cards.id DESC)
-WHERE id = 1031081
+WHERE id = 1030941
 GROUP BY passive_skill_effect_id 
 
 SELECT rarity FROM cards WHERE id = 1029831

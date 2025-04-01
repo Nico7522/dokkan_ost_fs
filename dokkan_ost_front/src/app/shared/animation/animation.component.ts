@@ -238,14 +238,26 @@ export class AnimationComponent {
           }
 
           if (this.lwfData().lwf === 'sp_effect_a2_00114.lwf') {
+            // this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+            //   this.sp_effect_a2_00114_scenes[this.i],
+            //   'a',
+            //   1
+            // );
+            // this.updateScene(
+            //   this.attachedMovie,
+            //   this.sp_effect_a2_00114_scenes
+            // );
+            // if (this.attachedMovie) {
+            //   this.attachedMovie.moveTo(
+            //     this.lwfInstance.width / 2,
+            //     this.lwfInstance.height / 2
+            //   );
+            // }
+
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              this.sp_effect_a2_00114_scenes[this.i],
-              'a',
+              'ef_001',
+              'battle',
               1
-            );
-            this.updateScene(
-              this.attachedMovie,
-              this.sp_effect_a2_00114_scenes
             );
             if (this.attachedMovie) {
               this.attachedMovie.moveTo(
@@ -253,6 +265,93 @@ export class AnimationComponent {
                 this.lwfInstance.height / 2
               );
             }
+
+            this.attachedMovie.addEventHandler('update', () => {
+              if (
+                this.attachedMovie.currentFrame >=
+                this.attachedMovie.totalFrames - 1
+              ) {
+                this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                  'ef_002',
+                  'battle',
+                  1
+                );
+                if (this.attachedMovie) {
+                  this.attachedMovie.moveTo(
+                    this.lwfInstance.width / 2,
+                    this.lwfInstance.height / 2
+                  );
+                }
+                this.attachedMovie.addEventHandler('update', () => {
+                  if (
+                    this.attachedMovie.currentFrame >=
+                    this.attachedMovie.totalFrames - 1
+                  ) {
+                    this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                      'ef_003',
+                      'battle',
+                      1
+                    );
+                    if (this.attachedMovie) {
+                      this.attachedMovie.moveTo(
+                        this.lwfInstance.width / 2,
+                        this.lwfInstance.height / 2
+                      );
+                    }
+                    this.attachedMovie.addEventHandler('update', () => {
+                      if (
+                        this.attachedMovie.currentFrame >=
+                        this.attachedMovie.totalFrames - 1
+                      ) {
+                        this.attachedMovie =
+                          this.lwfInstance.rootMovie.attachMovie(
+                            'ef_005',
+                            'battle',
+                            1
+                          );
+                        if (this.attachedMovie) {
+                          this.attachedMovie.moveTo(
+                            this.lwfInstance.width / 2,
+                            this.lwfInstance.height / 2
+                          );
+                        }
+                        let attachedMovie2 =
+                          this.lwfInstance.rootMovie.attachMovie(
+                            'ef_004',
+                            'battle2',
+                            1
+                          );
+                        if (attachedMovie2) {
+                          attachedMovie2.moveTo(
+                            this.lwfInstance.width / 2,
+                            this.lwfInstance.height / 2
+                          );
+                          attachedMovie2.addEventHandler('update', () => {
+                            if (
+                              attachedMovie2.currentFrame >=
+                              attachedMovie2.totalFrames - 1
+                            ) {
+                              this.attachedMovie =
+                                this.lwfInstance.rootMovie.attachMovie(
+                                  'ef_006',
+                                  'battle',
+                                  1
+                                );
+                              if (this.attachedMovie) {
+                                this.attachedMovie.moveTo(
+                                  this.lwfInstance.width / 2,
+                                  this.lwfInstance.height / 2
+                                );
+                              }
+                            }
+                          });
+                        }
+                      }
+                    });
+                  }
+                });
+              }
+            });
           }
 
           // Si aucune animation

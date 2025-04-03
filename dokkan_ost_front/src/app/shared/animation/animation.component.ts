@@ -13,6 +13,7 @@ import {
   attachScenesForCard9517161ActiveSkill,
   attachScenesForCard9523621ActiveSkill,
   attachScenesForCard9514221ActiveSkill,
+  attachScenesForCard1016571ActiveSkill,
 } from '../../helpers/helpers';
 import {
   sp_effect_a1_00143_scenes,
@@ -273,17 +274,37 @@ export class AnimationComponent {
             }
           }
 
-          // Si aucune animation
-          if (!this.attachedMovie) {
+          if (this.lwfData().lwf === 'sp_effect_b4_00086.lwf') {
+            console.log(this.lwfInstance);
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_002',
+              'ef_001',
               'battle',
               1
             );
+            console.log(this.attachedMovie);
 
+            attachScenesForCard1016571ActiveSkill(
+              this.lwfInstance,
+              this.attachedMovie
+            );
+            if (this.attachedMovie) {
+              this.attachedMovie.moveTo(
+                this.lwfInstance.width / 2,
+                this.lwfInstance.height / 2
+              );
+            }
+          }
+
+          // Si aucune animation
+          if (!this.attachedMovie) {
+            // let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
+            //   'ef_003',
+            //   'battle2',
+            //   1
+            // );
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_003',
-              'battle2',
+              'ef_001',
+              'battle',
               1
             );
 
@@ -303,6 +324,13 @@ export class AnimationComponent {
                 this.lwfInstance.height / 2
               );
             }
+
+            // if (attachedMovie2) {
+            //   attachedMovie2.moveTo(
+            //     this.lwfInstance.width / 2,
+            //     this.lwfInstance.height / 2
+            //   );
+            // }
           }
 
           // this.lwfInstance.scaleForHeight(canvas.width, canvas.height);

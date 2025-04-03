@@ -316,3 +316,19 @@ export function attachScenesForCard1016571ActiveSkill(
     }
   });
 }
+
+export function forceReplay(
+  lwfInstance: any,
+  attachedMovie: any,
+  sceneName: string
+) {
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+      attachedMovie = lwfInstance.rootMovie.attachMovie(sceneName, 'battle', 1);
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      forceReplay(lwfInstance, attachedMovie, sceneName);
+    }
+  });
+}

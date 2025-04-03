@@ -33,6 +33,7 @@ import {
 })
 export class AnimationComponent {
   private readonly spinnerService = inject(NgxSpinnerService);
+  errorMessage = signal('');
   previousTick = 0;
   lwfInstance: any;
   attachedMovie: any;
@@ -129,8 +130,10 @@ export class AnimationComponent {
         stage: canvas,
         onload: (loadedLwfInstance: any) => {
           this.lwfInstance = loadedLwfInstance;
-          console.log(loadedLwfInstance);
-
+          if (!this.lwfInstance) {
+            this.spinnerService.hide('loader');
+            this.errorMessage.set('Animation unavailable');
+          }
           this.canvasRef?.nativeElement.classList.add('intro');
           if (this.lwfData().lwf === 'sp_effect_a2_00174.lwf') {
             let scenes = attachScenesForCard9523621ActiveSkill(

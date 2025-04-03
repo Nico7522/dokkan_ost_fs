@@ -2,5 +2,11 @@
     <img (click)="closeComponent()" src="close_logo.png" alt="">
     <div class="wrapper">
         <canvas #cardIntro width="0" height="0"></canvas>
+        @if (errorMessage()) {
+        <div class="error">
+            <span>{{errorMessage()}}</span>
+        </div>
+
+        }
     </div>
 </div>

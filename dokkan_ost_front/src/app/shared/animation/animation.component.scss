@@ -38,6 +38,21 @@ img {
   cursor: pointer;
 }
 
+.error {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0);
+  background: #923b3b;
+  height: 50px;
+  display: flex;
+  align-items: center;
+
+  & span {
+    padding: 3px;
+    font-family: "dokkan";
+  }
+}
 @media screen and (max-width: 700px) {
   .intro {
     width: 300px;

@@ -12,7 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import {
   attachScenesForCard9517161ActiveSkill,
   attachScenesForCard9523621ActiveSkill,
-  help,
+  attachScenesForCard9514221ActiveSkill,
 } from '../../helpers/helpers';
 import {
   sp_effect_a1_00143_scenes,
@@ -257,7 +257,10 @@ export class AnimationComponent {
               'battle',
               1
             );
-            help(this.lwfInstance, this.attachedMovie);
+            attachScenesForCard9514221ActiveSkill(
+              this.lwfInstance,
+              this.attachedMovie
+            );
 
             if (this.attachedMovie) {
               this.attachedMovie.moveTo(
@@ -265,21 +268,6 @@ export class AnimationComponent {
                 this.lwfInstance.height / 2
               );
             }
-            // this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-            //   this.sp_effect_a1_00143_scenes[this.i],
-            //   'a',
-            //   1
-            // );
-            // this.updateScene(
-            //   this.attachedMovie,
-            //   this.sp_effect_a1_00143_scenes
-            // );
-            // if (this.attachedMovie) {
-            //   this.attachedMovie.moveTo(
-            //     this.lwfInstance.width / 2,
-            //     this.lwfInstance.height / 2
-            //   );
-            // }
           }
 
           // Si aucune animation
@@ -296,15 +284,15 @@ export class AnimationComponent {
               1
             );
 
-            // let i = 1;
-            // while (!this.attachedMovie && i < this.triggerScenes.length) {
-            //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-            //     this.triggerScenes[i],
-            //     'battle',
-            //     1
-            //   );
-            //   i++;
-            // }
+            let i = 1;
+            while (!this.attachedMovie && i < this.triggerScenes.length) {
+              this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                this.triggerScenes[i],
+                'battle',
+                1
+              );
+              i++;
+            }
 
             if (this.attachedMovie) {
               this.attachedMovie.moveTo(

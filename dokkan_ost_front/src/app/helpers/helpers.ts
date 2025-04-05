@@ -42,73 +42,60 @@ export function attachScenesForCard9517161ActiveSkill(
 ) {
   attachedMovie.addEventHandler('update', () => {
     if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-      attachedMovie = lwfInstance.rootMovie.attachMovie('ef_002', 'battle', 1);
-      if (attachedMovie) {
-        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-      }
+      let { attachedMovieBase } = triggerNextScene(attachedMovie, lwfInstance, [
+        'ef_002',
+      ]);
+      attachedMovie = attachedMovieBase;
+
       attachedMovie.addEventHandler('update', () => {
         if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-          attachedMovie = lwfInstance.rootMovie.attachMovie(
-            'ef_003',
-            'battle',
-            1
+          let { attachedMovieBase } = triggerNextScene(
+            attachedMovie,
+            lwfInstance,
+            ['ef_003']
           );
-          if (attachedMovie) {
-            attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-          }
+          attachedMovie = attachedMovieBase;
+
           attachedMovie.addEventHandler('update', () => {
             if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-              attachedMovie = lwfInstance.rootMovie.attachMovie(
-                'ef_005',
-                'battle',
-                1
+              let { attachedMovieBase, attachedMovie2 } = triggerNextScene(
+                attachedMovie,
+                lwfInstance,
+                ['ef_005', 'ef_004']
               );
-              if (attachedMovie) {
-                attachedMovie.moveTo(
-                  lwfInstance.width / 2,
-                  lwfInstance.height / 2
-                );
-              }
-              let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
-                'ef_004',
-                'battle2',
-                1
-              );
-              if (attachedMovie2) {
-                attachedMovie2.moveTo(
-                  lwfInstance.width / 2,
-                  lwfInstance.height / 2
-                );
-                attachedMovie2.addEventHandler('update', () => {
-                  if (
-                    attachedMovie2.currentFrame >=
-                    attachedMovie2.totalFrames - 1
-                  ) {
-                    attachedMovie = lwfInstance.rootMovie.attachMovie(
-                      'ef_006',
-                      'battle',
-                      1
-                    );
-                    if (attachedMovie) {
-                      attachedMovie.moveTo(
-                        lwfInstance.width / 2,
-                        lwfInstance.height / 2
+              attachedMovie = attachedMovieBase;
+
+              attachedMovie2.addEventHandler('update', () => {
+                if (
+                  attachedMovie2.currentFrame >=
+                  attachedMovie2.totalFrames - 1
+                ) {
+                  let { attachedMovieBase } = triggerNextScene(
+                    attachedMovie,
+                    lwfInstance,
+                    ['ef_006']
+                  );
+                  attachedMovie = attachedMovieBase;
+
+                  attachedMovie.addEventHandler('update', () => {
+                    if (
+                      attachedMovie.currentFrame >=
+                      attachedMovie.totalFrames - 1
+                    ) {
+                      let { attachedMovieBase } = triggerNextScene(
+                        attachedMovie,
+                        lwfInstance,
+                        ['ef_001']
+                      );
+                      attachedMovie = attachedMovieBase;
+                      attachScenesForCard9517161ActiveSkill(
+                        lwfInstance,
+                        attachedMovie
                       );
                     }
-                    attachedMovie.addEventHandler('update', () => {
-                      if (
-                        attachedMovie.currentFrame >=
-                        attachedMovie.totalFrames - 1
-                      ) {
-                        attachScenesForCard9517161ActiveSkill(
-                          lwfInstance,
-                          attachedMovie
-                        );
-                      }
-                    });
-                  }
-                });
-              }
+                  });
+                }
+              });
             }
           });
         }
@@ -274,6 +261,31 @@ export function attachScenesForCard1016571ActiveSkill(
               });
             }
           });
+        }
+      });
+    }
+  });
+}
+
+export function attachScenesForCard9517911ActiveSkill(
+  lwfInstance: any,
+  attachedMovie: any
+) {
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 244) {
+      let { attachedMovieBase } = triggerNextScene(attachedMovie, lwfInstance, [
+        'ef_002',
+      ]);
+      attachedMovie = attachedMovieBase;
+      attachedMovie.addEventHandler('update', () => {
+        if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+          let { attachedMovieBase } = triggerNextScene(
+            attachedMovie,
+            lwfInstance,
+            ['ef_001']
+          );
+          attachedMovie = attachedMovieBase;
+          attachScenesForCard9517911ActiveSkill(lwfInstance, attachedMovie);
         }
       });
     }

@@ -15,6 +15,7 @@ import {
   attachScenesForCard9514221ActiveSkill,
   attachScenesForCard1016571ActiveSkill,
   forceReplay,
+  attachScenesForCard9517911ActiveSkill,
 } from '../../helpers/helpers';
 import {
   sp_effect_a1_00143_scenes,
@@ -282,7 +283,6 @@ export class AnimationComponent {
               'battle',
               1
             );
-            console.log(this.attachedMovie);
 
             attachScenesForCard1016571ActiveSkill(
               this.lwfInstance,
@@ -310,7 +310,23 @@ export class AnimationComponent {
               );
             }
           }
-
+          if (this.lwfData().lwf === 'sp_effect_a1_00175.lwf') {
+            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+              'ef_001',
+              'battle',
+              1
+            );
+            attachScenesForCard9517911ActiveSkill(
+              this.lwfInstance,
+              this.attachedMovie
+            );
+            if (this.attachedMovie) {
+              this.attachedMovie.moveTo(
+                this.lwfInstance.width / 2,
+                this.lwfInstance.height / 2
+              );
+            }
+          }
           // Si aucune animation
           if (!this.attachedMovie) {
             // let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(

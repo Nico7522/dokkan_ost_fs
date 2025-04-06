@@ -42,14 +42,16 @@ export function attachScenesForCard9517161ActiveSkill(
 ) {
   attachedMovie.addEventHandler('update', () => {
     if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-      let { attachedMovieBase } = triggerNextScene(attachedMovie, lwfInstance, [
-        'ef_002',
-      ]);
+      let { attachedMovieBase } = triggerNextScenes(
+        attachedMovie,
+        lwfInstance,
+        ['ef_002']
+      );
       attachedMovie = attachedMovieBase;
 
       attachedMovie.addEventHandler('update', () => {
         if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-          let { attachedMovieBase } = triggerNextScene(
+          let { attachedMovieBase } = triggerNextScenes(
             attachedMovie,
             lwfInstance,
             ['ef_003']
@@ -58,7 +60,7 @@ export function attachScenesForCard9517161ActiveSkill(
 
           attachedMovie.addEventHandler('update', () => {
             if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-              let { attachedMovieBase, attachedMovie2 } = triggerNextScene(
+              let { attachedMovieBase, attachedMovie2 } = triggerNextScenes(
                 attachedMovie,
                 lwfInstance,
                 ['ef_005', 'ef_004']
@@ -70,7 +72,7 @@ export function attachScenesForCard9517161ActiveSkill(
                   attachedMovie2.currentFrame >=
                   attachedMovie2.totalFrames - 1
                 ) {
-                  let { attachedMovieBase } = triggerNextScene(
+                  let { attachedMovieBase } = triggerNextScenes(
                     attachedMovie,
                     lwfInstance,
                     ['ef_006']
@@ -82,7 +84,7 @@ export function attachScenesForCard9517161ActiveSkill(
                       attachedMovie.currentFrame >=
                       attachedMovie.totalFrames - 1
                     ) {
-                      let { attachedMovieBase } = triggerNextScene(
+                      let { attachedMovieBase } = triggerNextScenes(
                         attachedMovie,
                         lwfInstance,
                         ['ef_001']
@@ -104,7 +106,7 @@ export function attachScenesForCard9517161ActiveSkill(
   });
 }
 
-export function triggerNextScene(
+export function triggerNextScenes(
   attachedMovie: any,
   lwfInstance: any,
   scenes: string[]
@@ -152,14 +154,14 @@ export function attachScenesForCard9514221ActiveSkill(
 ) {
   attachedMovie.addEventHandler('update', () => {
     if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-      let { attachedMovie2 } = triggerNextScene(attachedMovie, lwfInstance, [
+      let { attachedMovie2 } = triggerNextScenes(attachedMovie, lwfInstance, [
         'ef_003',
         'ef_002',
       ]);
       attachedMovie2.addEventHandler('update', () => {
         if (attachedMovie2.currentFrame >= attachedMovie2.totalFrames - 1) {
           attachedMovie2.removeMovieClip();
-          let { attachedMovieBase } = triggerNextScene(
+          let { attachedMovieBase } = triggerNextScenes(
             attachedMovie,
             lwfInstance,
             ['ef_004']
@@ -168,7 +170,7 @@ export function attachScenesForCard9514221ActiveSkill(
 
           attachedMovie.addEventHandler('update', () => {
             if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-              let { attachedMovieBase } = triggerNextScene(
+              let { attachedMovieBase } = triggerNextScenes(
                 attachedMovie,
                 lwfInstance,
                 ['ef_001']
@@ -190,7 +192,7 @@ export function attachScenesForCard1016571ActiveSkill(
 ) {
   attachedMovie.addEventHandler('update', () => {
     if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 270) {
-      let { attachedMovie2 } = triggerNextScene(attachedMovie, lwfInstance, [
+      let { attachedMovie2 } = triggerNextScenes(attachedMovie, lwfInstance, [
         'ef_003',
         'ef_002',
       ]);
@@ -199,7 +201,7 @@ export function attachScenesForCard1016571ActiveSkill(
         if (attachedMovie2.currentFrame >= attachedMovie2.totalFrames - 50) {
           attachedMovie2.removeMovieClip();
 
-          let { attachedMovieBase } = triggerNextScene(
+          let { attachedMovieBase } = triggerNextScenes(
             attachedMovie,
             lwfInstance,
             ['ef_004']
@@ -207,7 +209,7 @@ export function attachScenesForCard1016571ActiveSkill(
           attachedMovie = attachedMovieBase;
           attachedMovie.addEventHandler('update', () => {
             if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 50) {
-              let { attachedMovie3 } = triggerNextScene(
+              let { attachedMovie3 } = triggerNextScenes(
                 attachedMovie,
                 lwfInstance,
                 ['ef_009', 'ef_006', 'ef_005']
@@ -220,7 +222,7 @@ export function attachScenesForCard1016571ActiveSkill(
                   attachedMovie2.removeMovieClip();
                   attachedMovie3.removeMovieClip();
 
-                  let { attachedMovieBase } = triggerNextScene(
+                  let { attachedMovieBase } = triggerNextScenes(
                     attachedMovie,
                     lwfInstance,
                     ['ef_008']
@@ -231,7 +233,7 @@ export function attachScenesForCard1016571ActiveSkill(
                       attachedMovie.currentFrame >=
                       attachedMovie.totalFrames - 1
                     ) {
-                      let { attachedMovieBase } = triggerNextScene(
+                      let { attachedMovieBase } = triggerNextScenes(
                         attachedMovie,
                         lwfInstance,
                         ['ef_007']
@@ -243,7 +245,7 @@ export function attachScenesForCard1016571ActiveSkill(
                           attachedMovie.currentFrame >=
                           attachedMovie.totalFrames - 50
                         ) {
-                          let { attachedMovieBase } = triggerNextScene(
+                          let { attachedMovieBase } = triggerNextScenes(
                             attachedMovie,
                             lwfInstance,
                             ['ef_001']
@@ -273,13 +275,15 @@ export function attachScenesForCard9517911ActiveSkill(
 ) {
   attachedMovie.addEventHandler('update', () => {
     if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 244) {
-      let { attachedMovieBase } = triggerNextScene(attachedMovie, lwfInstance, [
-        'ef_002',
-      ]);
+      let { attachedMovieBase } = triggerNextScenes(
+        attachedMovie,
+        lwfInstance,
+        ['ef_002']
+      );
       attachedMovie = attachedMovieBase;
       attachedMovie.addEventHandler('update', () => {
         if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-          let { attachedMovieBase } = triggerNextScene(
+          let { attachedMovieBase } = triggerNextScenes(
             attachedMovie,
             lwfInstance,
             ['ef_001']

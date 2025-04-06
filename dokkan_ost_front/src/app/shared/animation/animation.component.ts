@@ -377,8 +377,6 @@ export class AnimationComponent {
   }
 
   updateScene(attachedMovie: any, scenes: string[]) {
-    console.log('i = ', this.i, 'attachedMovie =', attachedMovie);
-
     this.i += 1;
     if (attachedMovie) {
       attachedMovie.moveTo(

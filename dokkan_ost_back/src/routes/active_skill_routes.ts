@@ -2,6 +2,8 @@ import { Router, Request, Response } from "express";
 import pool from "../db/db";
 import { activeSkillChecker } from "../utils/checker";
 import { ActiveSkill } from "../interfaces/active_skill";
+import path from "path";
+
 const activeSkillRoutes = Router();
 
 activeSkillRoutes.get("/active-skills", async (req: Request, res: Response) => {

@@ -19,4 +19,19 @@ export class CardsService {
       'http://localhost:3200/cards/' + id
     );
   }
+
+  getFile() {
+    return this._httpClient
+      .get('http://localhost:3200/file')
+      .subscribe((blob) => {
+        console.log(blob);
+
+        // const a = document.createElement('a');
+        // const objectUrl = URL.createObjectURL(blob);
+        // a.href = objectUrl;
+        // a.download = 'file.pdf';
+        // a.click();
+        // URL.revokeObjectURL(objectUrl);
+      });
+  }
 }

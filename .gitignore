@@ -3,6 +3,7 @@
 ./feed_api/wav_from_sample
 ./dokkan_ost_back/.env
 ./dokkan_ost_back/node_modules
+./dokkan_ost_back/animations
 ./dokkan_ost_front/node_modules
 ./dokkan_ost_front/public/thumbs
 ./dokkan_ost_front/public/bg

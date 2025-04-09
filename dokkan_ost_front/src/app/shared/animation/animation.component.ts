@@ -126,6 +126,7 @@ export class AnimationComponent {
       LWF.ResourceCache.get().loadLWF({
         lwf: this.lwfData().lwf,
         prefix: this.lwfData().prefix,
+
         setBackgroundColor: 'FF000000',
         additionalParams: {
           alpha: true,
@@ -356,6 +357,7 @@ export class AnimationComponent {
               );
             }
           }
+
           // Si aucune animation
           if (!this.attachedMovie) {
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(

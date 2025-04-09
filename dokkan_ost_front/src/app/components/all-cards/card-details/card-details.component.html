@@ -52,9 +52,11 @@
     </div>
 </div>
 @if (showAnimation()) {
+<!-- <app-animation
+    [lwfData]="{prefix: 'http://localhost:3200/' + animationType() + '/' + (animationType() === 'intro' ? card.entranceFilename : card.asFilename) + '/fr/', lwf: animationType() === 'intro' ? card.entranceFilename + '.lwf' : card.asFilename + '.lwf'}"
+    (close)="hideAnimationComponent()" /> -->
 <app-animation
-    [lwfData]="{prefix: './' + animationType() + '/' + (animationType() === 'intro' ? card.entranceFilename : card.asFilename) + '/fr/', lwf: animationType() === 'intro' ? card.entranceFilename + '.lwf' : card.asFilename + '.lwf'}"
+    [lwfData]="{prefix: 'http://localhost:3200/' + (animationType() === 'intro' ? card.entranceFilename : card.asFilename) + '/fr/', lwf: animationType() === 'intro' ? card.entranceFilename + '.lwf' : card.asFilename + '.lwf'}"
     (close)="hideAnimationComponent()" />
-
 }
 }

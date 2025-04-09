@@ -10,10 +10,13 @@ import bgmRoutes from "./routes/bgm_routes";
 import standBySkillRoutes from "./routes/standby_skill_routes";
 import finishSkillRoutes from "./routes/finish_skill_routes";
 // import todoRoutes from "./routes";
+import path from "path";
 
 const app = express();
-const port = 3200;
 app.use(cors());
+
+app.use(express.static("animations"));
+const port = 3200;
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({

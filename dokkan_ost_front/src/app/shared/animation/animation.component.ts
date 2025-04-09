@@ -6,7 +6,7 @@ import {
   input,
   Output,
   signal,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
@@ -16,6 +16,8 @@ import {
   attachScenesForCard1016571ActiveSkill,
   forceReplay,
   attachScenesForCard9517911ActiveSkill,
+  triggerNextScenes,
+  updateScene,
 } from '../../helpers/helpers';
 import {
   sp_effect_a1_00143_scenes,
@@ -29,8 +31,6 @@ import {
 
 @Component({
   selector: 'app-animation',
-  standalone: true,
-  imports: [],
   templateUrl: './animation.component.html',
   styleUrl: './animation.component.scss',
 })
@@ -44,8 +44,8 @@ export class AnimationComponent {
   lwfData = input.required<{ prefix: string; lwf: string }>();
   @Output() close = new EventEmitter<boolean>();
   body = document.querySelector('body') as HTMLBodyElement;
-  @ViewChild('cardIntro', { static: false })
-  canvasRef!: ElementRef<HTMLCanvasElement>;
+  readonly canvasRef =
+    viewChild.required<ElementRef<HTMLCanvasElement>>('cardIntro');
   triggerScenes = triggerScenes;
   sp_effect_a2_00174_scenes = sp_effect_a2_00174_scenes;
   sp_effect_a1_00364_scenes = sp_effect_a1_00364_scenes;
@@ -115,8 +115,9 @@ export class AnimationComponent {
 
   loadAnimation() {
     this.spinnerService.show('loader');
-    if (this.canvasRef) {
-      const canvas = this.canvasRef.nativeElement;
+    const canvasRef = this.canvasRef();
+    if (canvasRef) {
+      const canvas = canvasRef.nativeElement;
       if (!canvas) {
         console.error('Canvas non trouvé');
         return;
@@ -137,7 +138,7 @@ export class AnimationComponent {
             this.spinnerService.hide('loader');
             this.errorMessage.set('Animation unavailable');
           }
-          this.canvasRef?.nativeElement.classList.add('intro');
+          this.canvasRef()?.nativeElement.classList.add('intro');
           if (this.lwfData().lwf === 'sp_effect_a2_00174.lwf') {
             let scenes = attachScenesForCard9523621ActiveSkill(
               this.lwfInstance
@@ -149,18 +150,26 @@ export class AnimationComponent {
               );
             }
             this.i += 1;
-            this.updateScene(scenes, this.sp_effect_a2_00174_scenes);
+            updateScene(
+              this.lwfInstance,
+              scenes,
+              this.sp_effect_a2_00174_scenes,
+              this.i
+            );
           }
 
           if (this.lwfData().lwf === 'battle_301234.lwf') {
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
               this.sp_effect_a1_00364_scenes[this.i],
-              'a',
+              'battle',
               1
             );
-            this.updateScene(
+
+            updateScene(
+              this.lwfInstance,
               this.attachedMovie,
-              this.sp_effect_a1_00364_scenes
+              this.sp_effect_a1_00364_scenes,
+              this.i
             );
             if (this.attachedMovie) {
               this.attachedMovie.moveTo(
@@ -191,13 +200,16 @@ export class AnimationComponent {
           if (this.lwfData().lwf === 'sp_effect_a9_00094.lwf') {
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
               this.sp_effect_a9_00094_scenes[this.i],
-              'a',
+              'battle',
               1
             );
-            this.updateScene(
+            updateScene(
+              this.lwfInstance,
               this.attachedMovie,
-              this.sp_effect_a9_00094_scenes
+              this.sp_effect_a9_00094_scenes,
+              this.i
             );
+
             if (this.attachedMovie) {
               this.attachedMovie.moveTo(
                 this.lwfInstance.width / 2,
@@ -212,9 +224,11 @@ export class AnimationComponent {
               'a',
               1
             );
-            this.updateScene(
+            updateScene(
+              this.lwfInstance,
               this.attachedMovie,
-              this.sp_effect_a1_00144_scenes
+              this.sp_effect_a1_00144_scenes,
+              this.i
             );
             if (this.attachedMovie) {
               this.attachedMovie.moveTo(
@@ -327,13 +341,23 @@ export class AnimationComponent {
               );
             }
           }
+
+          if (this.lwfData().lwf === 'sp_effect_b4_00189.lwf') {
+            let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
+              'ef_002',
+              'battle2',
+              1
+            );
+
+            if (attachedMovie2) {
+              attachedMovie2.moveTo(
+                this.lwfInstance.width / 2,
+                this.lwfInstance.height / 2
+              );
+            }
+          }
           // Si aucune animation
           if (!this.attachedMovie) {
-            // let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
-            //   'ef_003',
-            //   'battle2',
-            //   1
-            // );
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
               'ef_001',
               'battle',
@@ -356,13 +380,6 @@ export class AnimationComponent {
                 this.lwfInstance.height / 2
               );
             }
-
-            // if (attachedMovie2) {
-            //   attachedMovie2.moveTo(
-            //     this.lwfInstance.width / 2,
-            //     this.lwfInstance.height / 2
-            //   );
-            // }
           }
 
           // this.lwfInstance.scaleForHeight(canvas.width, canvas.height);
@@ -374,27 +391,5 @@ export class AnimationComponent {
         },
       });
     }
-  }
-
-  updateScene(attachedMovie: any, scenes: string[]) {
-    this.i += 1;
-    if (attachedMovie) {
-      attachedMovie.moveTo(
-        this.lwfInstance.width / 2,
-        this.lwfInstance.height / 2
-      );
-    }
-    if (this.i === scenes.length) this.i = 0;
-    attachedMovie.addEventHandler('update', () => {
-      if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
-        attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-          scenes[this.i],
-          'a',
-          this.i
-        );
-
-        this.updateScene(attachedMovie, scenes);
-      }
-    });
   }
 }

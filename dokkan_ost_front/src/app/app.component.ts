@@ -1,17 +1,16 @@
 import {
   Component,
   ElementRef,
-  ViewChild,
   AfterViewInit,
   signal,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { HeaderComponent } from './shared/header/header.component';
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [RouterOutlet, NgxSpinnerModule, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -21,12 +20,11 @@ export class AppComponent implements AfterViewInit {
   lwfInstance: any;
   lwfInstance2: any;
   showArtwork = signal(true);
-  @ViewChild('cardArtwork', { static: false })
-  canvasRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('cardIntro', { static: false })
-  canvasIntro!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('audio', { static: false })
-  audioRef!: ElementRef<HTMLAudioElement>;
+  readonly canvasRef =
+    viewChild.required<ElementRef<HTMLCanvasElement>>('cardArtwork');
+  readonly canvasIntro =
+    viewChild.required<ElementRef<HTMLCanvasElement>>('cardIntro');
+  readonly audioRef = viewChild.required<ElementRef<HTMLAudioElement>>('audio');
 
   previousTick = 0;
   private spinner = inject(NgxSpinnerService);
@@ -79,7 +77,7 @@ export class AppComponent implements AfterViewInit {
     //   audio.loop = true;
     //   audio.play();
     // }
-    const canvas = this.canvasRef.nativeElement;
+    const canvas = this.canvasRef().nativeElement;
 
     LWF.ResourceCache.get().loadLWF({
       lwf: 'sp_effect_b4_00215.lwf',
@@ -87,8 +85,8 @@ export class AppComponent implements AfterViewInit {
       stage: canvas,
       onload: (loadedLwfInstance: any) => {
         this.lwfInstance = loadedLwfInstance;
-        this.canvasRef.nativeElement.classList.remove('artwork');
-        this.canvasRef.nativeElement.classList.add('intro');
+        this.canvasRef().nativeElement.classList.remove('artwork');
+        this.canvasRef().nativeElement.classList.add('intro');
 
         // Si vous devez attacher une animation spécifique
         const attachedMovie = this.lwfInstance.rootMovie.attachMovie(

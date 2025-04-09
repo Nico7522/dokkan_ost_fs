@@ -106,6 +106,7 @@ export function attachScenesForCard9517161ActiveSkill(
   });
 }
 
+// Attache une ou plusieurs scènes
 export function triggerNextScenes(
   attachedMovie: any,
   lwfInstance: any,
@@ -121,7 +122,6 @@ export function triggerNextScenes(
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
       attachedMovieBase = attachedMovie;
-      // return attachedMovie;
     }
     if (i === 1) {
       attachedMovie2 = lwfInstance.rootMovie.attachMovie(
@@ -146,6 +146,31 @@ export function triggerNextScenes(
   }
 
   return { attachedMovieBase, attachedMovie2, attachedMovie3 };
+}
+
+// Attache une scène, check quand elle se termine et passe à la suivante.
+export function updateScene(
+  lwfInstance: any,
+  attachedMovie: any,
+  scenes: string[],
+  increment: number
+) {
+  increment += 1;
+  if (attachedMovie) {
+    attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+  }
+  if (increment === scenes.length) increment = 0;
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+      attachedMovie = lwfInstance.rootMovie.attachMovie(
+        scenes[increment],
+        'battle',
+        increment
+      );
+
+      updateScene(lwfInstance, attachedMovie, scenes, increment);
+    }
+  });
 }
 
 export function attachScenesForCard9514221ActiveSkill(

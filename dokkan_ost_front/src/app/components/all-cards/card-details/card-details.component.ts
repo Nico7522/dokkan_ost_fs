@@ -45,7 +45,6 @@ export class CardDetailsComponent {
         tap((x) => this.thumb.set(x.thumb)),
         map((card) => {
           this.spinnerService.show('loader');
-          this.cardService.getFile();
           return keysToCamel(card);
         })
       );

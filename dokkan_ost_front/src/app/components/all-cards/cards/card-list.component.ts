@@ -9,7 +9,6 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-cards',
-  standalone: true,
   imports: [AsyncPipe, CardComponent, RouterOutlet],
   templateUrl: './card-list.component.html',
   styleUrl: './card-list.component.scss',

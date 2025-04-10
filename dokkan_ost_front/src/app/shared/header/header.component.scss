@@ -6,6 +6,10 @@ nav {
   justify-content: space-between;
   align-items: center;
 }
+
+h1 {
+  cursor: pointer;
+}
 .logo {
   display: flex;
   align-items: center;
@@ -37,8 +41,8 @@ nav {
   height: 100px;
   width: 100px;
   position: relative;
+
   & img {
-    width: 95%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -47,7 +51,8 @@ nav {
   }
 }
 img.headphone {
-  margin-top: -5px;
+  width: 88px !important;
+  margin-top: 10px;
 }
 span {
   display: none;

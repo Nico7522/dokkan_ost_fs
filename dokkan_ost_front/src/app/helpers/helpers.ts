@@ -321,6 +321,77 @@ export function attachScenesForCard9517911ActiveSkill(
   });
 }
 
+export function attachSchenesForCard1024141ActiveSkill(
+  lwfInstance: any,
+  attachedMovie: any
+) {
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+      let { attachedMovie2 } = triggerNextScenes(attachedMovie, lwfInstance, [
+        'ef_002_back',
+        'ef_002_front',
+      ]);
+      attachedMovie = attachedMovie2;
+      attachedMovie.addEventHandler('update', () => {
+        if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+          attachedMovie2.removeMovieClip();
+          let { attachedMovieBase } = triggerNextScenes(
+            attachedMovie,
+            lwfInstance,
+            ['ef_003_back', 'ef_003_front']
+          );
+          attachedMovie = attachedMovieBase;
+          attachedMovie.addEventHandler('update', () => {
+            if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+              let { attachedMovieBase } = triggerNextScenes(
+                attachedMovie,
+                lwfInstance,
+                ['ef_004_back', 'ef_004_front']
+              );
+              attachedMovie = attachedMovieBase;
+              attachedMovie.addEventHandler('update', () => {
+                if (
+                  attachedMovie.currentFrame >=
+                  attachedMovie.totalFrames - 1
+                ) {
+                  let { attachedMovieBase } = triggerNextScenes(
+                    attachedMovie,
+                    lwfInstance,
+                    ['ef_005_back', 'ef_005_front']
+                  );
+                  attachedMovie = attachedMovieBase;
+                  attachedMovie.addEventHandler('update', () => {
+                    if (
+                      attachedMovie.currentFrame >=
+                      attachedMovie.totalFrames - 1
+                    ) {
+                      attachedMovie = lwfInstance.rootMovie.attachMovie(
+                        'ef_001_back',
+                        'battle',
+                        1
+                      );
+                      attachSchenesForCard1024141ActiveSkill(
+                        lwfInstance,
+                        attachedMovie
+                      );
+                      if (attachedMovie) {
+                        attachedMovie.moveTo(
+                          lwfInstance.width / 2,
+                          lwfInstance.height / 2
+                        );
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+}
+
 export function forceReplay(
   lwfInstance: any,
   attachedMovie: any,

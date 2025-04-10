@@ -18,6 +18,7 @@ import {
   attachScenesForCard9517911ActiveSkill,
   triggerNextScenes,
   updateScene,
+  attachSchenesForCard1024141ActiveSkill,
 } from '../../helpers/helpers';
 import {
   sp_effect_a1_00143_scenes,
@@ -311,7 +312,11 @@ export class AnimationComponent {
             }
           }
 
-          if (this.lwfData().lwf === 'battle_301206.lwf') {
+          if (
+            this.lwfData().lwf === 'battle_301206.lwf' ||
+            this.lwfData().lwf === 'battle_301215.lwf' ||
+            this.lwfData().lwf === 'battle_301222.lwf'
+          ) {
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
               'ef_001',
               'battle',
@@ -356,6 +361,85 @@ export class AnimationComponent {
                 this.lwfInstance.height / 2
               );
             }
+          }
+          if (this.lwfData().lwf === 'sp_effect_b4_00201.lwf') {
+            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+              'ef_001',
+              'battle',
+              1
+            );
+            if (this.attachedMovie) {
+              this.attachedMovie.moveTo(
+                this.lwfInstance.width / 2,
+                this.lwfInstance.height / 2
+              );
+            }
+
+            updateScene(
+              this.lwfInstance,
+              this.attachedMovie,
+              ['ef_001', 'ef_002'],
+              this.i
+            );
+          }
+
+          if (this.lwfData().lwf === 'sp_effect_a7_00052.lwf') {
+            console.log(this.lwfInstance);
+
+            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+              'ef_001',
+              'battle',
+              1
+            );
+            if (this.attachedMovie) {
+              this.attachedMovie.moveTo(
+                this.lwfInstance.width / 2,
+                this.lwfInstance.height / 2
+              );
+            }
+
+            updateScene(
+              this.lwfInstance,
+              this.attachedMovie,
+              ['ef_001', 'ef_002', 'ef_003'],
+              this.i
+            );
+          }
+
+          if (this.lwfData().lwf === 'sp_effect_a3_00090.lwf') {
+            console.log(this.lwfInstance);
+            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+              'ef_001_back',
+              'battle',
+              1
+            );
+            if (this.attachedMovie) {
+              this.attachedMovie.moveTo(
+                this.lwfInstance.width / 2,
+                this.lwfInstance.height / 2
+              );
+            }
+            attachSchenesForCard1024141ActiveSkill(
+              this.lwfInstance,
+              this.attachedMovie
+            );
+            // updateScene(
+            //   this.lwfInstance,
+            //   this.attachedMovie,
+            //   [
+            //     // 'ef_001_front',
+            //     'ef_001_back',
+            //     'ef_002_front',
+            //     'ef_002_back',
+            //     'ef_003_front',
+            //     'ef_003_back',
+            //     'ef_004_front',
+            //     'ef_004_back',
+            //     'ef_005_front',
+            //     'ef_005_back',
+            //   ],
+            //   this.i
+            // );
           }
 
           // Si aucune animation

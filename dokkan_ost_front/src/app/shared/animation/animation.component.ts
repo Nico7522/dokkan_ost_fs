@@ -14,12 +14,9 @@ import {
   attachScenesForCard9523621ActiveSkill,
   attachScenesForCard9514221ActiveSkill,
   attachScenesForCard1016571ActiveSkill,
-  forceReplay,
   attachScenesForCard9517911ActiveSkill,
-  triggerNextScenes,
-  updateScene,
   attachSchenesForCard1024141ActiveSkill,
-} from '../../helpers/helpers';
+} from '../../helpers/attach_scene';
 import {
   sp_effect_a1_00143_scenes,
   sp_effect_a1_00144_scenes,
@@ -29,6 +26,11 @@ import {
   sp_effect_a9_00094_scenes,
   triggerScenes,
 } from '../../data/scenes';
+import {
+  updateScene,
+  triggerNextScenes,
+  forceReplay,
+} from '../../helpers/helpers';
 
 @Component({
   selector: 'app-animation',
@@ -423,23 +425,6 @@ export class AnimationComponent {
               this.lwfInstance,
               this.attachedMovie
             );
-            // updateScene(
-            //   this.lwfInstance,
-            //   this.attachedMovie,
-            //   [
-            //     // 'ef_001_front',
-            //     'ef_001_back',
-            //     'ef_002_front',
-            //     'ef_002_back',
-            //     'ef_003_front',
-            //     'ef_003_back',
-            //     'ef_004_front',
-            //     'ef_004_back',
-            //     'ef_005_front',
-            //     'ef_005_back',
-            //   ],
-            //   this.i
-            // );
           }
 
           // Si aucune animation

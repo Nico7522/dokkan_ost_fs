@@ -3,12 +3,14 @@ import {
   ElementRef,
   inject,
   input,
+  PLATFORM_ID,
   signal,
   ViewChild,
 } from '@angular/core';
 import { Card } from '../../models/card';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, RouterModule } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-card',
@@ -18,6 +20,7 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './card.component.scss',
 })
 export class CardComponent {
+  private platformId = inject(PLATFORM_ID);
   card = input.required<Card>();
   lwfInstance: any;
   animationId = 0;
@@ -26,39 +29,43 @@ export class CardComponent {
   private readonly spinnerService = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   previousTick = 0;
+  loadLWF() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.card().isLegendary) {
+        const canvas = this.canvasRef.nativeElement;
 
-  ngAfterViewInit() {
-    if (this.card().isLegendary) {
-      const canvas = this.canvasRef.nativeElement;
+        LWF.useCanvasRenderer();
+        LWF.ResourceCache.get().loadLWF({
+          lwf: 'icon_rare_20000.lwf',
+          prefix: './icon_rare/',
+          stage: canvas,
+          onload: (loadedLwfInstance: any) => {
+            this.lwfInstance = loadedLwfInstance;
+            const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+              'ef_001',
+              'battle',
+              1
+            );
+            attachedMovie.moveTo(
+              this.lwfInstance.width / 14,
+              this.lwfInstance.height / 25
+            );
 
-      LWF.useCanvasRenderer();
-      LWF.ResourceCache.get().loadLWF({
-        lwf: 'icon_rare_20000.lwf',
-        prefix: './icon_rare/',
-        stage: canvas,
-        onload: (loadedLwfInstance: any) => {
-          this.lwfInstance = loadedLwfInstance;
-          const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-            'ef_001',
-            'battle',
-            1
-          );
-          attachedMovie.moveTo(
-            this.lwfInstance.width / 14,
-            this.lwfInstance.height / 25
-          );
+            attachedMovie.scaleX = 0.9;
+            attachedMovie.scaleY = 0.9;
 
-          attachedMovie.scaleX = 0.9;
-          attachedMovie.scaleY = 0.9;
-
-          this.animate();
-          this.spinnerService.hide('loader');
-        },
-        onerror: (error: any) => {
-          console.error('Erreur lors du chargement de LWF :', error);
-        },
-      });
+            this.animate();
+            this.spinnerService.hide('loader');
+          },
+          onerror: (error: any) => {
+            console.error('Erreur lors du chargement de LWF :', error);
+          },
+        });
+      }
     }
+  }
+  ngAfterViewInit() {
+    this.loadLWF();
   }
   ngOnDestroy() {
     if (this.lwfInstance) {

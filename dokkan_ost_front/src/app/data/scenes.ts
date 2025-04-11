@@ -1,4 +1,4 @@
-export const triggerScenes = ['ef_001', 'ef_001_u'];
+export const triggerScenes = ['ef_001', 'ef_001_u', 'ef_001_front'];
 
 export const sp_effect_a2_00174_scenes = [
   'ef_001_front',

@@ -1,15 +1,17 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   inject,
   input,
+  PLATFORM_ID,
   signal,
   ViewChild,
 } from '@angular/core';
 import { CardsService } from '../../../services/cards/cards.service';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { map, switchMap, tap } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '../../../shared/card/card.component';
 import { keysToCamel } from '../../../helpers/helpers';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -21,7 +23,9 @@ import { AnimationComponent } from '../../../shared/animation/animation.componen
   templateUrl: './card-details.component.html',
   styleUrl: './card-details.component.scss',
 })
-export class CardDetailsComponent {
+export class CardDetailsComponent implements AfterViewInit {
+  private platformId = inject(PLATFORM_ID);
+
   private readonly cardService = inject(CardsService);
   private readonly spinnerService = inject(NgxSpinnerService);
   lwfInstance: any;
@@ -50,52 +54,56 @@ export class CardDetailsComponent {
       );
     })
   );
+  loadLWF() {
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        if (this.canvasRef) {
+          const canvas = this.canvasRef.nativeElement;
+          if (!canvas) {
+            console.error('Canvas non trouvé');
+            return;
+          }
+          // Utiliser LWF pour initialiser l'animation
+          LWF.useCanvasRenderer();
+          LWF.ResourceCache.get().loadLWF({
+            lwf: `card_${this.thumb().toString()}.lwf`,
+            prefix: './artworks/' + this.thumb().toString() + '/',
 
-  loadArtwork() {
-    setTimeout(() => {
-      if (this.canvasRef) {
-        const canvas = this.canvasRef.nativeElement;
-        if (!canvas) {
-          console.error('Canvas non trouvé');
-          return;
-        }
-        // Utiliser LWF pour initialiser l'animation
-        LWF.useCanvasRenderer();
-        LWF.ResourceCache.get().loadLWF({
-          lwf: `card_${this.thumb().toString()}.lwf`,
-          prefix: './artworks/' + this.thumb().toString() + '/',
-
-          stage: canvas,
-          onload: (loadedLwfInstance: any) => {
-            this.lwfInstance = loadedLwfInstance;
-            this.canvasRef?.nativeElement.classList.add('artwork-anim');
-            const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              0
-            );
-            if (attachedMovie) {
-              attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
+            stage: canvas,
+            onload: (loadedLwfInstance: any) => {
+              this.lwfInstance = loadedLwfInstance;
+              this.canvasRef?.nativeElement.classList.add('artwork-anim');
+              const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                'ef_001',
+                'battle',
+                0
               );
-            }
-            this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
-            // this.attachedMovie = attachedMovie;
+              if (attachedMovie) {
+                attachedMovie.moveTo(
+                  this.lwfInstance.width / 2,
+                  this.lwfInstance.height / 2
+                );
+              }
+              this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
+              // this.attachedMovie = attachedMovie;
 
-            this.animate();
-          },
-          onerror: (error: any) => {
-            console.error('Erreur lors du chargement de LWF :', error);
-          },
-        });
-      }
-      this.spinnerService.hide('loader');
-    }, 500);
+              this.animate();
+              this.spinnerService.hide('loader');
+            },
+            onerror: (error: any) => {
+              console.error('Erreur lors du chargement de LWF :', error);
+            },
+          });
+        } else {
+          this.spinnerService.hide('loader');
+        }
+      }, 100);
+    }
   }
+
   previousTick = 0;
   ngAfterViewInit() {
-    this.loadArtwork();
+    this.loadLWF();
   }
 
   getDelta() {

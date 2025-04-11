@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { CardsService } from '../../../services/cards/cards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map } from 'rxjs';
 import { keysToCamel } from '../../../helpers/helpers';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '../../../shared/card/card.component';
 import { RouterOutlet } from '@angular/router';
+import { Card } from '../../../models/card';
 
 @Component({
   selector: 'app-cards',
@@ -14,6 +15,9 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './card-list.component.scss',
 })
 export class CardsComponent {
+  plateformId = inject(PLATFORM_ID);
+  isServer = isPlatformBrowser(this.plateformId);
+  cards: Card[] = [];
   private readonly cardService = inject(CardsService);
   private readonly spinnerService = inject(NgxSpinnerService);
   cards$ = this.cardService.getCards().pipe(

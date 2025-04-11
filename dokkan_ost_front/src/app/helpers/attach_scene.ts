@@ -305,3 +305,28 @@ export function attachSchenesForCard1024141ActiveSkill(
     }
   });
 }
+
+export function attachSchenesForCard1025071ActiveSkill(
+  lwfInstance: any,
+  attachedMovie: any
+) {
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+      let { attachedMovie2 } = triggerNextScenes(attachedMovie, lwfInstance, [
+        'ef_003',
+        'ef_002',
+      ]);
+      attachedMovie = attachedMovie2;
+      attachedMovie.addEventHandler('update', () => {
+        if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+          attachedMovie2.removeMovieClip();
+          let { attachedMovieBase } = triggerNextScenes(
+            attachedMovie,
+            lwfInstance,
+            ['ef_004']
+          );
+        }
+      });
+    }
+  });
+}

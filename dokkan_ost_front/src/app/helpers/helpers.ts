@@ -415,9 +415,17 @@ export function isSpecialAnimationPlayed(
     case 'sp_effect_a1_00366.lwf': {
       isPlayed = true;
 
-      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
         'ef_001_b',
         'battle2',
+        1
+      );
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
         1
       );
       if (attachedMovie) {
@@ -444,6 +452,14 @@ export function isSpecialAnimationPlayed(
       );
       if (attachedMovie2) {
         attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      let attachedMovieBase = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      if (attachedMovieBase) {
+        attachedMovieBase.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
       break;
     }

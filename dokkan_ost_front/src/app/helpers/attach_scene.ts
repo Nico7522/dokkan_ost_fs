@@ -325,6 +325,26 @@ export function attachSchenesForCard1025071ActiveSkill(
             lwfInstance,
             ['ef_004']
           );
+          attachedMovie = attachedMovieBase;
+          attachedMovie.addEventHandler('update', () => {
+            if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+              attachedMovie = lwfInstance.rootMovie.attachMovie(
+                'ef_001',
+                'battle',
+                1
+              );
+              attachSchenesForCard1025071ActiveSkill(
+                lwfInstance,
+                attachedMovie
+              );
+              if (attachedMovie) {
+                attachedMovie.moveTo(
+                  lwfInstance.width / 2,
+                  lwfInstance.height / 2
+                );
+              }
+            }
+          });
         }
       });
     }

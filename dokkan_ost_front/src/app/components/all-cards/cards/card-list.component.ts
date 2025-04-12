@@ -1,4 +1,4 @@
-import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { Component, inject, PLATFORM_ID, input } from '@angular/core';
 import { CardsService } from '../../../services/cards/cards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map } from 'rxjs';
@@ -17,7 +17,9 @@ import { Card } from '../../../models/card';
 export class CardsComponent {
   plateformId = inject(PLATFORM_ID);
   isServer = isPlatformBrowser(this.plateformId);
-  cards: Card[] = [];
+
+  // Resolver
+  cards = input<Card[]>([]);
   private readonly cardService = inject(CardsService);
   private readonly spinnerService = inject(NgxSpinnerService);
   cards$ = this.cardService.getCards().pipe(

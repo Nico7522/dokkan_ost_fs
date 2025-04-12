@@ -1,2 +1,5 @@
 declare var utilObj: any;
-declare var LWF: any;
+declare module LWF {
+  export function useCanvasRenderer(): void;
+  export const ResourceCache: any;
+}

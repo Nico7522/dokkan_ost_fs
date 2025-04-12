@@ -31,6 +31,7 @@ import {
   updateScene,
   triggerNextScenes,
   forceReplay,
+  isSpecialAnimationPlayed,
 } from '../../helpers/helpers';
 
 @Component({
@@ -45,6 +46,7 @@ export class AnimationComponent {
   lwfInstance: any;
   attachedMovie: any;
   animationId = 0;
+
   lwfData = input.required<{ prefix: string; lwf: string }>();
   @Output() close = new EventEmitter<boolean>();
   body = document.querySelector('body') as HTMLBodyElement;
@@ -61,7 +63,6 @@ export class AnimationComponent {
   closeComponent() {
     this.close.emit(true);
   }
-
   getDelta() {
     const now = Date.now() / 1000;
     const delta = now - this.previousTick;
@@ -144,394 +145,399 @@ export class AnimationComponent {
             this.errorMessage.set('Animation unavailable');
           }
           this.canvasRef()?.nativeElement.classList.add('intro');
-          if (this.lwfData().lwf === 'sp_effect_a2_00174.lwf') {
-            let scenes = attachScenesForCard9523621ActiveSkill(
-              this.lwfInstance
-            );
-            if (scenes) {
-              scenes.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-            this.i += 1;
-            updateScene(
-              this.lwfInstance,
-              scenes,
-              this.sp_effect_a2_00174_scenes,
-              this.i
-            );
-          }
+          let isPlayed = isSpecialAnimationPlayed(
+            this.lwfInstance,
+            this.i,
+            this.lwfData().lwf
+          );
+          // if (this.lwfData().lwf === 'sp_effect_a2_00174.lwf') {
+          //   let scenes = attachScenesForCard9523621ActiveSkill(
+          //     this.lwfInstance
+          //   );
+          //   if (scenes) {
+          //     scenes.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          //   this.i += 1;
+          //   updateScene(
+          //     this.lwfInstance,
+          //     scenes,
+          //     this.sp_effect_a2_00174_scenes,
+          //     this.i
+          //   );
+          // }
 
-          if (this.lwfData().lwf === 'battle_301234.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              this.sp_effect_a1_00364_scenes[this.i],
-              'battle',
-              1
-            );
+          // if (this.lwfData().lwf === 'battle_301234.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     this.sp_effect_a1_00364_scenes[this.i],
+          //     'battle',
+          //     1
+          //   );
 
-            updateScene(
-              this.lwfInstance,
-              this.attachedMovie,
-              this.sp_effect_a1_00364_scenes,
-              this.i
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
-          if (this.lwfData().lwf === 'sp_effect_b4_00315.lwf') {
-            let attachedMovieBase = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001b',
-              'battle2',
-              1
-            );
-            if (attachedMovie2) {
-              attachedMovie2.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          //   updateScene(
+          //     this.lwfInstance,
+          //     this.attachedMovie,
+          //     this.sp_effect_a1_00364_scenes,
+          //     this.i
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
+          // if (this.lwfData().lwf === 'sp_effect_b4_00315.lwf') {
+          //   let attachedMovieBase = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001b',
+          //     'battle2',
+          //     1
+          //   );
+          //   if (attachedMovie2) {
+          //     attachedMovie2.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a9_00094.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              this.sp_effect_a9_00094_scenes[this.i],
-              'battle',
-              1
-            );
-            updateScene(
-              this.lwfInstance,
-              this.attachedMovie,
-              this.sp_effect_a9_00094_scenes,
-              this.i
-            );
+          // if (this.lwfData().lwf === 'sp_effect_a9_00094.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     this.sp_effect_a9_00094_scenes[this.i],
+          //     'battle',
+          //     1
+          //   );
+          //   updateScene(
+          //     this.lwfInstance,
+          //     this.attachedMovie,
+          //     this.sp_effect_a9_00094_scenes,
+          //     this.i
+          //   );
 
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a1_00144.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              this.sp_effect_a1_00144_scenes[this.i],
-              'a',
-              1
-            );
-            updateScene(
-              this.lwfInstance,
-              this.attachedMovie,
-              this.sp_effect_a1_00144_scenes,
-              this.i
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          // if (this.lwfData().lwf === 'sp_effect_a1_00144.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     this.sp_effect_a1_00144_scenes[this.i],
+          //     'a',
+          //     1
+          //   );
+          //   updateScene(
+          //     this.lwfInstance,
+          //     this.attachedMovie,
+          //     this.sp_effect_a1_00144_scenes,
+          //     this.i
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a2_00114.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
+          // if (this.lwfData().lwf === 'sp_effect_a2_00114.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
 
-            attachScenesForCard9517161ActiveSkill(
-              this.lwfInstance,
-              this.attachedMovie
-            );
-          }
+          //   attachScenesForCard9517161ActiveSkill(
+          //     this.lwfInstance,
+          //     this.attachedMovie
+          //   );
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a2_00100.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_007',
-              'battle',
-              1
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          // if (this.lwfData().lwf === 'sp_effect_a2_00100.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_007',
+          //     'battle',
+          //     1
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a1_00143.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            attachScenesForCard9514221ActiveSkill(
-              this.lwfInstance,
-              this.attachedMovie
-            );
+          // if (this.lwfData().lwf === 'sp_effect_a1_00143.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   attachScenesForCard9514221ActiveSkill(
+          //     this.lwfInstance,
+          //     this.attachedMovie
+          //   );
 
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_b4_00086.lwf') {
-            console.log(this.lwfInstance);
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
+          // if (this.lwfData().lwf === 'sp_effect_b4_00086.lwf') {
+          //   console.log(this.lwfInstance);
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
 
-            attachScenesForCard1016571ActiveSkill(
-              this.lwfInstance,
-              this.attachedMovie
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          //   attachScenesForCard1016571ActiveSkill(
+          //     this.lwfInstance,
+          //     this.attachedMovie
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (
-            this.lwfData().lwf === 'battle_301206.lwf' ||
-            this.lwfData().lwf === 'battle_301215.lwf' ||
-            this.lwfData().lwf === 'battle_301222.lwf'
-          ) {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            forceReplay(this.lwfInstance, this.attachedMovie, 'ef_001');
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
-          if (this.lwfData().lwf === 'sp_effect_a1_00175.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            attachScenesForCard9517911ActiveSkill(
-              this.lwfInstance,
-              this.attachedMovie
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          // if (
+          //   this.lwfData().lwf === 'battle_301206.lwf' ||
+          //   this.lwfData().lwf === 'battle_301215.lwf' ||
+          //   this.lwfData().lwf === 'battle_301222.lwf'
+          // ) {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   forceReplay(this.lwfInstance, this.attachedMovie, 'ef_001');
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
+          // if (this.lwfData().lwf === 'sp_effect_a1_00175.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   attachScenesForCard9517911ActiveSkill(
+          //     this.lwfInstance,
+          //     this.attachedMovie
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_b4_00189.lwf') {
-            let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
-              'ef_002',
-              'battle2',
-              1
-            );
+          // if (this.lwfData().lwf === 'sp_effect_b4_00189.lwf') {
+          //   let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_002',
+          //     'battle2',
+          //     1
+          //   );
 
-            if (attachedMovie2) {
-              attachedMovie2.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
-          if (this.lwfData().lwf === 'sp_effect_b4_00201.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
+          //   if (attachedMovie2) {
+          //     attachedMovie2.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
+          // if (this.lwfData().lwf === 'sp_effect_b4_00201.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
 
-            updateScene(
-              this.lwfInstance,
-              this.attachedMovie,
-              ['ef_001', 'ef_002'],
-              this.i
-            );
-          }
+          //   updateScene(
+          //     this.lwfInstance,
+          //     this.attachedMovie,
+          //     ['ef_001', 'ef_002'],
+          //     this.i
+          //   );
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a7_00052.lwf') {
-            console.log(this.lwfInstance);
+          // if (this.lwfData().lwf === 'sp_effect_a7_00052.lwf') {
+          //   console.log(this.lwfInstance);
 
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
 
-            updateScene(
-              this.lwfInstance,
-              this.attachedMovie,
-              ['ef_001', 'ef_002', 'ef_003'],
-              this.i
-            );
-          }
+          //   updateScene(
+          //     this.lwfInstance,
+          //     this.attachedMovie,
+          //     ['ef_001', 'ef_002', 'ef_003'],
+          //     this.i
+          //   );
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a3_00090.lwf') {
-            console.log(this.lwfInstance);
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001_back',
-              'battle',
-              1
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-            attachSchenesForCard1024141ActiveSkill(
-              this.lwfInstance,
-              this.attachedMovie
-            );
-          }
+          // if (this.lwfData().lwf === 'sp_effect_a3_00090.lwf') {
+          //   console.log(this.lwfInstance);
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001_back',
+          //     'battle',
+          //     1
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          //   attachSchenesForCard1024141ActiveSkill(
+          //     this.lwfInstance,
+          //     this.attachedMovie
+          //   );
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_b4_00240.lwf') {
-            let attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_002',
-              'battle2',
-              1
-            );
-            if (attachedMovie) {
-              attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          // if (this.lwfData().lwf === 'sp_effect_b4_00240.lwf') {
+          //   let attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_002',
+          //     'battle2',
+          //     1
+          //   );
+          //   if (attachedMovie) {
+          //     attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a1_00366.lwf') {
-            let attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001_b',
-              'battle2',
-              1
-            );
-            if (attachedMovie) {
-              attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
-          if (this.lwfData().lwf === 'sp_effect_a2_00187.lwf') {
-            let attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001_eff',
-              'battle2',
-              1
-            );
-            if (attachedMovie) {
-              attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
+          // if (this.lwfData().lwf === 'sp_effect_a1_00366.lwf') {
+          //   let attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001_b',
+          //     'battle2',
+          //     1
+          //   );
+          //   if (attachedMovie) {
+          //     attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
+          // if (this.lwfData().lwf === 'sp_effect_a2_00187.lwf') {
+          //   let attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001_eff',
+          //     'battle2',
+          //     1
+          //   );
+          //   if (attachedMovie) {
+          //     attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
 
-            let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
-              'ef_002',
-              'battle3',
-              1
-            );
-            if (attachedMovie2) {
-              attachedMovie2.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
+          //   let attachedMovie2 = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_002',
+          //     'battle3',
+          //     1
+          //   );
+          //   if (attachedMovie2) {
+          //     attachedMovie2.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_b4_00253.lwf') {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            updateScene(
-              this.lwfInstance,
-              this.attachedMovie,
-              [
-                'ef_001',
-                'ef_002',
-                'ef_003',
-                'ef_004',
-                'ef_005',
-                // 'ef_006',
-                'ef_006_b',
-                'ef_007',
-              ],
-              this.i
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-            console.log(this.lwfInstance);
-          }
+          // if (this.lwfData().lwf === 'sp_effect_b4_00253.lwf') {
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   updateScene(
+          //     this.lwfInstance,
+          //     this.attachedMovie,
+          //     [
+          //       'ef_001',
+          //       'ef_002',
+          //       'ef_003',
+          //       'ef_004',
+          //       'ef_005',
+          //       // 'ef_006',
+          //       'ef_006_b',
+          //       'ef_007',
+          //     ],
+          //     this.i
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          //   console.log(this.lwfInstance);
+          // }
 
-          if (this.lwfData().lwf === 'sp_effect_a1_00372.lwf') {
-            console.log(this.lwfInstance);
+          // if (this.lwfData().lwf === 'sp_effect_a1_00372.lwf') {
+          //   console.log(this.lwfInstance);
 
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-            attachSchenesForCard1025071ActiveSkill(
-              this.lwfInstance,
-              this.attachedMovie
-            );
-          }
+          //   this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+          //     'ef_001',
+          //     'battle',
+          //     1
+          //   );
+          //   if (this.attachedMovie) {
+          //     this.attachedMovie.moveTo(
+          //       this.lwfInstance.width / 2,
+          //       this.lwfInstance.height / 2
+          //     );
+          //   }
+          //   attachSchenesForCard1025071ActiveSkill(
+          //     this.lwfInstance,
+          //     this.attachedMovie
+          //   );
+          // }
           // Si aucune animation
-          if (!this.attachedMovie) {
+          if (!isPlayed) {
             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
               'ef_001',
               'battle',

@@ -339,6 +339,15 @@ export function isSpecialAnimationPlayed(
       if (attachedMovie2) {
         attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
       break;
     }
     case 'sp_effect_b4_00201.lwf': {

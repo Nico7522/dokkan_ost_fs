@@ -8,9 +8,9 @@ const CARDS_ROUTES: Route[] = [
   {
     path: '',
     component: CardsComponent,
-    resolve: {
-      cards: cardsResolver,
-    },
+    // resolve: {
+    //   cards: cardsResolver,
+    // },
   },
   {
     path: ':id',

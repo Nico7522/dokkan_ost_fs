@@ -436,7 +436,23 @@ export function isSpecialAnimationPlayed(
     }
     case 'sp_effect_a2_00187.lwf': {
       isPlayed = true;
-      attachScenesForCard4024901ActiveSkill(lwfInstance);
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001_eff',
+        'battle2',
+        1
+      );
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      attachScenesForCard4024901ActiveSkill(lwfInstance, attachedMovie);
 
       break;
     }

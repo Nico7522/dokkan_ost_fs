@@ -10,8 +10,9 @@ import {
   attachScenesForCard9517161ActiveSkill,
   attachScenesForCard9517911ActiveSkill,
   attachScenesForCard9523621ActiveSkill,
-  attachSchenesForCard1024141ActiveSkill,
-  attachSchenesForCard1025071ActiveSkill,
+  attachScenesForCard1024141ActiveSkill,
+  attachScenesForCard1025071ActiveSkill,
+  attachScenesForCard4024901ActiveSkill,
 } from './attach_scene';
 
 export const toCamel = (s: string) => {
@@ -396,7 +397,7 @@ export function isSpecialAnimationPlayed(
       if (attachedMovie) {
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
-      attachSchenesForCard1024141ActiveSkill(lwfInstance, attachedMovie);
+      attachScenesForCard1024141ActiveSkill(lwfInstance, attachedMovie);
       break;
     }
     case 'sp_effect_b4_00240.lwf': {
@@ -435,32 +436,8 @@ export function isSpecialAnimationPlayed(
     }
     case 'sp_effect_a2_00187.lwf': {
       isPlayed = true;
+      attachScenesForCard4024901ActiveSkill(lwfInstance);
 
-      let attachedMovie = lwfInstance.rootMovie.attachMovie(
-        'ef_001_eff',
-        'battle2',
-        1
-      );
-      if (attachedMovie) {
-        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-      }
-
-      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
-        'ef_002',
-        'battle3',
-        1
-      );
-      if (attachedMovie2) {
-        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-      }
-      let attachedMovieBase = lwfInstance.rootMovie.attachMovie(
-        'ef_001',
-        'battle',
-        1
-      );
-      if (attachedMovieBase) {
-        attachedMovieBase.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-      }
       break;
     }
     case 'sp_effect_b4_00253.lwf': {
@@ -503,7 +480,21 @@ export function isSpecialAnimationPlayed(
       if (attachedMovie) {
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
-      attachSchenesForCard1025071ActiveSkill(lwfInstance, attachedMovie);
+      attachScenesForCard1025071ActiveSkill(lwfInstance, attachedMovie);
+      break;
+    }
+    case 'battle_301244.lwf': {
+      isPlayed = true;
+      console.log(lwfInstance);
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      forceReplay(lwfInstance, attachedMovie, 'ef_001');
       break;
     }
     default:

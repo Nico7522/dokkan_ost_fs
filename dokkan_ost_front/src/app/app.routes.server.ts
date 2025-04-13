@@ -6,7 +6,7 @@ import { map } from 'rxjs';
 export const serverRoutes: ServerRoute[] = [
   {
     path: '**',
-    renderMode: RenderMode.Server,
+    renderMode: RenderMode.Prerender,
   },
   {
     path: 'home',
@@ -14,10 +14,10 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'cards',
-    renderMode: RenderMode.Server,
+    renderMode: RenderMode.Prerender,
   },
   {
     path: 'cards/:id',
-    renderMode: RenderMode.Server,
+    renderMode: RenderMode.Prerender,
   },
 ];

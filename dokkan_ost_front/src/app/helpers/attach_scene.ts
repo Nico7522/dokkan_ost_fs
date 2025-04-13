@@ -235,7 +235,7 @@ export function attachScenesForCard9517911ActiveSkill(
   });
 }
 
-export function attachSchenesForCard1024141ActiveSkill(
+export function attachScenesForCard1024141ActiveSkill(
   lwfInstance: any,
   attachedMovie: any
 ) {
@@ -284,7 +284,7 @@ export function attachSchenesForCard1024141ActiveSkill(
                         'battle',
                         1
                       );
-                      attachSchenesForCard1024141ActiveSkill(
+                      attachScenesForCard1024141ActiveSkill(
                         lwfInstance,
                         attachedMovie
                       );
@@ -306,7 +306,7 @@ export function attachSchenesForCard1024141ActiveSkill(
   });
 }
 
-export function attachSchenesForCard1025071ActiveSkill(
+export function attachScenesForCard1025071ActiveSkill(
   lwfInstance: any,
   attachedMovie: any
 ) {
@@ -333,10 +333,7 @@ export function attachSchenesForCard1025071ActiveSkill(
                 'battle',
                 1
               );
-              attachSchenesForCard1025071ActiveSkill(
-                lwfInstance,
-                attachedMovie
-              );
+              attachScenesForCard1025071ActiveSkill(lwfInstance, attachedMovie);
               if (attachedMovie) {
                 attachedMovie.moveTo(
                   lwfInstance.width / 2,
@@ -345,6 +342,36 @@ export function attachSchenesForCard1025071ActiveSkill(
               }
             }
           });
+        }
+      });
+    }
+  });
+}
+
+export function attachScenesForCard4024901ActiveSkill(lwfInstance: any) {
+  let attachedMovie = lwfInstance.rootMovie.attachMovie('ef_001', 'battle', 1);
+  if (attachedMovie) {
+    attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+  }
+  let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+    'ef_001_eff',
+    'battle2',
+    1
+  );
+  if (attachedMovie2) {
+    attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+  }
+
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+      attachedMovie = lwfInstance.rootMovie.attachMovie('ef_002', 'battle', 1);
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      attachedMovie.addEventHandler('update', () => {
+        if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+          attachScenesForCard4024901ActiveSkill(lwfInstance);
         }
       });
     }

@@ -15,8 +15,8 @@ import {
   attachScenesForCard9514221ActiveSkill,
   attachScenesForCard1016571ActiveSkill,
   attachScenesForCard9517911ActiveSkill,
-  attachSchenesForCard1024141ActiveSkill,
-  attachSchenesForCard1025071ActiveSkill,
+  attachScenesForCard1024141ActiveSkill,
+  attachScenesForCard1025071ActiveSkill,
 } from '../../helpers/attach_scene';
 import {
   sp_effect_a1_00143_scenes,

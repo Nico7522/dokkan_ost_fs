@@ -13,6 +13,6 @@ export const routes: Routes = [
   },
   {
     path: 'cards',
-    loadChildren: () => import('./components/all-cards/cards.routes'),
+    loadChildren: () => import('./components/cards/cards.routes'),
   },
 ];

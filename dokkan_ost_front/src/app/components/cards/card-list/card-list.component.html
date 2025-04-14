@@ -1,4 +1,5 @@
 <section class="cards">
+    <app-toggle-button />
     @for (card of cards$ | async; track $index) {
     <app-card [card]="card" />
     }

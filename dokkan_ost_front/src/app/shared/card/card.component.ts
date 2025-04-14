@@ -11,6 +11,7 @@ import { Card } from '../../models/card';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { AnimationManagerService } from '../../services/animation-manager.service';
 
 @Component({
   selector: 'app-card',
@@ -27,6 +28,7 @@ export class CardComponent {
   @ViewChild('cardRef', { static: false })
   canvasRef!: ElementRef<HTMLCanvasElement>;
   private readonly spinnerService = inject(NgxSpinnerService);
+  private readonly animationManagerService = inject(AnimationManagerService);
   private readonly router = inject(Router);
   previousTick = 0;
   loadLWF() {
@@ -61,6 +63,8 @@ export class CardComponent {
             console.error('Erreur lors du chargement de LWF :', error);
           },
         });
+      } else {
+        this.spinnerService.hide('loader');
       }
     }
   }

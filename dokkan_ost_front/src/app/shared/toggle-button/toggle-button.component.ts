@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { AnimationManagerService } from '../../services/animation-manager.service';
+import { Component, inject, signal } from '@angular/core';
 
 @Component({
   selector: 'app-toggle-button',
@@ -7,13 +6,4 @@ import { AnimationManagerService } from '../../services/animation-manager.servic
   templateUrl: './toggle-button.component.html',
   styleUrl: './toggle-button.component.scss',
 })
-export class ToggleButtonComponent {
-  private readonly animationManagerService = inject(AnimationManagerService);
-  onCheckboxChange(event: any) {
-    if (event.target.checked) {
-      this.animationManagerService.onAnimationToggleChange(true);
-    } else {
-      this.animationManagerService.onAnimationToggleChange(false);
-    }
-  }
-}
+export class ToggleButtonComponent {}

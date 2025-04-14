@@ -7,15 +7,15 @@ import { Card, CardDetails } from '../../models/card';
   providedIn: 'root',
 })
 export class CardsService {
-  private readonly _httpClient = inject(HttpClient);
+  private readonly httpClient = inject(HttpClient);
   constructor() {}
 
   getCards(): Observable<Card[]> {
-    return this._httpClient.get<Card[]>('http://localhost:3200/cards');
+    return this.httpClient.get<Card[]>('http://localhost:3200/home?offset=0');
   }
 
   getCardById(id: number) {
-    return this._httpClient.get<CardDetails>(
+    return this.httpClient.get<CardDetails>(
       'http://localhost:3200/cards/' + id
     );
   }

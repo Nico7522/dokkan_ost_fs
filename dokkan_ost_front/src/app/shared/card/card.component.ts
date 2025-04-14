@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   ElementRef,
   inject,
   input,
@@ -11,7 +12,6 @@ import { Card } from '../../models/card';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { AnimationManagerService } from '../../services/animation-manager.service';
 
 @Component({
   selector: 'app-card',
@@ -25,11 +25,13 @@ export class CardComponent {
   card = input.required<Card>();
   lwfInstance: any;
   animationId = 0;
+  timeOut: any;
   @ViewChild('cardRef', { static: false })
   canvasRef!: ElementRef<HTMLCanvasElement>;
   private readonly spinnerService = inject(NgxSpinnerService);
-  private readonly animationManagerService = inject(AnimationManagerService);
   private readonly router = inject(Router);
+
+  attachedMovie: any;
   previousTick = 0;
   loadLWF() {
     if (isPlatformBrowser(this.platformId)) {
@@ -43,20 +45,23 @@ export class CardComponent {
           stage: canvas,
           onload: (loadedLwfInstance: any) => {
             this.lwfInstance = loadedLwfInstance;
-            const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+
+            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
               'ef_001',
               'battle',
               1
             );
-            attachedMovie.moveTo(
+            this.attachedMovie.moveTo(
               this.lwfInstance.width / 14,
               this.lwfInstance.height / 25
             );
 
-            attachedMovie.scaleX = 0.9;
-            attachedMovie.scaleY = 0.9;
+            this.attachedMovie.scaleX = 0.9;
+            this.attachedMovie.scaleY = 0.9;
 
             this.animate();
+            console.log(this.attachedMovie);
+
             this.spinnerService.hide('loader');
           },
           onerror: (error: any) => {
@@ -65,6 +70,7 @@ export class CardComponent {
         });
       } else {
         this.spinnerService.hide('loader');
+        console.log(this.card());
       }
     }
   }

@@ -14,12 +14,12 @@ import { map, switchMap, tap } from 'rxjs';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '../../../shared/card/card.component';
 import { keysToCamel } from '../../../helpers/helpers';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AnimationComponent } from '../../../shared/animation/animation.component';
 @Component({
   selector: 'app-card-details',
   standalone: true,
-  imports: [AsyncPipe, CardComponent, AnimationComponent],
+  imports: [AsyncPipe, CardComponent, AnimationComponent, NgxSpinnerModule],
   templateUrl: './card-details.component.html',
   styleUrl: './card-details.component.scss',
 })
@@ -48,7 +48,6 @@ export class CardDetailsComponent implements AfterViewInit {
       return this.cardService.getCardById(+id).pipe(
         tap((x) => this.thumb.set(x.thumb)),
         map((card) => {
-          this.spinnerService.show('loader');
           return keysToCamel(card);
         })
       );
@@ -88,20 +87,26 @@ export class CardDetailsComponent implements AfterViewInit {
               // this.attachedMovie = attachedMovie;
 
               this.animate();
-              this.spinnerService.hide('loader');
+              this.spinnerService.hide('card');
             },
             onerror: (error: any) => {
               console.error('Erreur lors du chargement de LWF :', error);
             },
           });
         } else {
-          this.spinnerService.hide('loader');
+          this.spinnerService.hide('card');
         }
       }, 100);
     }
   }
 
   previousTick = 0;
+
+  ngOnInit() {
+    console.log('ici');
+
+    this.spinnerService.show('card');
+  }
   ngAfterViewInit() {
     this.loadLWF();
   }

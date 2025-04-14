@@ -1,1 +1,17 @@
-<app-cards />
+<!-- <app-cards /> -->
+<section class="home">
+    <div>
+        @for (card of cards(); track $index) {
+        <app-card [card]="card" />
+        }
+
+    </div>
+    <div>
+        @if (offset > 0) {
+        <button (click)="onPreviousCard()">Prev</button>
+        }
+
+        <button (click)="onNextCards()">Next</button>
+
+    </div>
+</section>

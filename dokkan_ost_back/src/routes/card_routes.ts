@@ -4,9 +4,21 @@ import { Card } from "../interfaces/card";
 import { cardChecker } from "../utils/checker";
 const cardRoutes = Router();
 
+cardRoutes.get("/home", async (req: Request, res: Response) => {
+  try {
+    const text = "SELECT * FROM cards LIMIT 20 OFFSET $1";
+    const offset = [req.query.offset];
+    const results = await pool.query(text, offset);
+    res.json(results.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching cards" });
+  }
+});
 cardRoutes.get("/cards", async (req: Request, res: Response) => {
   try {
-    const results = await pool.query("SELECT * FROM cards");
+    const text = "SELECT * FROM cards";
+    const results = await pool.query(text);
     res.json(results.rows);
   } catch (error) {
     console.error(error);
@@ -21,7 +33,6 @@ cardRoutes.get("/cards/:id", async (req: Request, res: Response) => {
       "SELECT cards.*, entrances.bgm_id AS entrance_bgm_id, active_skills.bgm_id AS as_bgm_id, entrances.filename AS entrance_filename, active_skills.filename AS as_filename FROM cards FULL JOIN entrances ON cards.id = entrances.card_id FULL JOIN active_skills ON active_skills.card_id = cards.id WHERE cards.id = $1";
     const values = [id];
     const results = await pool.query(text, values);
-    console.log(results.rows[0]);
 
     res.json(results.rows[0]);
   } catch (error) {

@@ -1,3 +1,52 @@
 h1 {
   text-align: center;
 }
+
+.home {
+  & div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 90%;
+    margin: 10px auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+button {
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  background-color: #c5740b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button:hover,
+button:focus {
+  background-color: #a78b94;
+}

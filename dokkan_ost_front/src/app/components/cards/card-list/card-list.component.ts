@@ -7,11 +7,10 @@ import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '../../../shared/card/card.component';
 import { RouterOutlet } from '@angular/router';
 import { Card } from '../../../models/card';
-import { ToggleButtonComponent } from '../../../shared/toggle-button/toggle-button.component';
 
 @Component({
   selector: 'app-cards',
-  imports: [AsyncPipe, CardComponent, RouterOutlet, ToggleButtonComponent],
+  imports: [AsyncPipe, CardComponent, RouterOutlet],
   templateUrl: './card-list.component.html',
   styleUrl: './card-list.component.scss',
 })

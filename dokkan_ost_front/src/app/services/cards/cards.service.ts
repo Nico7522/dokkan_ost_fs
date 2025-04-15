@@ -11,7 +11,7 @@ export class CardsService {
   constructor() {}
 
   getCards(): Observable<Card[]> {
-    return this.httpClient.get<Card[]>('http://localhost:3200/home?offset=0');
+    return this.httpClient.get<Card[]>('http://localhost:3200/cards');
   }
 
   getCardById(id: number) {

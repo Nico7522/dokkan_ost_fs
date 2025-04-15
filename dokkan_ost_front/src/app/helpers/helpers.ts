@@ -128,12 +128,23 @@ export function isSpecialAnimationPlayed(
   switch (lwfName) {
     case 'sp_effect_a2_00174.lwf': {
       isPlayed = true;
-      let scenes = attachScenesForCard9523621ActiveSkill(lwfInstance);
-      if (scenes) {
-        scenes.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001_back',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001_front',
+        'battle2',
+        1
+      );
+      attachScenesForCard9523621ActiveSkill(lwfInstance, attachedMovie);
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
-      increment += 1;
-      updateScene(lwfInstance, scenes, sp_effect_a2_00174_scenes, increment);
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
       break;
     }
 
@@ -511,6 +522,59 @@ export function isSpecialAnimationPlayed(
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
       forceReplay(lwfInstance, attachedMovie, 'ef_001');
+      break;
+    }
+    case 'sp_effect_b4_00135.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+
+      updateScene(
+        lwfInstance,
+        attachedMovie,
+        ['ef_001', 'ef_002', 'ef_003'],
+        0
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+
+    case 'sp_effect_a2_00124.lwf': {
+      console.log(lwfInstance);
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+
+      updateScene(
+        lwfInstance,
+        attachedMovie,
+        [
+          'ef_001',
+          'ef_002',
+          'ef_003',
+          'ef_004',
+          'ef_005',
+          'ef_006_a',
+          'ef_006_b',
+          'ef_007',
+          'ef_008_a',
+          'ef_008_b',
+          'ef_009',
+          'ef_0010',
+        ],
+        0
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
       break;
     }
     default:

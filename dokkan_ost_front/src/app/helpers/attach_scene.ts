@@ -1,20 +1,57 @@
 import { triggerNextScenes } from './helpers';
 
-export function attachScenesForCard9523621ActiveSkill(lwfInstance: any) {
-  let attachedMovieBase = lwfInstance.rootMovie.attachMovie(
-    'ef_001_front',
-    'a',
-    0
-  );
+export function attachScenesForCard9523621ActiveSkill(
+  lwfInstance: any,
+  attachedMovie: any
+) {
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+      let { attachedMovieBase } = triggerNextScenes(
+        attachedMovie,
+        lwfInstance,
+        ['ef_002']
+      );
+      attachedMovie = attachedMovieBase;
+      attachedMovie.addEventHandler('update', () => {
+        if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+          let { attachedMovie2 } = triggerNextScenes(
+            attachedMovie,
+            lwfInstance,
+            ['ef_003_back', 'ef_003_front']
+          );
+          attachedMovie = attachedMovie2;
 
-  let scenes = lwfInstance.rootMovie.attachMovie('ef_001_back', 'b', 0);
-  if (attachedMovieBase) {
-    attachedMovieBase.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-  }
-  if (scenes) {
-    scenes.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-  }
-  return scenes;
+          attachedMovie.addEventHandler('update', () => {
+            if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+              let attachedMovie = lwfInstance.rootMovie.attachMovie(
+                'ef_001_back',
+                'battle',
+                1
+              );
+              let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+                'ef_001_front',
+                'battle2',
+                1
+              );
+              attachScenesForCard9523621ActiveSkill(lwfInstance, attachedMovie);
+              if (attachedMovie) {
+                attachedMovie.moveTo(
+                  lwfInstance.width / 2,
+                  lwfInstance.height / 2
+                );
+              }
+              if (attachedMovie2) {
+                attachedMovie2.moveTo(
+                  lwfInstance.width / 2,
+                  lwfInstance.height / 2
+                );
+              }
+            }
+          });
+        }
+      });
+    }
+  });
 }
 
 export function attachScenesForCard9517161ActiveSkill(

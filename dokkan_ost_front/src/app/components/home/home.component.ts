@@ -19,14 +19,12 @@ export class HomeComponent {
   ngOnInit() {
     this.spinnerService.show('loader');
   }
-  offset = 0;
+  offset = this.homeService.offset;
   onPreviousCard() {
-    this.offset -= 20;
-    this.homeService.onOffsetChange(this.offset);
+    this.homeService.getPreviousCards();
   }
   onNextCards() {
-    this.offset += 20;
-    this.homeService.onOffsetChange(this.offset);
+    this.homeService.getNextCards();
   }
   cards = this.homeService.cards.value;
 }

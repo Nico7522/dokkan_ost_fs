@@ -17,13 +17,12 @@ export class HomeService {
     );
   }
   private _offset = signal(0);
-
-  onOffsetChange(newOffset: number) {
-    console.log(newOffset);
-
-    if (newOffset < 0) return;
-
-    this._offset.set(newOffset);
+  offset = this._offset.asReadonly();
+  getNextCards() {
+    this._offset.set(this._offset() + 20);
+  }
+  getPreviousCards() {
+    this._offset.set(this._offset() - 20);
   }
   cards = httpResource<Card[]>(
     () => 'http://localhost:3200/home?offset=' + this._offset(),

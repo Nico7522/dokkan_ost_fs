@@ -13,6 +13,7 @@ import {
   attachScenesForCard1024141ActiveSkill,
   attachScenesForCard1025071ActiveSkill,
   attachScenesForCard4024901ActiveSkill,
+  attachScenesForCard9517981ActiveSkill,
 } from './attach_scene';
 
 export const toCamel = (s: string) => {
@@ -575,6 +576,56 @@ export function isSpecialAnimationPlayed(
       if (attachedMovie) {
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
+      break;
+    }
+
+    case 'sp_effect_b4_00207.lwf': {
+      console.log(lwfInstance);
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      updateScene(lwfInstance, attachedMovie, ['ef_001', 'ef_002'], 0);
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+    case 'sp_effect_b4_00155.lwf': {
+      console.log(lwfInstance);
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      updateScene(
+        lwfInstance,
+        attachedMovie,
+        ['ef_001', 'ef_002', 'ef_003', 'ef_004', 'ef_005'],
+        0
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+
+    case 'sp_effect_a1_00213.lwf': {
+      console.log(lwfInstance);
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      attachScenesForCard9517981ActiveSkill(lwfInstance, attachedMovie);
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
       break;
     }
     default:

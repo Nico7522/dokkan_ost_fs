@@ -60,7 +60,6 @@ export class CardComponent {
             this.attachedMovie.scaleY = 0.9;
 
             this.animate();
-            console.log(this.attachedMovie);
 
             this.spinnerService.hide('loader');
           },
@@ -70,7 +69,6 @@ export class CardComponent {
         });
       } else {
         this.spinnerService.hide('loader');
-        console.log(this.card());
       }
     }
   }

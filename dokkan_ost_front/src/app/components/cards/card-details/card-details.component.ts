@@ -66,7 +66,8 @@ export class CardDetailsComponent implements AfterViewInit {
           LWF.useCanvasRenderer();
           LWF.ResourceCache.get().loadLWF({
             lwf: `card_${this.thumb().toString()}.lwf`,
-            prefix: './artworks/' + this.thumb().toString() + '/',
+            prefix:
+              'http://localhost:3200/artworks/' + this.thumb().toString() + '/',
 
             stage: canvas,
             onload: (loadedLwfInstance: any) => {

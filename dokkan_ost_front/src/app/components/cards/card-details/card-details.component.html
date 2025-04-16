@@ -9,9 +9,12 @@
         } @else {
         <div class="art">
             <div class="card-static-art">
-                <img [src]="'bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_bg.png'" alt="">
-                <img [src]="'bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_character.png'" alt="">
-                <img [src]="'bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_effect.png'" alt="">
+                <img [src]="'http://localhost:3200/bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_bg.png'"
+                    alt="">
+                <img [src]="'http://localhost:3200/bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_character.png'"
+                    alt="">
+                <img [src]="'http://localhost:3200/bg' + '/' + card.thumb + '/' + 'card_' + card.thumb + '_effect.png'"
+                    alt="">
             </div>
         </div>
         <!-- <div class="test">
@@ -34,7 +37,7 @@
             <button (click)="showAnimationComponent('entrance')" [class]="card.type.toLowerCase()">Play OST +
                 Animation</button>
             <audio #entranceOst id="entranceOst">
-                <source [src]="'bgm/' + 'bgm_' + card.entranceBgmId + '.wav'" type="audio/mpeg" />
+                <source [src]="'http://localhost:3200/bgm/' + 'bgm_' + card.entranceBgmId + '.wav'" type="audio/mpeg" />
             </audio>
         </div>
         }
@@ -45,7 +48,8 @@
             <button (click)="showAnimationComponent('activeSkill')" [class]="card.type.toLowerCase()">Play OST +
                 Animation</button>
             <audio #activeSkillOst id="activeSkillOst">
-                <source [src]="'bgm/' + 'bgm_' + (card.asBgmId >= 100 ?  card.asBgmId : '0'+card.asBgmId) + '.wav'"
+                <source
+                    [src]="'http://localhost:3200/bgm/' + 'bgm_' + (card.asBgmId >= 100 ?  card.asBgmId : '0'+card.asBgmId) + '.wav'"
                     type="audio/mpeg" />
             </audio>
         </div>
@@ -58,7 +62,7 @@
     [lwfData]="{prefix: 'http://localhost:3200/' + animationType() + '/' + (animationType() === 'intro' ? card.entranceFilename : card.asFilename) + '/fr/', lwf: animationType() === 'intro' ? card.entranceFilename + '.lwf' : card.asFilename + '.lwf'}"
     (close)="hideAnimationComponent()" /> -->
 <app-animation
-    [lwfData]="{prefix: 'http://localhost:3200/' + (animationType() === 'intro' ? card.entranceFilename : card.asFilename) + '/fr/', lwf: animationType() === 'intro' ? card.entranceFilename + '.lwf' : card.asFilename + '.lwf'}"
+    [lwfData]="{prefix: 'http://localhost:3200/animations/' + (animationType() === 'intro' ? card.entranceFilename : card.asFilename) + '/fr/', lwf: animationType() === 'intro' ? card.entranceFilename + '.lwf' : card.asFilename + '.lwf'}"
     (close)="hideAnimationComponent()" />
 }
 }

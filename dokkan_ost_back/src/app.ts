@@ -15,7 +15,8 @@ import path from "path";
 const app = express();
 app.use(cors());
 
-app.use(express.static("animations"));
+app.use(express.static("public"));
+
 const port = 3200;
 app.use(bodyParser.json());
 app.use(

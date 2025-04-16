@@ -5,10 +5,6 @@
 ./dokkan_ost_back/node_modules
 ./dokkan_ost_back/public
 ./dokkan_ost_front/node_modules
-./dokkan_ost_front/public/thumbs
-./dokkan_ost_front/public/bg
-./dokkan_ost_front/public/artworks
-./dokkan_ost_front/public/bgm
-./dokkan_ost_front/public/active_skills
-./dokkan_ost_front/public/intro
+./dokkan_ost_front/src/environments/environment.development.ts
+./dokkan_ost_front/src/environments/environment.ts
 

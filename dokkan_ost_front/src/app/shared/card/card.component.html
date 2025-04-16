@@ -1,7 +1,7 @@
 <div id="total" routerLink="/cards/{{card().id}}">
     <div id="wrapper">
         <div [class]="card().type.toLowerCase()">
-            <img id="card" src="http://localhost:3200/thumbs/card_{{card().thumb}}_thumb.png" alt="">
+            <img id="card" src="{{apiUrl}}/thumbs/card_{{card().thumb}}_thumb.png" alt="">
             @if (card().isLegendary) {
             <canvas #cardRef width="120" height="120"></canvas>
             }

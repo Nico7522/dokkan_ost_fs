@@ -41,11 +41,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
-/public/thumbs
-/public/artworks
-/public/bg
-/public/bgm
-/public/active_skills
-/public/intro
 
 
+
+/src/environments/environment.development.ts
+/src/environments/environment.ts

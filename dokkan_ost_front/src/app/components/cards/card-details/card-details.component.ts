@@ -16,6 +16,7 @@ import { CardComponent } from '../../../shared/card/card.component';
 import { keysToCamel } from '../../../helpers/helpers';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AnimationComponent } from '../../../shared/animation/animation.component';
+import { environment } from '../../../../environments/environment.development';
 @Component({
   selector: 'app-card-details',
   standalone: true,
@@ -25,7 +26,7 @@ import { AnimationComponent } from '../../../shared/animation/animation.componen
 })
 export class CardDetailsComponent implements AfterViewInit {
   private platformId = inject(PLATFORM_ID);
-
+  readonly apiUrl = environment.API_URL;
   private readonly cardService = inject(CardsService);
   private readonly spinnerService = inject(NgxSpinnerService);
   lwfInstance: any;
@@ -66,9 +67,7 @@ export class CardDetailsComponent implements AfterViewInit {
           LWF.useCanvasRenderer();
           LWF.ResourceCache.get().loadLWF({
             lwf: `card_${this.thumb().toString()}.lwf`,
-            prefix:
-              'http://localhost:3200/artworks/' + this.thumb().toString() + '/',
-
+            prefix: `${this.apiUrl}/artworks/${this.thumb().toString()}/`,
             stage: canvas,
             onload: (loadedLwfInstance: any) => {
               this.lwfInstance = loadedLwfInstance;

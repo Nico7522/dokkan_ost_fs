@@ -12,6 +12,7 @@ import { Card } from '../../models/card';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-card',
@@ -22,6 +23,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class CardComponent {
   private platformId = inject(PLATFORM_ID);
+  readonly apiUrl = environment.API_URL;
   card = input.required<Card>();
   lwfInstance: any;
   animationId = 0;

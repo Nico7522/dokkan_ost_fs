@@ -465,3 +465,32 @@ export function attachScenesForCard9517981ActiveSkill(
     }
   });
 }
+
+export function attachScenesForCard1025631ActiveSkill(
+  lwfInstance: any,
+  attachedMovie: any
+) {
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+      let { attachedMovieBase } = triggerNextScenes(
+        attachedMovie,
+        lwfInstance,
+        ['ef_002', 'ef_003']
+      );
+      attachedMovie = attachedMovieBase;
+      attachedMovie.addEventHandler('update', () => {
+        if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+          let attachedMovie = lwfInstance.rootMovie.attachMovie(
+            'ef_001',
+            'battle',
+            1
+          );
+          attachScenesForCard1025631ActiveSkill(lwfInstance, attachedMovie);
+          if (attachedMovie) {
+            attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+          }
+        }
+      });
+    }
+  });
+}

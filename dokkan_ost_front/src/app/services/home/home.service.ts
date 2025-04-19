@@ -1,4 +1,4 @@
-import { HttpClient, httpResource } from '@angular/common/http';
+import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Card } from '../../models/card';
 import { Observable } from 'rxjs';
@@ -11,8 +11,13 @@ export class HomeService {
   private readonly httpClient = inject(HttpClient);
   private readonly apiUrl = environment.API_URL;
   constructor() {}
+  // headers = new HttpHeaders()
+  //   .set('Authorization', 'Basic blah')
+  //   .set('secret', 'More blah');
 
   getCards(offset: number): Observable<Card[]> {
+    console.log('cc');
+
     return this.httpClient.get<Card[]>(`${this.apiUrl}/home?offset=${offset}`);
   }
   private _offset = signal(0);
@@ -24,9 +29,12 @@ export class HomeService {
     this._offset.set(this._offset() - 20);
   }
   cards = httpResource<Card[]>(
-    () => `${this.apiUrl}/home?offset=${this._offset()}`,
-    {
+    () => ({
+      url: `${this.apiUrl}/home?offset=${this._offset()}`,
+      // headers: this.headers,
       defaultValue: [],
+    }),
+    {
       parse: (value) =>
         (value as Card[]).map((c) => {
           c = keysToCamel(c);

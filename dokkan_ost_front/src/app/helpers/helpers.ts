@@ -661,6 +661,21 @@ export function isSpecialAnimationPlayed(
 
       break;
     }
+
+    case 'sp_effect_b1_00131.lwf': {
+      console.log(lwfInstance);
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      break;
+    }
     default:
       break;
   }

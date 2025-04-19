@@ -1,0 +1,99 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const db_1 = __importDefault(require("../db/db"));
+const checker_1 = require("../utils/checker");
+const cardRoutes = (0, express_1.Router)();
+cardRoutes.get("/home", async (req, res) => {
+    try {
+        const text = "SELECT * FROM cards LIMIT 20 OFFSET $1";
+        const offset = [req.query.offset];
+        const results = await db_1.default.query(text, offset);
+        res.json(results.rows);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error fetching cards" });
+    }
+});
+cardRoutes.get("/cards", async (req, res) => {
+    try {
+        const text = "SELECT * FROM cards";
+        const results = await db_1.default.query(text);
+        res.json(results.rows);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error fetching cards" });
+    }
+});
+cardRoutes.get("/cards/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const text = "SELECT cards.*, entrances.bgm_id AS entrance_bgm_id, active_skills.bgm_id AS as_bgm_id, entrances.filename AS entrance_filename, active_skills.filename AS as_filename FROM cards FULL JOIN entrances ON cards.id = entrances.card_id FULL JOIN active_skills ON active_skills.card_id = cards.id WHERE cards.id = $1";
+        const values = [id];
+        const results = await db_1.default.query(text, values);
+        res.json(results.rows[0]);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Card not found" });
+    }
+});
+cardRoutes.post("/cards", async (req, res) => {
+    const card = req.body;
+    card.id = +card.id;
+    const isValid = (0, checker_1.cardChecker)(card);
+    if (!isValid) {
+        res.status(500).json({ error: "Invalid data" });
+        return;
+    }
+    try {
+        const text = "INSERT INTO cards (id, name, type, class) VALUES ($1, $2 , $3, $4)";
+        const values = [card.id, card.name, card.type, card.class];
+        await db_1.default.query(text, values);
+        res.status(201).json({ message: "Created" });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error });
+    }
+});
+cardRoutes.put("/thumbs/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { thumb } = req.body;
+        console.log("id params", id);
+        console.log("thumb", thumb);
+        const text = "UPDATE cards SET thumb = $1 WHERE id = $2";
+        const values = [thumb, id];
+        const result = await db_1.default.query(text, values);
+        console.log(result);
+        res.status(200).json({ message: "thumb added" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+});
+cardRoutes.put("/is-legendary/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { is_legendary } = req.body;
+        console.log("id params", id);
+        console.log("is legandary", is_legendary);
+        const text = "UPDATE cards SET is_legendary = $1 WHERE id = $2";
+        const values = [is_legendary, id];
+        const result = await db_1.default.query(text, values);
+        console.log(result);
+        res.status(200).json({ message: "legendary value modified" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+});
+exports.default = cardRoutes;

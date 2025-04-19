@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cardRoutes from "./routes/card_routes";
@@ -9,10 +9,16 @@ import activeSkillRoutes from "./routes/active_skill_routes";
 import bgmRoutes from "./routes/bgm_routes";
 import standBySkillRoutes from "./routes/standby_skill_routes";
 import finishSkillRoutes from "./routes/finish_skill_routes";
-// import todoRoutes from "./routes";
-import path from "path";
-
+const disablePostRequestMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  if (req.method === "POST") res.status(401).json({ message: "Unauthorized" });
+  else next();
+};
 const app = express();
+app.use(disablePostRequestMiddleware);
 app.use(cors());
 
 app.use(express.static("public"));

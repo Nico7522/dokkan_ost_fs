@@ -62,38 +62,4 @@ cardRoutes.post("/cards", async (req, res) => {
         res.status(500).json({ error });
     }
 });
-cardRoutes.put("/thumbs/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { thumb } = req.body;
-        console.log("id params", id);
-        console.log("thumb", thumb);
-        const text = "UPDATE cards SET thumb = $1 WHERE id = $2";
-        const values = [thumb, id];
-        const result = await db_1.default.query(text, values);
-        console.log(result);
-        res.status(200).json({ message: "thumb added" });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-    }
-});
-cardRoutes.put("/is-legendary/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { is_legendary } = req.body;
-        console.log("id params", id);
-        console.log("is legandary", is_legendary);
-        const text = "UPDATE cards SET is_legendary = $1 WHERE id = $2";
-        const values = [is_legendary, id];
-        const result = await db_1.default.query(text, values);
-        console.log(result);
-        res.status(200).json({ message: "legendary value modified" });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-    }
-});
 exports.default = cardRoutes;

@@ -1,3 +1,4 @@
+<ngx-spinner name="cards" template="<img src='./header-logo.gif' width='150px' />"></ngx-spinner>
 <section class="cards">
     @for (card of cards$ | async; track $index) {
     <app-card [card]="card" />

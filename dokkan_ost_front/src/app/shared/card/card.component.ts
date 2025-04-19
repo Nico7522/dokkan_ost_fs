@@ -64,6 +64,7 @@ export class CardComponent {
             this.animate();
 
             this.spinnerService.hide('loader');
+            this.spinnerService.hide('cards');
           },
           onerror: (error: any) => {
             console.error('Erreur lors du chargement de LWF :', error);

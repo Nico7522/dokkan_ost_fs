@@ -14,7 +14,14 @@ const active_skill_routes_1 = __importDefault(require("./routes/active_skill_rou
 const bgm_routes_1 = __importDefault(require("./routes/bgm_routes"));
 const standby_skill_routes_1 = __importDefault(require("./routes/standby_skill_routes"));
 const finish_skill_routes_1 = __importDefault(require("./routes/finish_skill_routes"));
+const disablePostRequestMiddleware = (req, res, next) => {
+    if (req.method === "POST")
+        res.status(401).json({ message: "Unauthorized" });
+    else
+        next();
+};
 const app = (0, express_1.default)();
+app.use(disablePostRequestMiddleware);
 app.use((0, cors_1.default)());
 app.use(express_1.default.static("public"));
 const port = 3200;

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { CardsService } from '../../../services/cards/cards.service';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { map, switchMap, tap } from 'rxjs';
+import { debounceTime, map, switchMap, tap } from 'rxjs';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '../../../shared/card/card.component';
 import { keysToCamel } from '../../../helpers/helpers';
@@ -45,6 +45,7 @@ export class CardDetailsComponent implements AfterViewInit {
   activeSkillOstRef!: ElementRef<HTMLAudioElement>;
   id = input<string>('');
   card$ = toObservable(this.id).pipe(
+    debounceTime(200),
     switchMap((id) => {
       return this.cardService.getCardById(+id).pipe(
         tap((x) => this.thumb.set(x.thumb)),
@@ -58,6 +59,8 @@ export class CardDetailsComponent implements AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
         if (this.canvasRef) {
+          console.log('Chargement LWF ...');
+
           const canvas = this.canvasRef.nativeElement;
           if (!canvas) {
             console.error('Canvas non trouvé');
@@ -87,6 +90,8 @@ export class CardDetailsComponent implements AfterViewInit {
               // this.attachedMovie = attachedMovie;
 
               this.animate();
+              console.log('Fin du chargement LWF.');
+
               this.spinnerService.hide('card');
             },
             onerror: (error: any) => {
@@ -94,17 +99,17 @@ export class CardDetailsComponent implements AfterViewInit {
             },
           });
         } else {
+          console.log('Non LR.');
+
           this.spinnerService.hide('card');
         }
-      }, 100);
+      }, 1000);
     }
   }
 
   previousTick = 0;
 
   ngOnInit() {
-    console.log('ici');
-
     this.spinnerService.show('card');
   }
   ngAfterViewInit() {

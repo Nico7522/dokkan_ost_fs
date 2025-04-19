@@ -1,6 +1,6 @@
 import { Component, inject, PLATFORM_ID, input } from '@angular/core';
 import { CardsService } from '../../../services/cards/cards.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { map } from 'rxjs';
 import { keysToCamel } from '../../../helpers/helpers';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
@@ -10,7 +10,7 @@ import { Card } from '../../../models/card';
 
 @Component({
   selector: 'app-cards',
-  imports: [AsyncPipe, CardComponent, RouterOutlet],
+  imports: [AsyncPipe, CardComponent, RouterOutlet, NgxSpinnerComponent],
   templateUrl: './card-list.component.html',
   styleUrl: './card-list.component.scss',
 })
@@ -24,7 +24,7 @@ export class CardsComponent {
   private readonly spinnerService = inject(NgxSpinnerService);
   cards$ = this.cardService.getCards().pipe(
     map((cards) => {
-      this.spinnerService.show('loader');
+      this.spinnerService.show('cards');
       cards = cards.map((c) => keysToCamel(c));
       return cards;
     })

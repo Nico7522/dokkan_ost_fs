@@ -13,6 +13,7 @@ import disablePostRequestMiddleware from "./middlewares/disable-post-request.mid
 import logger from "./middlewares/logger.middleware";
 
 const app = express();
+
 app.use(logger);
 app.use(disablePostRequestMiddleware);
 app.use(cors());

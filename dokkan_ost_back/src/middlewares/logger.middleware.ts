@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import fs, { readFile } from "node:fs";
+import requestIp from "request-ip";
 
 const logger = (req: Request, res: Response, next: NextFunction) => {
   try {
+    let clientIp = requestIp.getClientIp(req);
     readFile("logs.json", "utf-8", (err, data) => {
       let jsonData = {
         url: req.url,
-        adressInfo: req.socket.address(),
+        ip: clientIp,
       };
 
       fs.writeFile(

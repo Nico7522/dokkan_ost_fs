@@ -1,7 +1,4 @@
-import { inject } from '@angular/core';
 import { RenderMode, ServerRoute } from '@angular/ssr';
-import { CardsService } from './services/cards/cards.service';
-import { map } from 'rxjs';
 
 export const serverRoutes: ServerRoute[] = [
   {
@@ -18,6 +15,6 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'cards/:id',
-    renderMode: RenderMode.Prerender,
+    renderMode: RenderMode.Server,
   },
 ];

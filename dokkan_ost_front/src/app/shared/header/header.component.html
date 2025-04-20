@@ -5,7 +5,7 @@
             <img class="headphone" src="headphone.jpg" alt="">
         </div>
 
-        <h1 routerLink="/home">Dokkan OST</h1>
+        <h1 routerLink="/home">Dokkan OST </h1>
     </div>
     <span (click)="openMenu()">| | |</span>
     <ul class="desktop">
@@ -27,3 +27,10 @@
 
     }
 </nav>
+@if (!isInfoDivClosed()) {
+<div class="info">This site is in alpha version. Some features may be unstable. Thank you for your understanding.
+
+    <img (click)="closeInfo()" src="close_logo.png" alt="">
+</div>
+
+}

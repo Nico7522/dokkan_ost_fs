@@ -10,11 +10,16 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent {
   isMenuClosed = signal(false);
+  isInfoDivClosed = signal(false);
   closeMenu() {
     this.isMenuClosed.set(false);
   }
 
   openMenu() {
     this.isMenuClosed.set(true);
+  }
+
+  closeInfo() {
+    this.isInfoDivClosed.set(true);
   }
 }

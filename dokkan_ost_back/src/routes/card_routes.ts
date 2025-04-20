@@ -4,14 +4,14 @@ import { Card } from "../interfaces/card";
 import { cardChecker } from "../utils/checker";
 const cardRoutes = Router();
 
-cardRoutes.get("/home", async (req: Request, res: Response) => {
+cardRoutes.get("/home", async (req: Request, res: Response, next) => {
   try {
     const text = "SELECT * FROM cards LIMIT 20 OFFSET $1";
     const offset = [req.query.offset];
     const results = await pool.query(text, offset);
-    res.json(results.rows);
+    res.status(200).json(results.rows);
   } catch (error) {
-    console.error(error);
+    next(error);
     res.status(500).json({ error: "Error fetching cards" });
   }
 });

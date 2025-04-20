@@ -9,18 +9,13 @@ import activeSkillRoutes from "./routes/active_skill_routes";
 import bgmRoutes from "./routes/bgm_routes";
 import standBySkillRoutes from "./routes/standby_skill_routes";
 import finishSkillRoutes from "./routes/finish_skill_routes";
-const disablePostRequestMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
-  if (req.method === "POST") res.status(401).json({ message: "Unauthorized" });
-  else next();
-};
+import disablePostRequestMiddleware from "./middlewares/disable-post-request.middleware";
+import logger from "./middlewares/logger.middleware";
+
 const app = express();
+app.use(logger);
 app.use(disablePostRequestMiddleware);
 app.use(cors());
-
 app.use(express.static("public"));
 
 const port = 3200;
@@ -30,12 +25,14 @@ app.use(
     extended: true,
   })
 );
+
 app.use(cardRoutes);
 app.use(entranceRoutes);
 app.use(activeSkillRoutes);
 app.use(bgmRoutes);
 app.use(standBySkillRoutes);
 app.use(finishSkillRoutes);
+
 app.listen(port, () => {
   console.log(`server is listening on http://localhost:${port}....`);
 });

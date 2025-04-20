@@ -1,0 +1,10 @@
+[
+  {
+    "url": "/home",
+    "adressInfo": { "address": "::1", "family": "IPv6", "port": 3200 }
+  },
+  {
+    "url": "/home",
+    "adressInfo": { "address": "::1", "family": "IPv6", "port": 3200 }
+  }
+]

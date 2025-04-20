@@ -4,6 +4,7 @@
 ./dokkan_ost_back/.env
 ./dokkan_ost_back/node_modules
 ./dokkan_ost_back/public
+./dokkan_ost_back/dist
 ./dokkan_ost_front/node_modules
 ./dokkan_ost_front/src/environments/environment.development.ts
 ./dokkan_ost_front/src/environments/environment.ts

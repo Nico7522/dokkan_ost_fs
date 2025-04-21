@@ -15,7 +15,7 @@ import { HeaderComponent } from './shared/header/header.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   title = 'dokkan_ost';
   lwfInstance: any;
   lwfInstance2: any;
@@ -28,29 +28,6 @@ export class AppComponent implements AfterViewInit {
 
   previousTick = 0;
   private spinner = inject(NgxSpinnerService);
-  ngAfterViewInit() {
-    // const canvas = this.canvasRef.nativeElement;
-    // // Vérifiez si le canvas existe
-    // if (!canvas) {
-    //   console.error('Canvas non trouvé');
-    //   return;
-    // }
-    // // Utiliser LWF pour initialiser l'animation
-    // LWF.useCanvasRenderer();
-    // LWF.ResourceCache.get().loadLWF({
-    //   lwf: 'card_1022380.lwf',
-    //   prefix: './cards/card/',
-    //   stage: canvas,
-    //   onload: (loadedLwfInstance: any) => {
-    //     this.lwfInstance = loadedLwfInstance;
-    //     this.canvasRef.nativeElement.classList.add('artwork');
-    //     this.animate();
-    //   },
-    //   onerror: (error: any) => {
-    //     console.error('Erreur lors du chargement de LWF :', error);
-    //   },
-    // });
-  }
 
   getDelta() {
     const now = Date.now() / 1000;

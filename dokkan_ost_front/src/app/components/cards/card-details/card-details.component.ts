@@ -16,7 +16,7 @@ import { CardComponent } from '../../../shared/card/card.component';
 import { keysToCamel } from '../../../helpers/helpers';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AnimationComponent } from '../../../shared/animation/animation.component';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-card-details',
   standalone: true,

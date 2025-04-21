@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Card } from '../../models/card';
 import { Observable } from 'rxjs';
 import { keysToCamel } from '../../helpers/helpers';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })

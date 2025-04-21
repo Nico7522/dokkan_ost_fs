@@ -1,8 +1,8 @@
-import { HttpClient, httpResource } from '@angular/common/http';
-import { computed, inject, Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Card, CardDetails } from '../../models/card';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

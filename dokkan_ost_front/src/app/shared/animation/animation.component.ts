@@ -9,15 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {
-  attachScenesForCard9517161ActiveSkill,
-  attachScenesForCard9523621ActiveSkill,
-  attachScenesForCard9514221ActiveSkill,
-  attachScenesForCard1016571ActiveSkill,
-  attachScenesForCard9517911ActiveSkill,
-  attachScenesForCard1024141ActiveSkill,
-  attachScenesForCard1025071ActiveSkill,
-} from '../../helpers/attach_scene';
+
 import {
   sp_effect_a1_00143_scenes,
   sp_effect_a1_00144_scenes,
@@ -27,12 +19,7 @@ import {
   sp_effect_a9_00094_scenes,
   triggerScenes,
 } from '../../data/scenes';
-import {
-  updateScene,
-  triggerNextScenes,
-  forceReplay,
-  isSpecialAnimationPlayed,
-} from '../../helpers/helpers';
+import { isSpecialAnimationPlayed } from '../../helpers/helpers';
 
 @Component({
   selector: 'app-animation',

@@ -1,8 +1,7 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { HomeService } from '../../services/home/home.service';
 import { CardComponent } from '../../shared/card/card.component';
-import { keysToCamel } from '../../helpers/helpers';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({

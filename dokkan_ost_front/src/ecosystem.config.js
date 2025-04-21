@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "angular-app",
-      script: "dist/server/server.mjs",
+      script: "./dokkan_ost/server/server.mjs",
       env: {
         PM2: "true",
       },

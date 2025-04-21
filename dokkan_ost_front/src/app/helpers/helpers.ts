@@ -15,6 +15,7 @@ import {
   attachScenesForCard4024901ActiveSkill,
   attachScenesForCard9517981ActiveSkill,
   attachScenesForCard1025631ActiveSkill,
+  attachScenesForCard9520311ActiveSkill,
 } from './attach_scene';
 
 export const toCamel = (s: string) => {
@@ -670,12 +671,15 @@ export function isSpecialAnimationPlayed(
         'battle',
         1
       );
+
+      attachScenesForCard9520311ActiveSkill(lwfInstance, attachedMovie);
       if (attachedMovie) {
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
 
       break;
     }
+
     default:
       break;
   }

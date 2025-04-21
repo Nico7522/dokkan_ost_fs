@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cardRoutes from "./routes/card_routes";
@@ -14,7 +14,7 @@ import logger from "./middlewares/logger.middleware";
 
 const app = express();
 
-app.use(logger);
+// app.use(logger);
 app.use(disablePostRequestMiddleware);
 app.use(cors());
 app.use(express.static("public"));

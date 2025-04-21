@@ -7,7 +7,7 @@
 
         <h1 routerLink="/home">Dokkan OST </h1>
     </div>
-    <span (click)="openMenu()">| | |</span>
+    <span (click)="openMenu()">|||</span>
     <ul class="desktop">
         <li [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" routerLink="/home">
             Home
@@ -16,13 +16,14 @@
         <li routerLink="/cards/9521431">Events</li>
     </ul>
     @if (isMenuClosed()) {
-    <ul class="mobile">
+
+    <ul class="mobile" @menuAnimation>
         <p (click)="closeMenu()">X</p>
-        <li>
+        <li [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" routerLink="/home">
             Home
         </li>
-        <li>Cards</li>
-        <li>Events</li>
+        <li [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" routerLink="/cards">Cards</li>
+        <li routerLink="/cards/9521431">Events</li>
     </ul>
 
     }

@@ -7,10 +7,10 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
     let clientIp = requestIp.getClientIp(req);
     readFile("logs.json", "utf-8", (err, data) => {
       let jsonData = {
+        date: new Date(),
         url: req.url,
         ip: clientIp,
       };
-
       fs.writeFile(
         "./logs.json",
         `[${data.replace("[", "").replace("]", "")},${JSON.stringify(

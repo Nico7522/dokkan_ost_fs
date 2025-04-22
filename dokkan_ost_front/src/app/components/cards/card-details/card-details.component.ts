@@ -34,6 +34,8 @@ export class CardDetailsComponent implements AfterViewInit {
   animationId = 0;
   entranceOstText = signal('Play OST');
   activeSkillOstText = signal('Play OST');
+  standbySkillOstText = signal('Play OST');
+
   showAnimation = signal(false);
   animationType = signal('');
   thumb = signal(0);
@@ -43,6 +45,8 @@ export class CardDetailsComponent implements AfterViewInit {
   entranceAudioRef!: ElementRef<HTMLAudioElement>;
   @ViewChild('activeSkillOst', { static: false })
   activeSkillOstRef!: ElementRef<HTMLAudioElement>;
+  @ViewChild('standbySkillOst', { static: false })
+  standbySkillOstRef!: ElementRef<HTMLAudioElement>;
   id = input<string>('');
   card$ = toObservable(this.id).pipe(
     debounceTime(200),
@@ -50,6 +54,8 @@ export class CardDetailsComponent implements AfterViewInit {
       return this.cardService.getCardById(+id).pipe(
         tap((x) => this.thumb.set(x.thumb)),
         map((card) => {
+          console.log(card);
+
           return keysToCamel(card);
         })
       );
@@ -131,12 +137,13 @@ export class CardDetailsComponent implements AfterViewInit {
     this.animationId = requestAnimationFrame(this.animate);
   };
 
-  playOst(type: 'entrance' | 'activeSkill') {
+  playOst(type: 'entrance' | 'activeSkill' | 'standbySkill') {
     const entranceAudio: HTMLAudioElement | null =
       this.entranceAudioRef?.nativeElement;
     const activeSkillAudio: HTMLAudioElement | null =
       this.activeSkillOstRef?.nativeElement;
-
+    const standbySkillAudio: HTMLAudioElement | null =
+      this.standbySkillOstRef?.nativeElement;
     if (type === 'entrance') {
       if (entranceAudio && this.entranceOstText() === 'Play OST') {
         entranceAudio.volume = 0.03;
@@ -172,9 +179,25 @@ export class CardDetailsComponent implements AfterViewInit {
         this.activeSkillOstText.set('Play OST');
       }
     }
+
+    if (type === 'standbySkill') {
+      if (standbySkillAudio && this.standbySkillOstText() === 'Play OST') {
+        console.log('ici');
+        standbySkillAudio.volume = 0.03;
+        standbySkillAudio.loop = true;
+        standbySkillAudio.play();
+
+        this.standbySkillOstText.set('Pause OST');
+      } else {
+        standbySkillAudio.volume = 0.03;
+        standbySkillAudio.loop = true;
+        standbySkillAudio.pause();
+        this.standbySkillOstText.set('Play OST');
+      }
+    }
   }
 
-  showAnimationComponent(type: 'entrance' | 'activeSkill') {
+  showAnimationComponent(type: 'entrance' | 'activeSkill' | 'standbySkill') {
     if (this.attachedMovie) this.attachedMovie.gotoAndStop();
     cancelAnimationFrame(this.animationId);
     this.showAnimation.set(true);

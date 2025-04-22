@@ -10,6 +10,8 @@ export interface Card {
 export interface CardDetails extends Card {
   entranceBgmId: number | null;
   asBgmId: number | null;
+  standbyBgmId: number | null;
   entranceFilename: string | null;
   asFilename: string | null;
+  standbyFilename: string | null;
 }

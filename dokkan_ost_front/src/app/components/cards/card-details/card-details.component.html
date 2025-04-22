@@ -48,6 +48,21 @@
         </div>
 
         }
+
+        @if (card.standbyBgmId) {
+        <div class="active-skill">
+            <h2>Standby Skill</h2>
+            <button (click)="playOst('standbySkill')"
+                [class]="card.type.toLowerCase()">{{standbySkillOstText()}}</button>
+            <button (click)="showAnimationComponent('activeSkill')" [class]="card.type.toLowerCase()">Play OST +
+                Animation</button>
+            <audio #standbySkillOst id="standbySkillOst">
+                <source
+                    [src]="apiUrl + '/bgm/' + 'bgm_' + (card.standbyBgmId >= 100 ?  card.standbyBgmId : '0'+card.standbyBgmId) + '.wav'"
+                    type="audio/mpeg" />
+            </audio>
+        </div>
+        }
     </div>
 </div>
 @if (showAnimation()) {

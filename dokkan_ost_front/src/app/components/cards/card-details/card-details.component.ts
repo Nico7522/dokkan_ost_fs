@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  computed,
   ElementRef,
   inject,
   input,
@@ -37,7 +38,7 @@ export class CardDetailsComponent implements AfterViewInit {
   standbySkillOstText = signal('Play OST');
 
   showAnimation = signal(false);
-  animationType = signal('');
+  filename = signal('');
   thumb = signal(0);
   @ViewChild('cardArtwork', { static: false })
   canvasRef!: ElementRef<HTMLCanvasElement> | null;
@@ -54,8 +55,6 @@ export class CardDetailsComponent implements AfterViewInit {
       return this.cardService.getCardById(+id).pipe(
         tap((x) => this.thumb.set(x.thumb)),
         map((card) => {
-          console.log(card);
-
           return keysToCamel(card);
         })
       );
@@ -182,7 +181,6 @@ export class CardDetailsComponent implements AfterViewInit {
 
     if (type === 'standbySkill') {
       if (standbySkillAudio && this.standbySkillOstText() === 'Play OST') {
-        console.log('ici');
         standbySkillAudio.volume = 0.03;
         standbySkillAudio.loop = true;
         standbySkillAudio.play();
@@ -197,11 +195,11 @@ export class CardDetailsComponent implements AfterViewInit {
     }
   }
 
-  showAnimationComponent(type: 'entrance' | 'activeSkill' | 'standbySkill') {
+  showAnimationComponent(filename: string) {
     if (this.attachedMovie) this.attachedMovie.gotoAndStop();
     cancelAnimationFrame(this.animationId);
     this.showAnimation.set(true);
-    this.animationType.set(type === 'entrance' ? 'intro' : 'active_skills');
+    this.filename.set(filename);
   }
 
   hideAnimationComponent() {

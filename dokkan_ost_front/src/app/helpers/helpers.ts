@@ -16,6 +16,7 @@ import {
   attachScenesForCard9517981ActiveSkill,
   attachScenesForCard1025631ActiveSkill,
   attachScenesForCard9520311ActiveSkill,
+  attachScenesForCard1026901StandbySkill,
 } from './attach_scene';
 
 export const toCamel = (s: string) => {
@@ -664,7 +665,6 @@ export function isSpecialAnimationPlayed(
     }
 
     case 'sp_effect_b1_00131.lwf': {
-      console.log(lwfInstance);
       isPlayed = true;
       let attachedMovie = lwfInstance.rootMovie.attachMovie(
         'ef_001',
@@ -677,6 +677,21 @@ export function isSpecialAnimationPlayed(
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
 
+      break;
+    }
+
+    case 'sp_effect_b4_00293.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001b',
+        'battle',
+        1
+      );
+
+      attachScenesForCard1026901StandbySkill(lwfInstance);
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
       break;
     }
 

@@ -523,3 +523,14 @@ export function attachScenesForCard9520311ActiveSkill(
     }
   });
 }
+
+export function attachScenesForCard1026901StandbySkill(lwfInstance: any) {
+  let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+    'ef_001',
+    'battle2',
+    1
+  );
+  if (attachedMovie2) {
+    attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+  }
+}

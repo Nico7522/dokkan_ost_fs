@@ -27,7 +27,7 @@
 
             <h2>Intro</h2>
             <button (click)="playOst('entrance')" [class]="card.type.toLowerCase()">{{entranceOstText()}}</button>
-            <button (click)="showAnimationComponent('entrance')" [class]="card.type.toLowerCase()">Play OST +
+            <button (click)="showAnimationComponent(card.entranceFilename)" [class]="card.type.toLowerCase()">Play OST +
                 Animation</button>
             <audio #entranceOst id="entranceOst">
                 <source [src]="apiUrl + '/bgm/' + 'bgm_' + card.entranceBgmId + '.wav'" type="audio/mpeg" />
@@ -38,7 +38,7 @@
         <div class="active-skill">
             <h2>Active Skill</h2>
             <button (click)="playOst('activeSkill')" [class]="card.type.toLowerCase()">{{activeSkillOstText()}}</button>
-            <button (click)="showAnimationComponent('activeSkill')" [class]="card.type.toLowerCase()">Play OST +
+            <button (click)="showAnimationComponent(card.asFilename)" [class]="card.type.toLowerCase()">Play OST +
                 Animation</button>
             <audio #activeSkillOst id="activeSkillOst">
                 <source
@@ -54,7 +54,7 @@
             <h2>Standby Skill</h2>
             <button (click)="playOst('standbySkill')"
                 [class]="card.type.toLowerCase()">{{standbySkillOstText()}}</button>
-            <button (click)="showAnimationComponent('activeSkill')" [class]="card.type.toLowerCase()">Play OST +
+            <button (click)="showAnimationComponent(card.standbyFilename)" [class]="card.type.toLowerCase()">Play OST +
                 Animation</button>
             <audio #standbySkillOst id="standbySkillOst">
                 <source
@@ -67,8 +67,7 @@
 </div>
 @if (showAnimation()) {
 
-<app-animation
-    [lwfData]="{prefix: apiUrl + '/animations/' + (animationType() === 'intro' ? card.entranceFilename : card.asFilename) + '/fr/', lwf: animationType() === 'intro' ? card.entranceFilename + '.lwf' : card.asFilename + '.lwf'}"
+<app-animation [lwfData]="{prefix: apiUrl + '/animations/' + filename() + '/fr/', lwf: filename() + '.lwf'}"
     (close)="hideAnimationComponent()" />
 }
 }

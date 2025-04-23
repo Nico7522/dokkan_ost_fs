@@ -33,13 +33,12 @@ export class HomeComponent {
     this.offset.update((offset) => offset + 20);
     this.homeService.setOffset(this.offset());
     this.updateQueryParams(this.offset().toString());
-    console.log('cc');
   }
   cards = this.homeService.cards.value;
 
   private updateQueryParams(queryParams: string) {
     this.router.navigate([], {
-      queryParams: { offset: queryParams },
+      queryParams: { offset: queryParams, limit: 20 },
     });
   }
 }

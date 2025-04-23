@@ -11,8 +11,10 @@
         @if (offset() > 0) {
         <button (click)="onPreviousCard()">Prev</button>
         }
-
+        @if (cards()?.length === 20) {
         <button (click)="onNextCards()">Next</button>
+        }
+
 
     </div>
 </section>

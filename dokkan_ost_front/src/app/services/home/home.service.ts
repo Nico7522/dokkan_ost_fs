@@ -11,9 +11,7 @@ export class HomeService {
   private readonly httpClient = inject(HttpClient);
   private readonly apiUrl = environment.API_URL;
   constructor() {}
-  // headers = new HttpHeaders()
-  //   .set('Authorization', 'Basic blah')
-  //   .set('secret', 'More blah');
+
   getCards(offset: number): Observable<Card[]> {
     return this.httpClient.get<Card[]>(`${this.apiUrl}/home?offset=${offset}`);
   }
@@ -28,7 +26,6 @@ export class HomeService {
       url: this._offset()
         ? `${this.apiUrl}/home?offset=${this._offset()}`
         : `${this.apiUrl}/home?offset=0`,
-      // headers: this.headers,
       defaultValue: [],
     }),
     {

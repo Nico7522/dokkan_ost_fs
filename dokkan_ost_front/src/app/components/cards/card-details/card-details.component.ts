@@ -48,6 +48,7 @@ export class CardDetailsComponent implements AfterViewInit {
   activeSkillOstRef!: ElementRef<HTMLAudioElement>;
   @ViewChild('standbySkillOst', { static: false })
   standbySkillOstRef!: ElementRef<HTMLAudioElement>;
+  timeout: NodeJS.Timeout | null = null;
   id = input<string>('');
   card$ = toObservable(this.id).pipe(
     debounceTime(200),
@@ -62,7 +63,7 @@ export class CardDetailsComponent implements AfterViewInit {
   );
   loadLWF() {
     if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         if (this.canvasRef) {
           console.log('Chargement LWF ...');
 
@@ -212,6 +213,9 @@ export class CardDetailsComponent implements AfterViewInit {
     if (this.lwfInstance) {
       this.lwfInstance.destroy();
       cancelAnimationFrame(this.animationId);
+    }
+    if (this.timeout) {
+      clearTimeout(this.timeout);
     }
   }
 }

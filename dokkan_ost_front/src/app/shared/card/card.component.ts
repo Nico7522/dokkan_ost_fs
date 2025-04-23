@@ -4,6 +4,7 @@ import {
   ElementRef,
   inject,
   input,
+  NgZone,
   PLATFORM_ID,
   signal,
   ViewChild,
@@ -32,7 +33,7 @@ export class CardComponent {
   canvasRef!: ElementRef<HTMLCanvasElement>;
   private readonly spinnerService = inject(NgxSpinnerService);
   private readonly router = inject(Router);
-
+  ngZone = inject(NgZone);
   attachedMovie: any;
   previousTick = 0;
   loadLWF() {
@@ -76,7 +77,9 @@ export class CardComponent {
     }
   }
   ngAfterViewInit() {
-    this.loadLWF();
+    this.ngZone.runOutsideAngular(() => {
+      this.loadLWF();
+    });
   }
   ngOnDestroy() {
     if (this.lwfInstance) {

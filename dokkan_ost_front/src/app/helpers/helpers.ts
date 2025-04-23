@@ -695,6 +695,40 @@ export function isSpecialAnimationPlayed(
       break;
     }
 
+    case 'sp_effect_a1_00487.lwf': {
+      console.log(lwfInstance);
+
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001_b',
+        'battle',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      let attachedMovie3 = lwfInstance.rootMovie.attachMovie(
+        'ef_001_r',
+        'battle3',
+        1
+      );
+      if (attachedMovie3) {
+        attachedMovie3.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      updateScene(lwfInstance, attachedMovie, ['ef_001', 'ef_002'], 0);
+      break;
+    }
+
     default:
       break;
   }

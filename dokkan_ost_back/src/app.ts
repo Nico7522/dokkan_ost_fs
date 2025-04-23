@@ -15,7 +15,7 @@ import logger from "./middlewares/logger.middleware";
 const app = express();
 
 // app.use(logger);
-app.use(disablePostRequestMiddleware);
+// app.use(disablePostRequestMiddleware);
 app.use(cors());
 app.use(express.static("public"));
 

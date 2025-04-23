@@ -4,7 +4,7 @@ import sqlite3
 import requests
 import time
 import pathlib
-dbfile = './db03042025.db'
+dbfile = './db_22042025.db'
 
 # Calcul les dégâts des attaques spéciales
 def calc_super_attack_damage(base_attack: int, special_description: str):
@@ -51,7 +51,8 @@ def feed_cards():
 
     con.row_factory = sqlite3.Row
     cur = con.cursor()
-    query = "SELECT * FROM (SELECT cards.id AS 'card_id', cards.name AS 'card_name', cards.element AS 'card_element', standby_skill_sets.bgm_id AS 'standby_bgm_id', finish_skill_sets.name AS 'finish_name', finish_skill_sets.bgm_id AS 'finish_skill_bgm_id'  FROM cards JOIN card_standby_skill_set_relations ON cards.id = card_standby_skill_set_relations.card_id JOIN standby_skill_sets ON card_standby_skill_set_relations.standby_skill_set_id = standby_skill_sets.id JOIN standby_skill_set_finish_skill_set_relations ON standby_skill_set_finish_skill_set_relations.standby_skill_set_id = standby_skill_sets.id JOIN finish_skill_sets ON standby_skill_set_finish_skill_set_relations.finish_skill_set_id = finish_skill_sets.id ORDER BY cards.id DESC) GROUP BY standby_bgm_id"
+    # query = "SELECT * FROM (SELECT cards.id AS 'card_id', cards.name AS 'card_name', cards.element AS 'card_element', standby_skill_sets.bgm_id AS 'standby_bgm_id', finish_skill_sets.name AS 'finish_name', finish_skill_sets.bgm_id AS 'finish_skill_bgm_id'  FROM cards JOIN card_standby_skill_set_relations ON cards.id = card_standby_skill_set_relations.card_id JOIN standby_skill_sets ON card_standby_skill_set_relations.standby_skill_set_id = standby_skill_sets.id JOIN standby_skill_set_finish_skill_set_relations ON standby_skill_set_finish_skill_set_relations.standby_skill_set_id = standby_skill_sets.id JOIN finish_skill_sets ON standby_skill_set_finish_skill_set_relations.finish_skill_set_id = finish_skill_sets.id ORDER BY cards.id DESC) GROUP BY standby_bgm_id"
+    query = "SELECT * FROM (SELECT cards.id AS 'card_id', cards.name AS 'card_name', cards.element AS 'card_element', finish_skill_sets.name AS 'finish_skill_name', finish_skill_sets.bgm_id AS 'finish_skill_bgm' FROM finish_skill_sets JOIN card_finish_skill_set_relations ON finish_skill_sets.id = card_finish_skill_set_relations.finish_skill_set_id JOIN cards ON cards.id = card_finish_skill_set_relations.card_id ORDER BY cards.id DESC) GROUP BY finish_skill_bgm"
     cur.execute(query)
     row = cur.fetchall()
     for card in row:
@@ -61,10 +62,11 @@ def feed_cards():
             "id": card['card_id'],
             "name": card['card_name'],
             "type": t,
-            "class": c
+            "class": c,
+            "thumb": card['card_id'] - 1
             }
           print(data)
-          res = requests.post('http://localhost:3000/cards', data=data)
+          res = requests.post('http://localhost:3200/cards', data=data)
           print(res.json())
           time.sleep(3)
 
@@ -224,4 +226,4 @@ def add_is_legendary():
         print(res.json())
         time.sleep(3)
 
-add_is_legendary()
+feed_cards()

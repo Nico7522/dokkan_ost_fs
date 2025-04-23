@@ -18,6 +18,15 @@ ORDER BY cards.id DESC)
 GROUP BY finish_skill_bgm_id
 
 
+-- Sélection des finish skills avec les cartes
+SELECT * FROM (SELECT cards.id AS 'card_id', cards.name AS 'card_name', cards.element AS 'card_element', finish_skill_sets.name AS 'finish_skill_name', finish_skill_sets.bgm_id AS 'finish_skill_bgm' FROM finish_skill_sets JOIN card_finish_skill_set_relations 
+ON finish_skill_sets.id = card_finish_skill_set_relations.finish_skill_set_id
+JOIN cards ON cards.id = card_finish_skill_set_relations.card_id
+ORDER BY cards.id DESC)
+GROUP BY finish_skill_bgm
+
+
+
 SELECT * FROM (SELECT cards.id AS 'card_id', cards.name AS 'card_name', card_standby_skill_set_relations.standby_skill_set_id AS 'standby_skill_id', standby_skill_set_finish_skill_set_relations.finish_skill_set_id AS 'finish_skill_id', standby_skill_sets.bgm_id AS 'standby_bgm_id', finish_skill_sets.name AS 'finish_name', finish_skill_sets.bgm_id AS 'finish_skill_bgm_id'  FROM cards JOIN card_standby_skill_set_relations ON cards.id = card_standby_skill_set_relations.card_id JOIN standby_skill_sets ON card_standby_skill_set_relations.standby_skill_set_id = standby_skill_sets.id JOIN standby_skill_set_finish_skill_set_relations ON standby_skill_set_finish_skill_set_relations.standby_skill_set_id = standby_skill_sets.id JOIN finish_skill_sets ON standby_skill_set_finish_skill_set_relations.finish_skill_set_id = finish_skill_sets.id ORDER BY cards.id DESC)  GROUP BY finish_skill_bgm_id 
 
 

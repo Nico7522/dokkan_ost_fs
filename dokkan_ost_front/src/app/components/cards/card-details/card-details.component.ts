@@ -56,6 +56,8 @@ export class CardDetailsComponent implements AfterViewInit {
       return this.cardService.getCardById(+id).pipe(
         tap((x) => this.thumb.set(x.thumb)),
         map((card) => {
+          console.log(card);
+
           return keysToCamel(card);
         })
       );

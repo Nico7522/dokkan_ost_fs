@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
@@ -18,6 +19,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-card',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
@@ -37,50 +39,57 @@ export class CardComponent {
   attachedMovie: any;
   previousTick = 0;
   loadLWF() {
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.card().isLegendary) {
-        const canvas = this.canvasRef.nativeElement;
+    this.ngZone.runOutsideAngular(() => {
+      if (isPlatformBrowser(this.platformId)) {
+        if (this.card().isLegendary) {
+          const canvas = this.canvasRef.nativeElement;
 
-        LWF.useCanvasRenderer();
-        LWF.ResourceCache.get().loadLWF({
-          lwf: 'icon_rare_20000.lwf',
-          prefix: './icon_rare/',
-          stage: canvas,
-          onload: (loadedLwfInstance: any) => {
-            this.lwfInstance = loadedLwfInstance;
+          LWF.useCanvasRenderer();
+          LWF.ResourceCache.get().loadLWF({
+            lwf: 'icon_rare_20000.lwf',
+            prefix: './icon_rare/',
+            stage: canvas,
+            onload: (loadedLwfInstance: any) => {
+              this.ngZone.run(() => {
+                this.lwfInstance = loadedLwfInstance;
 
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-            this.attachedMovie.moveTo(
-              this.lwfInstance.width / 14,
-              this.lwfInstance.height / 25
-            );
+                this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                  'ef_001',
+                  'battle',
+                  1
+                );
+                this.attachedMovie.moveTo(
+                  this.lwfInstance.width / 14,
+                  this.lwfInstance.height / 25
+                );
 
-            this.attachedMovie.scaleX = 0.9;
-            this.attachedMovie.scaleY = 0.9;
+                this.attachedMovie.scaleX = 0.9;
+                this.attachedMovie.scaleY = 0.9;
 
-            this.animate();
-
+                this.animate();
+                this.spinnerService.hide('loader');
+                this.spinnerService.hide('cards');
+              });
+            },
+            onerror: (error: any) => {
+              console.error('Erreur lors du chargement de LWF :', error);
+            },
+          });
+        } else {
+          this.ngZone.run(() => {
             this.spinnerService.hide('loader');
-            this.spinnerService.hide('cards');
-          },
-          onerror: (error: any) => {
-            console.error('Erreur lors du chargement de LWF :', error);
-          },
-        });
-      } else {
-        this.spinnerService.hide('loader');
+          });
+        }
       }
-    }
+    });
   }
+
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
       this.loadLWF();
     });
   }
+
   ngOnDestroy() {
     if (this.lwfInstance) {
       this.lwfInstance.destroy();

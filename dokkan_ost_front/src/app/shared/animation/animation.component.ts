@@ -4,7 +4,9 @@ import {
   EventEmitter,
   inject,
   input,
+  NgZone,
   Output,
+  PLATFORM_ID,
   signal,
   viewChild,
 } from '@angular/core';
@@ -20,6 +22,8 @@ import {
   triggerScenes,
 } from '../../data/scenes';
 import { isSpecialAnimationPlayed } from '../../helpers/helpers';
+import { isPlatformBrowser } from '@angular/common';
+import { AnimationService } from '../../services/animation/animation.service';
 
 @Component({
   selector: 'app-animation',
@@ -28,17 +32,19 @@ import { isSpecialAnimationPlayed } from '../../helpers/helpers';
 })
 export class AnimationComponent {
   private readonly spinnerService = inject(NgxSpinnerService);
+  private readonly animationService = inject(AnimationService);
   errorMessage = signal('');
   previousTick = 0;
   lwfInstance: any;
   attachedMovie: any;
   animationId = 0;
-
+  private platformId = inject(PLATFORM_ID);
   lwfData = input.required<{ prefix: string; lwf: string }>();
   @Output() close = new EventEmitter<boolean>();
   body = document.querySelector('body') as HTMLBodyElement;
   readonly canvasRef =
     viewChild.required<ElementRef<HTMLCanvasElement>>('cardIntro');
+  private ngZone = inject(NgZone);
   triggerScenes = triggerScenes;
   sp_effect_a2_00174_scenes = sp_effect_a2_00174_scenes;
   sp_effect_a1_00364_scenes = sp_effect_a1_00364_scenes;
@@ -96,7 +102,9 @@ export class AnimationComponent {
 
   ngAfterViewInit() {
     this.body.classList.add('no-scroll');
-    this.loadAnimation();
+    this.ngZone.runOutsideAngular(() => {
+      this.loadLWF();
+    });
   }
 
   ngOnDestroy() {
@@ -104,74 +112,139 @@ export class AnimationComponent {
     this.lwfInstance.destroy();
     cancelAnimationFrame(this.animationId);
   }
+  loadLWF() {
+    this.ngZone.runOutsideAngular(() => {
+      if (isPlatformBrowser(this.platformId)) {
+        if (this.canvasRef) {
+          const canvas = this.canvasRef().nativeElement;
+          LWF.useCanvasRenderer();
+          this.animationService
+            .loadLwf(this.lwfData().lwf, {
+              lwf: this.lwfData().lwf,
+              prefix: this.lwfData().prefix,
+              stage: canvas,
+            })
+            .then((loadedLwfInstance: any) => {
+              this.ngZone.run(() => {
+                this.lwfInstance = loadedLwfInstance;
+                if (!this.lwfInstance) {
+                  this.spinnerService.hide('loader');
+                  this.errorMessage.set('Animation unavailable');
+                }
+                this.canvasRef()?.nativeElement.classList.add('intro');
+                let isPlayed = isSpecialAnimationPlayed(
+                  this.lwfInstance,
+                  this.i,
+                  this.lwfData().lwf
+                );
 
-  loadAnimation() {
-    this.spinnerService.show('loader');
-    const canvasRef = this.canvasRef();
-    if (canvasRef) {
-      const canvas = canvasRef.nativeElement;
-      if (!canvas) {
-        console.error('Canvas non trouvé');
-        return;
+                // Si aucune animation
+                if (!isPlayed) {
+                  this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                    'ef_001',
+                    'battle',
+                    1
+                  );
+
+                  let i = 1;
+                  while (!this.attachedMovie && i < this.triggerScenes.length) {
+                    this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                      this.triggerScenes[i],
+                      'battle',
+                      1
+                    );
+                    i++;
+                  }
+
+                  if (this.attachedMovie) {
+                    this.attachedMovie.moveTo(
+                      this.lwfInstance.width / 2,
+                      this.lwfInstance.height / 2
+                    );
+                  }
+                }
+
+                // this.lwfInstance.scaleForHeight(canvas.width, canvas.height);
+                this.spinnerService.hide('loader');
+                this.animate();
+              });
+            })
+            .catch((error: any) => {
+              console.error('Erreur lors du chargement de LWF :', error);
+            });
+        }
       }
-      LWF.useCanvasRenderer();
-      LWF.ResourceCache.get().loadLWF({
-        lwf: this.lwfData().lwf,
-        prefix: this.lwfData().prefix,
-
-        setBackgroundColor: 'FF000000',
-        additionalParams: {
-          alpha: true,
-          premultipliedAlpha: true,
-        },
-        stage: canvas,
-        onload: (loadedLwfInstance: any) => {
-          this.lwfInstance = loadedLwfInstance;
-          if (!this.lwfInstance) {
-            this.spinnerService.hide('loader');
-            this.errorMessage.set('Animation unavailable');
-          }
-          this.canvasRef()?.nativeElement.classList.add('intro');
-          let isPlayed = isSpecialAnimationPlayed(
-            this.lwfInstance,
-            this.i,
-            this.lwfData().lwf
-          );
-
-          // Si aucune animation
-          if (!isPlayed) {
-            this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-              'ef_001',
-              'battle',
-              1
-            );
-
-            let i = 1;
-            while (!this.attachedMovie && i < this.triggerScenes.length) {
-              this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-                this.triggerScenes[i],
-                'battle',
-                1
-              );
-              i++;
-            }
-
-            if (this.attachedMovie) {
-              this.attachedMovie.moveTo(
-                this.lwfInstance.width / 2,
-                this.lwfInstance.height / 2
-              );
-            }
-          }
-
-          // this.lwfInstance.scaleForHeight(canvas.width, canvas.height);
-          this.spinnerService.hide('loader');
-          this.animate();
-        },
-        onerror: (error: any) => {
-          console.error('Erreur lors du chargement de LWF :', error);
-        },
-      });
-    }
+    });
   }
+
+  // Version sans le service
+  // loadAnimation() {
+  //   this.spinnerService.show('loader');
+  //   const canvasRef = this.canvasRef();
+  //   if (canvasRef) {
+  //     const canvas = canvasRef.nativeElement;
+  //     if (!canvas) {
+  //       console.error('Canvas non trouvé');
+  //       return;
+  //     }
+  //     LWF.useCanvasRenderer();
+  //     LWF.ResourceCache.get().loadLWF({
+  //       lwf: this.lwfData().lwf,
+  //       prefix: this.lwfData().prefix,
+
+  //       setBackgroundColor: 'FF000000',
+  //       additionalParams: {
+  //         alpha: true,
+  //         premultipliedAlpha: true,
+  //       },
+  //       stage: canvas,
+  //       onload: (loadedLwfInstance: any) => {
+  //         this.lwfInstance = loadedLwfInstance;
+  //         if (!this.lwfInstance) {
+  //           this.spinnerService.hide('loader');
+  //           this.errorMessage.set('Animation unavailable');
+  //         }
+  //         this.canvasRef()?.nativeElement.classList.add('intro');
+  //         let isPlayed = isSpecialAnimationPlayed(
+  //           this.lwfInstance,
+  //           this.i,
+  //           this.lwfData().lwf
+  //         );
+
+  //         // Si aucune animation
+  //         if (!isPlayed) {
+  //           this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+  //             'ef_001',
+  //             'battle',
+  //             1
+  //           );
+
+  //           let i = 1;
+  //           while (!this.attachedMovie && i < this.triggerScenes.length) {
+  //             this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+  //               this.triggerScenes[i],
+  //               'battle',
+  //               1
+  //             );
+  //             i++;
+  //           }
+
+  //           if (this.attachedMovie) {
+  //             this.attachedMovie.moveTo(
+  //               this.lwfInstance.width / 2,
+  //               this.lwfInstance.height / 2
+  //             );
+  //           }
+  //         }
+
+  //         // this.lwfInstance.scaleForHeight(canvas.width, canvas.height);
+  //         this.spinnerService.hide('loader');
+  //         this.animate();
+  //       },
+  //       onerror: (error: any) => {
+  //         console.error('Erreur lors du chargement de LWF :', error);
+  //       },
+  //     });
+  //   }
+  // }
 }

@@ -15,6 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { AnimationService } from '../../services/animation/animation.service';
 
 @Component({
   selector: 'app-card',
@@ -35,54 +36,106 @@ export class CardComponent {
   canvasRef!: ElementRef<HTMLCanvasElement>;
   private readonly spinnerService = inject(NgxSpinnerService);
   private readonly router = inject(Router);
-  ngZone = inject(NgZone);
+  private readonly animationService = inject(AnimationService);
+  private ngZone = inject(NgZone);
   attachedMovie: any;
   previousTick = 0;
+
   loadLWF() {
     this.ngZone.runOutsideAngular(() => {
       if (isPlatformBrowser(this.platformId)) {
         if (this.card().isLegendary) {
           const canvas = this.canvasRef.nativeElement;
-
           LWF.useCanvasRenderer();
-          LWF.ResourceCache.get().loadLWF({
-            lwf: 'icon_rare_20000.lwf',
-            prefix: './icon_rare/',
-            stage: canvas,
-            onload: (loadedLwfInstance: any) => {
+          this.animationService
+            .loadLwf('icon_rare_20000', {
+              lwf: 'icon_rare_20000.lwf',
+              prefix: './icon_rare/',
+              stage: canvas,
+            })
+            .then((loadedLwfInstance: any) => {
               this.ngZone.run(() => {
-                this.lwfInstance = loadedLwfInstance;
+                if (this.lwfInstance) {
+                  this.animationService.reattachLWF(this.lwfInstance, canvas);
+                } else {
+                  this.lwfInstance = loadedLwfInstance;
+                  const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                    'ef_001',
+                    'battle',
+                    1
+                  );
+                  attachedMovie.moveTo(
+                    this.lwfInstance.width / 14,
+                    this.lwfInstance.height / 25
+                  );
+                  attachedMovie.scaleX = 0.9;
+                  attachedMovie.scaleY = 0.9;
 
-                this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-                  'ef_001',
-                  'battle',
-                  1
-                );
-                this.attachedMovie.moveTo(
-                  this.lwfInstance.width / 14,
-                  this.lwfInstance.height / 25
-                );
-
-                this.attachedMovie.scaleX = 0.9;
-                this.attachedMovie.scaleY = 0.9;
-
-                this.animate();
-                this.spinnerService.hide('loader');
-                this.spinnerService.hide('cards');
+                  this.animate();
+                  this.spinnerService.hide('loader');
+                  this.spinnerService.hide('cards');
+                }
               });
-            },
-            onerror: (error: any) => {
+            })
+            .catch((error: any) => {
               console.error('Erreur lors du chargement de LWF :', error);
-            },
-          });
+            });
         } else {
           this.ngZone.run(() => {
             this.spinnerService.hide('loader');
+            this.spinnerService.hide('card');
           });
         }
       }
     });
   }
+
+  // Version dans le service
+  // loadLWF() {
+  //   this.ngZone.runOutsideAngular(() => {
+  //     if (isPlatformBrowser(this.platformId)) {
+  //       if (this.card().isLegendary) {
+  //         const canvas = this.canvasRef.nativeElement;
+
+  //         LWF.useCanvasRenderer();
+  //         LWF.ResourceCache.get().loadLWF({
+  //           lwf: 'icon_rare_20000.lwf',
+  //           prefix: './icon_rare/',
+  //           stage: canvas,
+  //           onload: (loadedLwfInstance: any) => {
+  //             this.ngZone.run(() => {
+  //               this.lwfInstance = loadedLwfInstance;
+
+  //               this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+  //                 'ef_001',
+  //                 'battle',
+  //                 1
+  //               );
+  //               this.attachedMovie.moveTo(
+  //                 this.lwfInstance.width / 14,
+  //                 this.lwfInstance.height / 25
+  //               );
+
+  //               this.attachedMovie.scaleX = 0.9;
+  //               this.attachedMovie.scaleY = 0.9;
+
+  //               this.animate();
+  //               this.spinnerService.hide('loader');
+  //               this.spinnerService.hide('cards');
+  //             });
+  //           },
+  //           onerror: (error: any) => {
+  //             console.error('Erreur lors du chargement de LWF :', error);
+  //           },
+  //         });
+  //       } else {
+  //         this.ngZone.run(() => {
+  //           this.spinnerService.hide('loader');
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
 
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {

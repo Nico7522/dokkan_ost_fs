@@ -18,7 +18,6 @@ cardRoutes.get("/home", async (req: Request, res: Response, next) => {
 cardRoutes.get("/cards", async (req: Request, res: Response) => {
   try {
     const query = req.query.name ? req.query.name : "";
-    console.log(query);
     const text = "SELECT * FROM cards WHERE name ILIKE $1";
     const results = await pool.query(text, [`%${query}%`]);
     res.json(results.rows);

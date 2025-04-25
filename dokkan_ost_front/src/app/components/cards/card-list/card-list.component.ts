@@ -22,11 +22,17 @@ export class CardsComponent {
   cards = input<Card[]>([]);
   private readonly cardService = inject(CardsService);
   private readonly spinnerService = inject(NgxSpinnerService);
-  cards$ = this.cardService.getCards().pipe(
-    map((cards) => {
+  cardData$ = this.cardService.getCards().pipe(
+    map((result) => {
+      console.log(result.total, result.nbPage);
       this.spinnerService.show('cards');
-      cards = cards.map((c) => keysToCamel(c));
-      return cards;
+      let c = result.data.map((c) => keysToCamel(c));
+
+      return {
+        cards: c,
+        total: result.total,
+        nbPage: result.nbPage,
+      };
     })
   );
 }

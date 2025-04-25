@@ -17,15 +17,28 @@ cardRoutes.get("/home", async (req: Request, res: Response, next) => {
 });
 cardRoutes.get("/cards", async (req: Request, res: Response) => {
   try {
+    let total = await getCards();
+
     const query = req.query.name ? req.query.name : "";
-    const text = "SELECT * FROM cards WHERE name ILIKE $1";
-    const results = await pool.query(text, [`%${query}%`]);
-    res.json(results.rows);
+    const page = req.query.page;
+    const text =
+      "SELECT * FROM cards WHERE name ILIKE $1 LIMIT 90 OFFSET ($2 - 1) * 90";
+    const results = await pool.query(text, [`%${query}%`, page]);
+    res.json({
+      total,
+      data: results.rows,
+      nbPage: Math.round(total / 90 + 1),
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error fetching cards" });
   }
 });
+
+const getCards = async (): Promise<number> => {
+  const results = await pool.query("SELECT COUNT(*) FROM cards");
+  return results.rows[0].count as number;
+};
 
 cardRoutes.get("/cards/:id", async (req: Request, res: Response) => {
   try {

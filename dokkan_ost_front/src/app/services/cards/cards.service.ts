@@ -12,8 +12,10 @@ export class CardsService {
   private readonly apiUrl = environment.API_URL;
   constructor() {}
 
-  getCards(): Observable<Card[]> {
-    return this.httpClient.get<Card[]>(`${this.apiUrl}/cards`);
+  getCards(): Observable<{ data: Card[]; nbPage: number; total: number }> {
+    return this.httpClient.get<{ data: Card[]; nbPage: number; total: number }>(
+      `${this.apiUrl}/cards?page=1`
+    );
   }
 
   getCardById(id: number): Observable<CardDetails> {

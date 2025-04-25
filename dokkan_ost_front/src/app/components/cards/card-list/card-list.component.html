@@ -1,9 +1,19 @@
 <ngx-spinner name="cards" template="<img src='./header-logo.gif' width='150px' />"></ngx-spinner>
-<section class="cards">
-    @for (card of cards$ | async; track $index) {
-    <app-card [card]="card" />
-    }
+<section>
 
+    @if (cardData$ | async; as result) {
+    <div class="cards">
+        @for (card of result.cards; track $index) {
+        <app-card [card]="card" />
+        }
+    </div>
+    <div class="btn">
+        @for (page of [].constructor(result.nbPage); track $index) {
+        <button>{{$index+1}}</button>
+        }
+
+    </div>
+    }
 </section>
 
 

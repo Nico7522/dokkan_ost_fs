@@ -3,7 +3,7 @@ import pool from "../db/db";
 import { Card } from "../interfaces/card";
 import { cardChecker } from "../utils/checker";
 const cardRoutes = Router();
-
+let total = 0;
 cardRoutes.get("/home", async (req: Request, res: Response, next) => {
   try {
     const text = "SELECT * FROM cards LIMIT 20 OFFSET $1";
@@ -17,28 +17,30 @@ cardRoutes.get("/home", async (req: Request, res: Response, next) => {
 });
 cardRoutes.get("/cards", async (req: Request, res: Response) => {
   try {
-    let total = await getCards();
-
-    const query = req.query.name ? req.query.name : "";
-    const page = req.query.page;
-    const text =
-      "SELECT * FROM cards WHERE name ILIKE $1 LIMIT 90 OFFSET ($2 - 1) * 90";
-    const results = await pool.query(text, [`%${query}%`, page]);
-    res.json({
-      total,
-      data: results.rows,
-      nbPage: Math.round(total / 90 + 1),
-    });
+    if (req.query.name) {
+      const text = "SELECT * FROM cards WHERE name ILIKE $1";
+      const results = await pool.query(text, [`%${req.query.name}%`]);
+      res.json({
+        data: results.rows,
+      });
+    } else {
+      if (total === 0) {
+        console.log("ici");
+        total = await getCards();
+      }
+      const text = "SELECT * FROM cards LIMIT 90 OFFSET ($1 - 1) * 90";
+      const results = await pool.query(text, [req.query.page]);
+      res.json({
+        total,
+        data: results.rows,
+        nbPage: Math.round(total / 90 + 1),
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error fetching cards" });
   }
 });
-
-const getCards = async (): Promise<number> => {
-  const results = await pool.query("SELECT COUNT(*) FROM cards");
-  return results.rows[0].count as number;
-};
 
 cardRoutes.get("/cards/:id", async (req: Request, res: Response) => {
   try {
@@ -76,4 +78,8 @@ cardRoutes.post("/cards", async (req: Request, res: Response) => {
   }
 });
 
+const getCards = async (): Promise<number> => {
+  const results = await pool.query("SELECT COUNT(*) FROM cards");
+  return results.rows[0].count as number;
+};
 export default cardRoutes;

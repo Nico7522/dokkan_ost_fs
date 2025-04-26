@@ -1,6 +1,9 @@
 <ngx-spinner name="cards" template="<img src='./header-logo.gif' width='150px' />"></ngx-spinner>
 <section>
+    <div class="search-bar">
+        <app-searchbar (cardName)="onSearch($event)" />
 
+    </div>
     @if (result()) {
     <div class="cards">
         @for (card of result()?.cards; track $index) {
@@ -8,7 +11,7 @@
         }
     </div>
     <div class="btn">
-        @for (page of [].constructor(result()?.nbPage); track $index) {
+        @for (page of nbButton(); track $index) {
         <button (click)="setPage($index+1)">{{$index+1}}</button>
         }
 

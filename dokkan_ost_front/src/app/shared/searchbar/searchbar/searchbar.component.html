@@ -1,0 +1,13 @@
+<div>
+    <input (keydown.enter)="onSearch(search.value)" type="text" placeholder="Vegeta..." #search>
+    <button type="button" (click)="onSearch(search.value)">
+        <img src="search-icon.png" alt="">
+    </button>
+    @if (showResetButton()) {
+    <button (click)="reset()">
+        <img class="reset" src="reset.png" alt="">
+    </button>
+
+    }
+
+</div>

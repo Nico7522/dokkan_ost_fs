@@ -47,6 +47,8 @@ export class CardComponent {
         if (this.card().isLegendary) {
           const canvas = this.canvasRef.nativeElement;
           LWF.useCanvasRenderer();
+          console.log('legendary');
+
           this.animationService
             .loadLwf('icon_rare_20000', {
               lwf: 'icon_rare_20000.lwf',

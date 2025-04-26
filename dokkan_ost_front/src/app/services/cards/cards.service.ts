@@ -1,10 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import {
+  debounce,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  tap,
+} from 'rxjs';
 import { Card, CardDetails } from '../../models/card';
 import { environment } from '../../../environments/environment';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { keysToCamel } from '../../helpers/helpers';
+import { toNamespacedPath } from 'path/posix';
 
 @Injectable({
   providedIn: 'root',
@@ -24,15 +33,21 @@ export class CardsService {
     return this.httpClient.get<CardDetails>(`${this.apiUrl}/cards/${id}`);
   }
 
-  private page = signal('1');
-  private name = signal('');
+  private _page = signal('1');
+  page = this._page.asReadonly();
   setPage(pageNumber: string) {
-    this.page.set(pageNumber);
+    this._page.set(pageNumber);
+  }
+
+  private _name = signal('');
+  name = this._name.asReadonly();
+  onSearch(name: string) {
+    this._name.set(name);
   }
   cards = rxResource({
     request: () => ({
-      page: this.page(),
-      name: this.name(),
+      page: this._page(),
+      name: this._name(),
     }),
     loader: ({ request }) =>
       this.httpClient
@@ -40,6 +55,8 @@ export class CardsService {
           `${this.apiUrl}/cards?page=${request.page}&name=${request.name}`
         )
         .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
           map((result) => {
             let cards = result.data.map((c) => keysToCamel(c));
             return {

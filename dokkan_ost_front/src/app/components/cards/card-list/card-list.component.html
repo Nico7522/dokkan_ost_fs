@@ -1,15 +1,15 @@
 <ngx-spinner name="cards" template="<img src='./header-logo.gif' width='150px' />"></ngx-spinner>
 <section>
 
-    @if (cardData$ | async; as result) {
+    @if (result()) {
     <div class="cards">
-        @for (card of result.cards; track $index) {
+        @for (card of result()?.cards; track $index) {
         <app-card [card]="card" />
         }
     </div>
     <div class="btn">
-        @for (page of [].constructor(result.nbPage); track $index) {
-        <button>{{$index+1}}</button>
+        @for (page of [].constructor(result()?.nbPage); track $index) {
+        <button (click)="setPage($index+1)">{{$index+1}}</button>
         }
 
     </div>

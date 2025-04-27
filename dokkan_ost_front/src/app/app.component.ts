@@ -1,15 +1,14 @@
 import {
   Component,
   ElementRef,
-  AfterViewInit,
   signal,
   inject,
   viewChild,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { HeaderComponent } from './shared/header/header.component';
-import { AnimationService } from './services/animation/animation.service';
+import { HeaderComponent } from '@shared/header/header.component';
+import { AnimationService } from '@services/animation/animation.service';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NgxSpinnerModule, HeaderComponent],

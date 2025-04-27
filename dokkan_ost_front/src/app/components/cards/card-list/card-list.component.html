@@ -1,12 +1,24 @@
 <ngx-spinner name="cards" template="<img src='./header-logo.gif' width='150px' />"></ngx-spinner>
 <section>
     <div class="search-bar">
-        <app-searchbar (cardName)="onSearch($event)" />
+        <app-searchbar (searchByName)="onSearchByName($event)" />
 
     </div>
+    @if (error()) {
+    <div class="error">
+        <span>Cards can't be fetch</span>
+    </div>
+
+    }
+    @if (noResultFound()) {
+    <div class="error">
+        <span>No result found</span>
+    </div>
+
+    }
     @if (result()) {
     <div class="cards">
-        @for (card of result()?.cards; track $index) {
+        @for (card of result().cards; track $index) {
         <app-card [card]="card" />
         }
     </div>

@@ -25,7 +25,6 @@ cardRoutes.get("/cards", async (req: Request, res: Response) => {
       });
     } else {
       if (total === 0) {
-        console.log("ici");
         total = await getCards();
       }
       const text = "SELECT * FROM cards LIMIT 90 OFFSET ($1 - 1) * 90";
@@ -46,7 +45,7 @@ cardRoutes.get("/cards/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const text =
-      "SELECT cards.*, entrances.bgm_id AS entrance_bgm_id, active_skills.bgm_id AS as_bgm_id, standby_skills.bgm_id AS standby_bgm_id, entrances.filename AS entrance_filename, active_skills.filename AS as_filename, standby_skills.filename AS standby_filename FROM cards FULL JOIN entrances ON cards.id = entrances.card_id FULL JOIN active_skills ON active_skills.card_id = cards.id FULL JOIN standby_skills ON cards.id = standby_skills.card_id WHERE cards.id = $1";
+      "SELECT cards.*, entrances.bgm_id AS entrance_bgm_id, active_skills.bgm_id AS as_bgm_id, standby_skills.bgm_id AS standby_bgm_id, finish_skills.bgm_id AS finish_skill_bgm_id, entrances.filename AS entrance_filename, active_skills.filename AS as_filename, standby_skills.filename AS standby_filename, finish_skills.filename AS finish_skill_filename FROM cards FULL JOIN entrances ON cards.id = entrances.card_id FULL JOIN active_skills ON active_skills.card_id = cards.id FULL JOIN standby_skills ON cards.id = standby_skills.card_id FULL JOIN finish_skills ON finish_skills.card_id = cards.id WHERE cards.id = $1";
     const values = [id];
     const results = await pool.query(text, values);
 

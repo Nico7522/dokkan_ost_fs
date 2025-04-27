@@ -9,11 +9,12 @@ import {
   Observable,
   tap,
 } from 'rxjs';
-import { Card, CardDetails } from '../../models/card';
+import { Card, CardDetails } from '../../models/card.interface';
 import { environment } from '../../../environments/environment';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { keysToCamel } from '../../helpers/helpers';
 import { toNamespacedPath } from 'path/posix';
+import { ApiResponse } from 'app/models/api-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,8 @@ export class CardsService {
   private readonly apiUrl = environment.API_URL;
   constructor() {}
 
-  getCards(): Observable<{ data: Card[]; nbPage: number; total: number }> {
-    return this.httpClient.get<{ data: Card[]; nbPage: number; total: number }>(
+  getCards(): Observable<ApiResponse<Card[]>> {
+    return this.httpClient.get<ApiResponse<Card[]>>(
       `${this.apiUrl}/cards?page=1`
     );
   }
@@ -51,7 +52,7 @@ export class CardsService {
     }),
     loader: ({ request }) =>
       this.httpClient
-        .get<{ data: Card[]; nbPage: number; total: number }>(
+        .get<ApiResponse<Card[]>>(
           `${this.apiUrl}/cards?page=${request.page}&name=${request.name}`
         )
         .pipe(
@@ -66,5 +67,6 @@ export class CardsService {
             };
           })
         ),
+    defaultValue: { cards: [], nbPage: 0, total: 0 },
   });
 }

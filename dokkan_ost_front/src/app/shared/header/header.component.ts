@@ -1,13 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  // ...
-} from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-header',

@@ -8,13 +8,17 @@ import { Component, output, Output, signal } from '@angular/core';
 })
 export class SearchbarComponent {
   showResetButton = signal(false);
-  cardName = output<string>();
+  searchByName = output<string>();
   onSearch(name: string) {
-    this.cardName.emit(name);
+    if (!name) {
+      return;
+    }
+
+    this.searchByName.emit(name);
     this.showResetButton.set(true);
   }
   reset() {
-    this.onSearch('');
+    this.searchByName.emit('');
     this.showResetButton.set(false);
   }
 }

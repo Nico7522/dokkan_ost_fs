@@ -54,3 +54,17 @@ button:focus {
   align-items: center;
   padding: 10px;
 }
+.error {
+  background: #923b3b;
+  height: 50px;
+  display: flex;
+  width: 10%;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+
+  & span {
+    padding: 3px;
+    font-family: "dokkan";
+  }
+}

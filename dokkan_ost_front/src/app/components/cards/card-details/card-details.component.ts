@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  computed,
   ElementRef,
   inject,
   input,
@@ -10,16 +9,16 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { CardsService } from '../../../services/cards/cards.service';
+import { CardsService } from '@services/cards/cards.service';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime, map, switchMap, tap } from 'rxjs';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
-import { CardComponent } from '../../../shared/card/card.component';
+import { CardComponent } from '@shared/card/card.component';
 import { keysToCamel } from '../../../helpers/helpers';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { AnimationComponent } from '../../../shared/animation/animation.component';
+import { AnimationComponent } from '@shared/animation/animation.component';
 import { environment } from '../../../../environments/environment';
-import { AnimationService } from '../../../services/animation/animation.service';
+import { AnimationService } from '@services/animation/animation.service';
 @Component({
   selector: 'app-card-details',
   standalone: true,

@@ -1,5 +1,5 @@
 import { ResolveFn } from '@angular/router';
-import { Card } from '../../models/card';
+import { Card } from '../../models/card.interface';
 import { Observable, of, tap } from 'rxjs';
 import { CardsService } from './cards.service';
 import { inject, makeStateKey, StateKey, TransferState } from '@angular/core';

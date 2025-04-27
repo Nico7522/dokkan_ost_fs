@@ -1,13 +1,11 @@
 import { Component, computed, inject, PLATFORM_ID } from '@angular/core';
-import { CardsService } from '../../../services/cards/cards.service';
+import { CardsService } from '@services/cards/cards.service';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
-import { map } from 'rxjs';
-import { keysToCamel } from '../../../helpers/helpers';
 import { isPlatformBrowser } from '@angular/common';
-import { CardComponent } from '../../../shared/card/card.component';
+import { CardComponent } from '@shared/card/card.component';
 import { Router, RouterOutlet } from '@angular/router';
-import { Card } from '../../../models/card';
-import { SearchbarComponent } from '../../../shared/searchbar/searchbar/searchbar.component';
+import { SearchbarComponent } from '@shared/searchbar/searchbar.component';
+import { Card } from 'app/models/card.interface';
 
 @Component({
   selector: 'app-cards',
@@ -30,10 +28,12 @@ export class CardsComponent {
   private readonly spinnerService = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   page = this.cardService.page;
-  onSearch(name: string) {
+  onSearchByName(name: string) {
     this.cardService.onSearch(name);
+    this.updateQueryParams({ name });
   }
   ngOnInit() {
+    this.spinnerService.show('cards');
     this.updateQueryParams({ page: this.page() });
   }
   // cardData$ = this.cardService.getCards().pipe(
@@ -49,7 +49,14 @@ export class CardsComponent {
   // );
 
   result = this.cardService.cards.value;
+  error = computed(() => {
+    this.spinnerService.hide('cards');
+    return this.cardService.cards.error();
+  });
   nbButton = computed(() => Array(this.result()?.nbPage));
+  noResultFound = computed(
+    () => this.result().cards.length <= 0 && !this.error()
+  );
   setPage(pageNumber: number) {
     this.updateQueryParams({ page: pageNumber.toString() });
     this.cardService.setPage(pageNumber.toString());

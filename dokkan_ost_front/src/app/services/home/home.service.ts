@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { inject, Injectable, input, signal } from '@angular/core';
-import { Card } from '../../models/card';
+import { Card } from '../../models/card.interface';
 import { Observable } from 'rxjs';
 import { keysToCamel } from '../../helpers/helpers';
 import { environment } from '../../../environments/environment';

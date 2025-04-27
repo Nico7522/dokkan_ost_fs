@@ -1,7 +1,6 @@
 import { Component, inject, input, signal } from '@angular/core';
-
-import { HomeService } from '../../services/home/home.service';
-import { CardComponent } from '../../shared/card/card.component';
+import { HomeService } from '@services/home/home.service';
+import { CardComponent } from '@shared/card/card.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 

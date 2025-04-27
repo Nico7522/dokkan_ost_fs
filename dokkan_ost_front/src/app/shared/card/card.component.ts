@@ -1,21 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   ElementRef,
   inject,
   input,
   NgZone,
   PLATFORM_ID,
-  signal,
   ViewChild,
 } from '@angular/core';
-import { Card } from '../../models/card';
+import { Card } from '../../models/card.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../environments/environment';
-import { AnimationService } from '../../services/animation/animation.service';
+import { AnimationService } from '@services/animation/animation.service';
 
 @Component({
   selector: 'app-card',

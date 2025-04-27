@@ -23,7 +23,7 @@ import {
 } from '../../data/scenes';
 import { isSpecialAnimationPlayed } from '../../helpers/helpers';
 import { isPlatformBrowser } from '@angular/common';
-import { AnimationService } from '../../services/animation/animation.service';
+import { AnimationService } from '@services/animation/animation.service';
 
 @Component({
   selector: 'app-animation',

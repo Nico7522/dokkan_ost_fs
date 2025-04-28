@@ -729,6 +729,84 @@ export function isSpecialAnimationPlayed(
       break;
     }
 
+    case 'sp_effect_b1_00289.lwf': {
+      isPlayed = true;
+      let attachedMovieBase = lwfInstance.rootMovie.attachMovie(
+        'ef_001b',
+        'battle2',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      if (attachedMovieBase) {
+        attachedMovieBase.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+    case 'sp_effect_b1_00296.lwf': {
+      isPlayed = true;
+      let attachedMovieBase = lwfInstance.rootMovie.attachMovie(
+        'ef_001_b',
+        'battle2',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      if (attachedMovieBase) {
+        attachedMovieBase.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+    // À fixer
+    case 'sp_effect_a2_00202.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      updateScene(
+        lwfInstance,
+        attachedMovie,
+        ['ef_001', 'ef_002', 'ef_003', 'ef_004', 'ef_005'],
+        0
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+    // À fixer
+    case 'sp_effect_a2_00203.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      updateScene(
+        lwfInstance,
+        attachedMovie,
+        ['ef_001', 'ef_002', 'ef_003', 'ef_004', 'ef_005'],
+        0
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
     default:
       break;
   }

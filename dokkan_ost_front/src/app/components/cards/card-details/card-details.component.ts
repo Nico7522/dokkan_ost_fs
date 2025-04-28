@@ -6,8 +6,10 @@ import {
   input,
   NgZone,
   PLATFORM_ID,
+  QueryList,
   signal,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { CardsService } from '@services/cards/cards.service';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -38,6 +40,7 @@ export class CardDetailsComponent implements AfterViewInit {
   entranceOstText = signal('Play OST');
   activeSkillOstText = signal('Play OST');
   standbySkillOstText = signal('Play OST');
+  finishSkillOstText = signal('Play OST');
 
   showAnimation = signal(false);
   filename = signal('');
@@ -50,17 +53,16 @@ export class CardDetailsComponent implements AfterViewInit {
   activeSkillOstRef!: ElementRef<HTMLAudioElement>;
   @ViewChild('standbySkillOst', { static: false })
   standbySkillOstRef!: ElementRef<HTMLAudioElement>;
+  @ViewChildren('finishSkillOst')
+  finishSkillOstRef!: QueryList<ElementRef<HTMLAudioElement>>;
   timeout: NodeJS.Timeout | null = null;
   private ngZone = inject(NgZone);
   id = input<string>('');
   card$ = toObservable(this.id).pipe(
-    debounceTime(200),
     switchMap((id) => {
       return this.cardService.getCardById(+id).pipe(
         tap((x) => this.thumb.set(x.thumb)),
         map((card) => {
-          console.log(card);
-
           return keysToCamel(card);
         })
       );
@@ -192,13 +194,14 @@ export class CardDetailsComponent implements AfterViewInit {
     this.animationId = requestAnimationFrame(this.animate);
   };
 
-  playOst(type: 'entrance' | 'activeSkill' | 'standbySkill') {
+  playOst(type: 'entrance' | 'activeSkill' | 'standbySkill' | 'finishSkill') {
     const entranceAudio: HTMLAudioElement | null =
       this.entranceAudioRef?.nativeElement;
     const activeSkillAudio: HTMLAudioElement | null =
       this.activeSkillOstRef?.nativeElement;
     const standbySkillAudio: HTMLAudioElement | null =
       this.standbySkillOstRef?.nativeElement;
+
     if (type === 'entrance') {
       if (entranceAudio && this.entranceOstText() === 'Play OST') {
         entranceAudio.volume = 0.03;
@@ -247,6 +250,25 @@ export class CardDetailsComponent implements AfterViewInit {
         standbySkillAudio.loop = true;
         standbySkillAudio.pause();
         this.standbySkillOstText.set('Play OST');
+      }
+    }
+  }
+
+  playFinishSkillOst(index: number, play: boolean) {
+    const audioElement = this.finishSkillOstRef.toArray()[index];
+    if (audioElement) {
+      // Met les autres OST en pause
+      this.finishSkillOstRef.toArray().forEach((el) => {
+        if (el.nativeElement.played.length > 0) {
+          el.nativeElement.pause();
+        }
+      });
+      if (play) {
+        audioElement.nativeElement.volume = 0.03;
+        audioElement.nativeElement.loop = true;
+        audioElement.nativeElement.play();
+      } else {
+        audioElement.nativeElement.pause();
       }
     }
   }

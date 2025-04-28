@@ -1,3 +1,5 @@
+import { FinishSkill } from './finish-skill.interface';
+
 export interface Card {
   id: number;
   name: string;
@@ -14,4 +16,6 @@ export interface CardDetails extends Card {
   entranceFilename: string | null;
   asFilename: string | null;
   standbyFilename: string | null;
+  hasFinishSkill: boolean;
+  finishSkills: FinishSkill[];
 }

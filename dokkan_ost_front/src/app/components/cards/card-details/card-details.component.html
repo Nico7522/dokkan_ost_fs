@@ -76,7 +76,8 @@
             <button (click)="playFinishSkillOst($index, finishSkillOst.paused)"
                 [class]="card.type.toLowerCase()">{{finishSkillOst.paused ?
                 'Play OST' : 'Pause OST'}}</button>
-            <button (click)="showAnimationComponent(finishSkill.filename)" [class]="card.type.toLowerCase()">Play
+            <button (click)="showAnimationComponent(finishSkill.filename, $index)"
+                [class]="card.type.toLowerCase()">Play
                 OST +
                 Animation</button>
         </div>
@@ -86,7 +87,8 @@
     </div>
 </div>
 @if (showAnimation()) {
-<app-animation [lwfData]="{prefix: apiUrl + '/animations/' + filename() + '/fr/', lwf: filename() + '.lwf'}"
+<app-animation
+    [lwfData]="{prefix: apiUrl + '/animations/' + filename() + '/fr/', lwf: filename() + '.lwf', triggerScene: triggerScene() }"
     (close)="hideAnimationComponent()" />
 }
 }

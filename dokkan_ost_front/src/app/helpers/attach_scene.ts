@@ -534,3 +534,67 @@ export function attachScenesForCard1026901StandbySkill(lwfInstance: any) {
     attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
   }
 }
+
+export function attachScenesForCard4025741FinishSkill(
+  lwfInstance: any,
+  attachedMovie: any,
+  timeToCut: number
+) {
+  attachedMovie.addEventHandler('update', () => {
+    if (attachedMovie.currentFrame >= attachedMovie.totalFrames - timeToCut) {
+      let { attachedMovieBase } = triggerNextScenes(
+        attachedMovie,
+        lwfInstance,
+        ['ef_002']
+      );
+      attachedMovie = attachedMovieBase;
+      attachedMovie.addEventHandler('update', () => {
+        if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 40) {
+          let { attachedMovieBase, attachedMovie2 } = triggerNextScenes(
+            attachedMovie,
+            lwfInstance,
+            ['ef_003', 'ef_004']
+          );
+          attachedMovie = attachedMovie2;
+          attachedMovie.addEventHandler('update', () => {
+            if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 1) {
+              attachedMovie2.removeMovieClip();
+              attachedMovie = lwfInstance.rootMovie.attachMovie(
+                'ef_001',
+                'battle',
+                1
+              );
+              attachScenesForCard4025741FinishSkill(
+                lwfInstance,
+                attachedMovie,
+                timeToCut
+              );
+              if (attachedMovie) {
+                attachedMovie.moveTo(
+                  lwfInstance.width / 2,
+                  lwfInstance.height / 2
+                );
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+}
+
+export function attachScenesForCard4026541FinishSkill(lwfInstance: any) {
+  let attachedMovie = lwfInstance.rootMovie.attachMovie('ef_001b', 'battle', 1);
+  let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+    'ef_001',
+    'battle2',
+    1
+  );
+
+  if (attachedMovie) {
+    attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+  }
+  if (attachedMovie2) {
+    attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+  }
+}

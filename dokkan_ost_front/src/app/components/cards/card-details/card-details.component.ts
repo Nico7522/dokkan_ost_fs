@@ -44,6 +44,7 @@ export class CardDetailsComponent implements AfterViewInit {
 
   showAnimation = signal(false);
   filename = signal('');
+  triggerScene = signal('');
   thumb = signal(0);
   @ViewChild('cardArtwork', { static: false })
   canvasRef!: ElementRef<HTMLCanvasElement> | null;
@@ -273,11 +274,15 @@ export class CardDetailsComponent implements AfterViewInit {
     }
   }
 
-  showAnimationComponent(filename: string) {
+  showAnimationComponent(filename: string, finishSkillIndex?: number) {
     if (this.attachedMovie) this.attachedMovie.gotoAndStop();
     cancelAnimationFrame(this.animationId);
     this.showAnimation.set(true);
     this.filename.set(filename);
+    this.triggerScene.set('');
+    if (filename === 'battle_301261' && finishSkillIndex === 1) {
+      this.triggerScene.set('ef_002');
+    }
   }
 
   hideAnimationComponent() {

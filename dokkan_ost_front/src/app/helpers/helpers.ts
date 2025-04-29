@@ -17,6 +17,8 @@ import {
   attachScenesForCard1025631ActiveSkill,
   attachScenesForCard9520311ActiveSkill,
   attachScenesForCard1026901StandbySkill,
+  attachScenesForCard4025741FinishSkill,
+  attachScenesForCard4026541FinishSkill,
 } from './attach_scene';
 
 export const toCamel = (s: string) => {
@@ -126,7 +128,8 @@ export function updateScene(
 export function isSpecialAnimationPlayed(
   lwfInstance: any,
   increment: number,
-  lwfName: string
+  lwfName: string,
+  triggerScene?: string
 ): boolean {
   let isPlayed: boolean = false;
   switch (lwfName) {
@@ -769,7 +772,6 @@ export function isSpecialAnimationPlayed(
       }
       break;
     }
-    // À fixer
     case 'sp_effect_a2_00202.lwf': {
       isPlayed = true;
       let attachedMovie = lwfInstance.rootMovie.attachMovie(
@@ -777,18 +779,12 @@ export function isSpecialAnimationPlayed(
         'battle',
         1
       );
-      updateScene(
-        lwfInstance,
-        attachedMovie,
-        ['ef_001', 'ef_002', 'ef_003', 'ef_004', 'ef_005'],
-        0
-      );
+      attachScenesForCard4025741FinishSkill(lwfInstance, attachedMovie, 370);
       if (attachedMovie) {
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
       break;
     }
-    // À fixer
     case 'sp_effect_a2_00203.lwf': {
       isPlayed = true;
       let attachedMovie = lwfInstance.rootMovie.attachMovie(
@@ -796,17 +792,31 @@ export function isSpecialAnimationPlayed(
         'battle',
         1
       );
-      updateScene(
-        lwfInstance,
-        attachedMovie,
-        ['ef_001', 'ef_002', 'ef_003', 'ef_004', 'ef_005'],
-        0
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      attachScenesForCard4025741FinishSkill(lwfInstance, attachedMovie, 280);
+      break;
+    }
+    case 'battle_301261.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        triggerScene === 'ef_002' ? triggerScene : 'ef_001',
+        'battle',
+        1
       );
       if (attachedMovie) {
         attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
       break;
     }
+
+    case 'sp_effect_b1_00251.lwf': {
+      isPlayed = true;
+      attachScenesForCard4026541FinishSkill(lwfInstance);
+      break;
+    }
+
     default:
       break;
   }

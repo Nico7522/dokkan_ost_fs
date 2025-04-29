@@ -39,7 +39,11 @@ export class AnimationComponent {
   attachedMovie: any;
   animationId = 0;
   private platformId = inject(PLATFORM_ID);
-  lwfData = input.required<{ prefix: string; lwf: string }>();
+  lwfData = input.required<{
+    prefix: string;
+    lwf: string;
+    triggerScene?: string;
+  }>();
   @Output() close = new EventEmitter<boolean>();
   body = document.querySelector('body') as HTMLBodyElement;
   readonly canvasRef =
@@ -118,6 +122,7 @@ export class AnimationComponent {
         if (this.canvasRef) {
           const canvas = this.canvasRef().nativeElement;
           LWF.useCanvasRenderer();
+
           this.animationService
             .loadLwf(this.lwfData().lwf, {
               lwf: this.lwfData().lwf,
@@ -135,7 +140,8 @@ export class AnimationComponent {
                 let isPlayed = isSpecialAnimationPlayed(
                   this.lwfInstance,
                   this.i,
-                  this.lwfData().lwf
+                  this.lwfData().lwf,
+                  this.lwfData().triggerScene
                 );
 
                 // Si aucune animation

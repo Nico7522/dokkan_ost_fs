@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { CardsService } from '@services/cards/cards.service';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { debounceTime, map, switchMap, tap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '@shared/card/card.component';
 import { keysToCamel } from '../../../helpers/helpers';
@@ -40,7 +40,7 @@ export class CardDetailsComponent implements AfterViewInit {
   entranceOstText = signal('Play OST');
   activeSkillOstText = signal('Play OST');
   standbySkillOstText = signal('Play OST');
-  finishSkillOstText = signal('Play OST');
+  finishSkillOstText = signal(['Play OST']);
 
   showAnimation = signal(false);
   filename = signal('');
@@ -172,6 +172,7 @@ export class CardDetailsComponent implements AfterViewInit {
   ngOnInit() {
     this.spinnerService.show('card');
   }
+
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
       this.timeout = setTimeout(() => {

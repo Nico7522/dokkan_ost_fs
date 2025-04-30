@@ -19,6 +19,7 @@ import {
   attachScenesForCard1026901StandbySkill,
   attachScenesForCard4025741FinishSkill,
   attachScenesForCard4026541FinishSkill,
+  attachScenesForCard9526401FinishSkill,
 } from './attach_scene';
 
 export const toCamel = (s: string) => {
@@ -816,7 +817,188 @@ export function isSpecialAnimationPlayed(
       attachScenesForCard4026541FinishSkill(lwfInstance);
       break;
     }
+    case 'sp_effect_b4_00302.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_002',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
 
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+
+    case 'sp_effect_a9_00121.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001b',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+
+    case 'battle_301275.lwf': {
+      isPlayed = true;
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001r',
+        'battle',
+        1
+      );
+      let attachedMovie3 = lwfInstance.rootMovie.attachMovie(
+        'ef_002',
+        'battle3',
+        1
+      );
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      if (attachedMovie3) {
+        attachedMovie3.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      console.log(lwfInstance);
+
+      break;
+    }
+
+    case 'sp_effect_a1_00451.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001_b',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+
+    case 'sp_effect_a1_00452.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001b',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+
+    case 'sp_effect_a1_00453.lwf': {
+      isPlayed = true;
+
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001b',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
+
+    case 'sp_effect_a1_00392.lwf': {
+      isPlayed = true;
+
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
+      attachScenesForCard9526401FinishSkill(lwfInstance, attachedMovie);
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      break;
+    }
+
+    case 'sp_effect_a2_00207.lwf': {
+      isPlayed = true;
+
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_002',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
     default:
       break;
   }

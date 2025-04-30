@@ -40,9 +40,8 @@ export class CardDetailsComponent implements AfterViewInit {
   entranceOstText = signal('Play OST');
   activeSkillOstText = signal('Play OST');
   standbySkillOstText = signal('Play OST');
-  finishSkillOstText = signal(['Play OST']);
-
-  showAnimation = signal(false);
+  ostUnplayed = signal(true);
+  readonly showAnimation = signal(false);
   filename = signal('');
   triggerScene = signal('');
   thumb = signal(0);
@@ -269,6 +268,7 @@ export class CardDetailsComponent implements AfterViewInit {
         audioElement.nativeElement.volume = 0.03;
         audioElement.nativeElement.loop = true;
         audioElement.nativeElement.play();
+        this.ostUnplayed.set(false);
       } else {
         audioElement.nativeElement.pause();
       }

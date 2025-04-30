@@ -999,6 +999,29 @@ export function isSpecialAnimationPlayed(
       }
       break;
     }
+
+    case 'sp_effect_b1_00324.lwf': {
+      isPlayed = true;
+
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001b',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      break;
+    }
     default:
       break;
   }

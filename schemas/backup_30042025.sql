@@ -1104,7 +1104,7 @@ COPY public.finish_skills (id, name, bgm_id, standby_skill_id, card_id, filename
 18	Punch of Bonds	375	22	4029371	sp_effect_b1_00289
 7	Saiyan Power Augmentation	279	10	4026911	battle_301261
 21	Brotherhood Kamehameha	384	24	4029481	sp_effect_a1_00452
-26	Spirited Kaioken Attack	449	28	1031181	sp_effect_b1_00324
+26	Spirited Kaioken Attack	449	28	4031191	sp_effect_b1_00324
 \.
 
 

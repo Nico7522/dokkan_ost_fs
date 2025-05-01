@@ -24,9 +24,7 @@ cardRoutes.get("/cards", async (req: Request, res: Response) => {
         data: results.rows,
       });
     } else {
-      if (total === 0) {
-        total = await getCards();
-      }
+      total = await getCards();
       const text = "SELECT * FROM cards LIMIT 90 OFFSET ($1 - 1) * 90";
       const results = await pool.query(text, [req.query.page]);
       res.json({

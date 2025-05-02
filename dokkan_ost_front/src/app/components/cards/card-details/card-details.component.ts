@@ -16,11 +16,12 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { map, switchMap, tap } from 'rxjs';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '@shared/card/card.component';
-import { keysToCamel } from '../../../helpers/helpers';
+import { keysToCamel, playLWF } from '../../../helpers/helpers';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AnimationComponent } from '@shared/animation/animation.component';
 import { environment } from '../../../../environments/environment';
 import { AnimationService } from '@services/animation/animation.service';
+import { randomUUID } from 'crypto';
 @Component({
   selector: 'app-card-details',
   standalone: true,
@@ -140,22 +141,21 @@ export class CardDetailsComponent implements AfterViewInit {
                   this.animationService.reattachLWF(this.lwfInstance, canvas);
                 } else {
                   this.lwfInstance = loadedLwfInstance;
-                  const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                  this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
                     'ef_001',
                     'battle',
                     0
                   );
                   this.canvasRef?.nativeElement.classList.add('artwork-anim');
-                  if (attachedMovie) {
-                    attachedMovie.moveTo(
+                  if (this.attachedMovie) {
+                    this.attachedMovie.moveTo(
                       this.lwfInstance.width / 2,
                       this.lwfInstance.height / 2
                     );
                   }
                   this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
-
                   this.animate();
-                  this.spinnerService.hide('card');
+                  this.spinnerService.hide('artwork');
                 }
               });
             })
@@ -169,7 +169,7 @@ export class CardDetailsComponent implements AfterViewInit {
   previousTick = 0;
 
   ngOnInit() {
-    this.spinnerService.show('card');
+    this.spinnerService.show('artwork');
   }
 
   ngAfterViewInit() {
@@ -295,7 +295,13 @@ export class CardDetailsComponent implements AfterViewInit {
   ngOnDestroy() {
     if (this.lwfInstance) {
       this.lwfInstance.destroy();
+      this.lwfInstance = null;
       cancelAnimationFrame(this.animationId);
+    }
+
+    if (this.attachedMovie) {
+      this.attachedMovie.removeMovieClip();
+      this.attachedMovie = null;
     }
     if (this.timeout) {
       clearTimeout(this.timeout);

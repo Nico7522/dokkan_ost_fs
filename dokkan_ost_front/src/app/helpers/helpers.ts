@@ -1027,3 +1027,19 @@ export function isSpecialAnimationPlayed(
   }
   return isPlayed;
 }
+
+export function playLWF(animationId: number, lwf: any) {
+  let lastTime = performance.now();
+
+  function render(currentTime: number) {
+    if (lwf && lwf.active) {
+      const deltaTime = (currentTime - lastTime) / 1000;
+      lastTime = currentTime;
+      lwf.exec(deltaTime);
+      lwf.render();
+    }
+    animationId = requestAnimationFrame(render);
+  }
+
+  animationId = requestAnimationFrame(render);
+}

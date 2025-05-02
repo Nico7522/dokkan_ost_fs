@@ -1,9 +1,10 @@
-<ngx-spinner name="card" template="<img src='./header-logo.gif' width='150px' />"></ngx-spinner>
 @if (card$ | async; as card) {
 <div [class]="'header' ">
     <div class="artwork">
         @if (card.isLegendary) {
         <div class="artwork-anim">
+            <ngx-spinner [fullScreen]="false" bdColor="#000" name="artwork"
+                template="<img src='./header-logo.gif' width='150px' />"></ngx-spinner>
             <canvas #cardArtwork width="0" height="0"></canvas>
         </div>
         } @else {

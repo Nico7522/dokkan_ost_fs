@@ -58,21 +58,20 @@ export class CardComponent {
                   this.animationService.reattachLWF(this.lwfInstance, canvas);
                 } else {
                   this.lwfInstance = loadedLwfInstance;
-                  const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                  this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
                     'ef_001',
                     'battle',
                     1
                   );
-                  attachedMovie.moveTo(
+                  this.attachedMovie.moveTo(
                     this.lwfInstance.width / 14,
                     this.lwfInstance.height / 25
                   );
-                  attachedMovie.scaleX = 0.9;
-                  attachedMovie.scaleY = 0.9;
+                  this.attachedMovie.scaleX = 0.9;
+                  this.attachedMovie.scaleY = 0.9;
 
                   this.animate();
                   this.spinnerService.hide('loader');
-                  this.spinnerService.hide('cards');
                 }
               });
             })
@@ -82,7 +81,6 @@ export class CardComponent {
         } else {
           this.ngZone.run(() => {
             this.spinnerService.hide('loader');
-            this.spinnerService.hide('card');
           });
         }
       }
@@ -145,7 +143,12 @@ export class CardComponent {
   ngOnDestroy() {
     if (this.lwfInstance) {
       this.lwfInstance.destroy();
+      this.lwfInstance = null;
       cancelAnimationFrame(this.animationId);
+    }
+    if (this.attachedMovie) {
+      this.attachedMovie.removeMovieClip();
+      this.attachedMovie = null;
     }
   }
 

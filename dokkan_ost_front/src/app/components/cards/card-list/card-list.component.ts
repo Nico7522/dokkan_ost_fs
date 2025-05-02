@@ -28,12 +28,16 @@ export class CardsComponent {
   private readonly spinnerService = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   page = this.cardService.page;
+  name = this.cardService.name;
   onSearchByName(name: string) {
     this.cardService.onSearch(name);
     this.updateQueryParams({ name });
   }
   ngOnInit() {
-    this.spinnerService.show('cards');
+    if (this.name()) {
+      this.cardService.onSearch('');
+    }
+    this.spinnerService.show('loader');
     this.updateQueryParams({ page: this.page() });
   }
   // cardData$ = this.cardService.getCards().pipe(
@@ -50,7 +54,6 @@ export class CardsComponent {
 
   result = this.cardService.cards.value;
   error = computed(() => {
-    this.spinnerService.hide('cards');
     return this.cardService.cards.error();
   });
   nbButton = computed(() => Array(this.result()?.nbPage));

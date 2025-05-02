@@ -7,8 +7,6 @@ import { ElementRef, inject, Injectable, PLATFORM_ID } from '@angular/core';
 export class AnimationService {
   private lwfCache: Map<string, any> = new Map();
   constructor() {}
-  lwfInstance: any;
-  attachedMovie: any;
 
   loadLwf(key: string, config: any): Promise<any> {
     return new Promise((resolve, reject) => {

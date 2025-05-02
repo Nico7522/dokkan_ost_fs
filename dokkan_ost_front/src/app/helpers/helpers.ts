@@ -20,6 +20,7 @@ import {
   attachScenesForCard4025741FinishSkill,
   attachScenesForCard4026541FinishSkill,
   attachScenesForCard9526401FinishSkill,
+  attachScenesForCard40304511ActiveSkill,
 } from './attach_scene';
 
 export const toCamel = (s: string) => {
@@ -1020,6 +1021,31 @@ export function isSpecialAnimationPlayed(
       if (attachedMovie2) {
         attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
       }
+      break;
+    }
+
+    case 'sp_effect_a3_00115.lwf': {
+      isPlayed = true;
+
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001_b',
+        'battle',
+        1
+      );
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      attachScenesForCard40304511ActiveSkill(lwfInstance, attachedMovie);
+
       break;
     }
     default:

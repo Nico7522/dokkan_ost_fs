@@ -141,19 +141,8 @@ export class CardDetailsComponent implements AfterViewInit {
                   this.animationService.reattachLWF(this.lwfInstance, canvas);
                 } else {
                   this.lwfInstance = loadedLwfInstance;
-                  this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-                    'ef_001',
-                    'battle',
-                    0
-                  );
                   this.canvasRef?.nativeElement.classList.add('artwork-anim');
-                  if (this.attachedMovie) {
-                    this.attachedMovie.moveTo(
-                      this.lwfInstance.width / 2,
-                      this.lwfInstance.height / 2
-                    );
-                  }
-                  this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
+                  this.attachMovie(this.lwfInstance, this.attachedMovie);
                   this.animate();
                   this.spinnerService.hide('artwork');
                 }
@@ -288,8 +277,9 @@ export class CardDetailsComponent implements AfterViewInit {
 
   hideAnimationComponent() {
     this.showAnimation.set(false);
-
-    requestAnimationFrame(this.animate);
+    if (this.attachedMovie) this.attachedMovie.gotoAndPlay();
+    this.attachMovie(this.lwfInstance, this.attachedMovie);
+    this.animationId = requestAnimationFrame(this.animate);
   }
 
   ngOnDestroy() {
@@ -306,5 +296,13 @@ export class CardDetailsComponent implements AfterViewInit {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
+  }
+
+  private attachMovie(lwfInstance: any, attachedMovie: any) {
+    attachedMovie = lwfInstance.rootMovie.attachMovie('ef_001', 'battle', 0);
+    if (attachedMovie) {
+      attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+    }
+    lwfInstance.width / 1.5, lwfInstance.height / 2;
   }
 }

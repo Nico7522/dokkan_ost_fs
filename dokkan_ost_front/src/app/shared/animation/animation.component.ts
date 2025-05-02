@@ -114,6 +114,9 @@ export class AnimationComponent {
   ngOnDestroy() {
     this.body.classList.remove('no-scroll');
     this.lwfInstance.destroy();
+    this.lwfInstance = null;
+    this.attachedMovie.removeMovieClip();
+    this.attachedMovie = null;
     cancelAnimationFrame(this.animationId);
   }
   loadLWF() {
@@ -133,7 +136,6 @@ export class AnimationComponent {
               this.ngZone.run(() => {
                 this.lwfInstance = loadedLwfInstance;
                 if (!this.lwfInstance) {
-                  this.spinnerService.hide('loader');
                   this.errorMessage.set('Animation unavailable');
                 }
                 this.canvasRef()?.nativeElement.classList.add('intro');
@@ -171,7 +173,7 @@ export class AnimationComponent {
                 }
 
                 // this.lwfInstance.scaleForHeight(canvas.width, canvas.height);
-                this.spinnerService.hide('loader');
+
                 this.animate();
               });
             })

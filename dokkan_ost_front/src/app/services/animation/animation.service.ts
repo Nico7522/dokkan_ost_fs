@@ -9,20 +9,13 @@ export class AnimationService {
 
   loadLwf(key: string, config: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      const cachedInstance = this.lwfCache.get(key);
-
-      if (cachedInstance && cachedInstance.rootMovie) {
-        resolve(cachedInstance);
-      } else {
-        LWF.ResourceCache.get().loadLWF({
-          ...config,
-          onload: (lwfInstance: any) => {
-            this.lwfCache.set(key, lwfInstance);
-            resolve(lwfInstance);
-          },
-          onerror: (err: any) => reject(err),
-        });
-      }
+      LWF.ResourceCache.get().loadLWF({
+        ...config,
+        onload: (lwfInstance: any) => {
+          resolve(lwfInstance);
+        },
+        onerror: (err: any) => reject(err),
+      });
     });
   }
 

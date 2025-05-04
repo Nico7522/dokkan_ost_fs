@@ -10,6 +10,7 @@ import {
   signal,
   ViewChild,
   ViewChildren,
+  viewChild,
 } from '@angular/core';
 import { CardsService } from '@services/cards/cards.service';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -22,6 +23,8 @@ import { AnimationComponent } from '@shared/animation/animation.component';
 import { environment } from '../../../../environments/environment';
 import { AnimationService } from '@services/animation/animation.service';
 import { randomUUID } from 'crypto';
+import { Lwf } from 'app/models/lwf.type';
+import { LwfMovie } from 'app/models/lwf-movie.type';
 @Component({
   selector: 'app-card-details',
   standalone: true,
@@ -35,8 +38,8 @@ export class CardDetailsComponent implements AfterViewInit {
   private readonly cardService = inject(CardsService);
   private readonly spinnerService = inject(NgxSpinnerService);
   private readonly animationService = inject(AnimationService);
-  lwfInstance: any;
-  attachedMovie: any;
+  lwfInstance: Lwf | null = null;
+  attachedMovie: LwfMovie | null = null;
   animationId = 0;
   entranceOstText = signal('Play OST');
   activeSkillOstText = signal('Play OST');
@@ -46,16 +49,17 @@ export class CardDetailsComponent implements AfterViewInit {
   filename = signal('');
   triggerScene = signal('');
   thumb = signal(0);
-  @ViewChild('cardArtwork', { static: false })
-  canvasRef!: ElementRef<HTMLCanvasElement> | null;
+  readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement> | null>(
+    'cardArtwork'
+  );
   @ViewChild('entranceOst', { static: false })
-  entranceAudioRef!: ElementRef<HTMLAudioElement>;
+  entranceAudioRef: ElementRef<HTMLAudioElement> | null = null;
   @ViewChild('activeSkillOst', { static: false })
-  activeSkillOstRef!: ElementRef<HTMLAudioElement>;
+  activeSkillOstRef: ElementRef<HTMLAudioElement> | null = null;
   @ViewChild('standbySkillOst', { static: false })
-  standbySkillOstRef!: ElementRef<HTMLAudioElement>;
+  standbySkillOstRef: ElementRef<HTMLAudioElement> | null = null;
   @ViewChildren('finishSkillOst')
-  finishSkillOstRef!: QueryList<ElementRef<HTMLAudioElement>>;
+  finishSkillOstRef: QueryList<ElementRef<HTMLAudioElement>> | null = null;
   timeout: NodeJS.Timeout | null = null;
   private ngZone = inject(NgZone);
   id = input<string>('');
@@ -126,8 +130,9 @@ export class CardDetailsComponent implements AfterViewInit {
   loadLWF() {
     this.ngZone.runOutsideAngular(() => {
       if (isPlatformBrowser(this.platformId)) {
-        if (this.canvasRef) {
-          const canvas = this.canvasRef.nativeElement;
+        const canvasRef = this.canvasRef();
+        if (canvasRef) {
+          const canvas = canvasRef.nativeElement;
           LWF.useCanvasRenderer();
           this.animationService
             .loadLwf('card_${this.thumb().toString()}.lwf', {
@@ -141,7 +146,7 @@ export class CardDetailsComponent implements AfterViewInit {
                   this.animationService.reattachLWF(this.lwfInstance, canvas);
                 } else {
                   this.lwfInstance = loadedLwfInstance;
-                  this.canvasRef?.nativeElement.classList.add('artwork-anim');
+                  this.canvasRef()?.nativeElement.classList.add('artwork-anim');
                   this.attachMovie(this.lwfInstance, this.attachedMovie);
                   this.animate();
                   this.spinnerService.hide('artwork');
@@ -185,20 +190,26 @@ export class CardDetailsComponent implements AfterViewInit {
   };
 
   playOst(type: 'entrance' | 'activeSkill' | 'standbySkill' | 'finishSkill') {
-    const entranceAudio: HTMLAudioElement | null =
-      this.entranceAudioRef?.nativeElement;
-    const activeSkillAudio: HTMLAudioElement | null =
-      this.activeSkillOstRef?.nativeElement;
-    const standbySkillAudio: HTMLAudioElement | null =
-      this.standbySkillOstRef?.nativeElement;
+    // const entranceAudio: HTMLAudioElement | null =
+    //   this.entranceAudioRef.nativeElement;
+    // const activeSkillAudio: HTMLAudioElement | null =
+    //   this.activeSkillOstRef.nativeElement;
+    // const standbySkillAudio: HTMLAudioElement | null =
+    //   this.standbySkillOstRef.nativeElement;
 
     if (type === 'entrance') {
+      const entranceAudio: HTMLAudioElement = (
+        this.entranceAudioRef as ElementRef<HTMLAudioElement>
+      ).nativeElement;
       if (entranceAudio && this.entranceOstText() === 'Play OST') {
         entranceAudio.volume = 0.03;
         entranceAudio.loop = true;
         entranceAudio.play();
-        if (activeSkillAudio?.played.length > 0) {
-          activeSkillAudio.pause();
+        if (
+          this.activeSkillOstRef &&
+          this.activeSkillOstRef.nativeElement.played.length > 0
+        ) {
+          this.activeSkillOstRef.nativeElement.pause();
           this.activeSkillOstText.set('Play OST');
         }
         this.entranceOstText.set('Pause OST');
@@ -211,12 +222,18 @@ export class CardDetailsComponent implements AfterViewInit {
     }
 
     if (type === 'activeSkill') {
+      const activeSkillAudio: HTMLAudioElement | null = (
+        this.activeSkillOstRef as ElementRef<HTMLAudioElement>
+      ).nativeElement;
       if (activeSkillAudio && this.activeSkillOstText() === 'Play OST') {
         activeSkillAudio.volume = 0.03;
         activeSkillAudio.loop = true;
         activeSkillAudio.play();
-        if (entranceAudio?.played.length > 0) {
-          entranceAudio.pause();
+        if (
+          this.entranceAudioRef &&
+          this.entranceAudioRef.nativeElement.played.length > 0
+        ) {
+          this.entranceAudioRef.nativeElement.pause();
           this.entranceOstText.set('Play OST');
         }
         this.activeSkillOstText.set('Pause OST');
@@ -229,6 +246,9 @@ export class CardDetailsComponent implements AfterViewInit {
     }
 
     if (type === 'standbySkill') {
+      const standbySkillAudio: HTMLAudioElement | null = (
+        this.standbySkillOstRef as ElementRef<HTMLAudioElement>
+      ).nativeElement;
       if (standbySkillAudio && this.standbySkillOstText() === 'Play OST') {
         standbySkillAudio.volume = 0.03;
         standbySkillAudio.loop = true;
@@ -245,8 +265,10 @@ export class CardDetailsComponent implements AfterViewInit {
   }
 
   playFinishSkillOst(index: number, play: boolean) {
-    const audioElement = this.finishSkillOstRef.toArray()[index];
-    if (audioElement) {
+    const audioElement = (
+      this.finishSkillOstRef as QueryList<ElementRef<HTMLAudioElement>>
+    ).toArray()[index];
+    if (this.finishSkillOstRef && audioElement) {
       // Met les autres OST en pause
       this.finishSkillOstRef.toArray().forEach((el) => {
         if (el.nativeElement.played.length > 0) {

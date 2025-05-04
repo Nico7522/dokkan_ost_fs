@@ -6,7 +6,7 @@ import {
   input,
   NgZone,
   PLATFORM_ID,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { Card } from '../../models/card.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -14,6 +14,8 @@ import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { AnimationService } from '@services/animation/animation.service';
+import { Lwf } from 'app/models/lwf.type';
+import { LwfMovie } from 'app/models/lwf-movie.type';
 
 @Component({
   selector: 'app-card',
@@ -27,23 +29,22 @@ export class CardComponent {
   private platformId = inject(PLATFORM_ID);
   readonly apiUrl = environment.API_URL;
   card = input.required<Card>();
-  lwfInstance: any;
+  lwfInstance: Lwf | null = null;
+  attachedMovie: LwfMovie | null = null;
   animationId = 0;
-  timeOut: any;
-  @ViewChild('cardRef', { static: false })
-  canvasRef!: ElementRef<HTMLCanvasElement>;
+  readonly canvasRef =
+    viewChild.required<ElementRef<HTMLCanvasElement>>('cardRef');
   private readonly spinnerService = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   private readonly animationService = inject(AnimationService);
   private ngZone = inject(NgZone);
-  attachedMovie: any;
   previousTick = 0;
 
   loadLWF() {
     this.ngZone.runOutsideAngular(() => {
       if (isPlatformBrowser(this.platformId)) {
         if (this.card().isLegendary) {
-          const canvas = this.canvasRef.nativeElement;
+          const canvas = this.canvasRef().nativeElement;
           LWF.useCanvasRenderer();
 
           this.animationService
@@ -52,27 +53,23 @@ export class CardComponent {
               prefix: './icon_rare/',
               stage: canvas,
             })
-            .then((loadedLwfInstance: any) => {
+            .then((loadedLwfInstance: Lwf) => {
               this.ngZone.run(() => {
-                if (this.lwfInstance) {
-                  this.animationService.reattachLWF(this.lwfInstance, canvas);
-                } else {
-                  this.lwfInstance = loadedLwfInstance;
-                  this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-                    'ef_001',
-                    'battle',
-                    1
-                  );
-                  this.attachedMovie.moveTo(
-                    this.lwfInstance.width / 14,
-                    this.lwfInstance.height / 25
-                  );
-                  this.attachedMovie.scaleX = 0.9;
-                  this.attachedMovie.scaleY = 0.9;
+                this.lwfInstance = loadedLwfInstance;
+                this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                  'ef_001',
+                  'battle',
+                  1
+                );
+                this.attachedMovie.moveTo(
+                  this.lwfInstance.width / 14,
+                  this.lwfInstance.height / 25
+                );
+                this.attachedMovie.scaleX = 0.9;
+                this.attachedMovie.scaleY = 0.9;
 
-                  this.animate();
-                  this.spinnerService.hide('loader');
-                }
+                this.animate();
+                this.spinnerService.hide('loader');
               });
             })
             .catch((error: any) => {

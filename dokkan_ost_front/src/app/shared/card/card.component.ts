@@ -48,7 +48,7 @@ export class CardComponent {
           LWF.useCanvasRenderer();
 
           this.animationService
-            .loadLwf('icon_rare_20000', {
+            .loadLwf({
               lwf: 'icon_rare_20000.lwf',
               prefix: './icon_rare/',
               stage: canvas,

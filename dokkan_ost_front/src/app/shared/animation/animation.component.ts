@@ -105,7 +105,7 @@ export class AnimationComponent implements OnInit, AfterViewInit {
           LWF.useCanvasRenderer();
 
           this.animationService
-            .loadLwf(this.lwfData().lwf, {
+            .loadLwf({
               lwf: this.lwfData().lwf,
               prefix: this.lwfData().prefix,
               stage: canvas,

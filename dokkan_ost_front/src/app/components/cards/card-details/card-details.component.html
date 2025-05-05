@@ -24,7 +24,9 @@
         <h2>{{card.name}}</h2>
 
         @if (card.entranceBgmId) {
-        <div class="entry">
+        <app-play-button bgmType="entrance" [bgmId]="card.entranceBgmId" [filename]="card.entranceFilename"
+            [backgroundClass]="card.type.toLowerCase()" />
+        <!-- <div class="entry">
 
             <h2>Intro</h2>
             <button (click)="playOst('entrance')" [class]="card.type.toLowerCase()">{{entranceOstText()}}</button>
@@ -33,10 +35,12 @@
             <audio #entranceOst id="entranceOst">
                 <source [src]="apiUrl + '/bgm/' + 'bgm_' + card.entranceBgmId + '.wav'" type="audio/mpeg" />
             </audio>
-        </div>
+        </div> -->
         }
         @if (card.asBgmId) {
-        <div class="active-skill">
+        <app-play-button bgmType="activeSkill" [bgmId]="card.asBgmId" [filename]="card.asFilename"
+            [backgroundClass]="card.type.toLowerCase()" />
+        <!-- <div class="active-skill">
             <h2>Active Skill</h2>
             <button (click)="playOst('activeSkill')" [class]="card.type.toLowerCase()">{{activeSkillOstText()}}</button>
             <button (click)="showAnimationComponent(card.asFilename)" [class]="card.type.toLowerCase()">Play OST +
@@ -46,12 +50,14 @@
                     [src]="apiUrl + '/bgm/' + 'bgm_' + (card.asBgmId >= 100 ?  card.asBgmId : '0'+card.asBgmId) + '.wav'"
                     type="audio/mpeg" />
             </audio>
-        </div>
+        </div> -->
 
         }
 
         @if (card.standbyBgmId) {
-        <div class="active-skill">
+        <app-play-button bgmType="standbySkill" [bgmId]="card.standbyBgmId" [filename]="card.standbyFilename"
+            [backgroundClass]="card.type.toLowerCase()" />
+        <!-- <div class="active-skill">
             <h2>Standby Skill</h2>
             <button (click)="playOst('standbySkill')"
                 [class]="card.type.toLowerCase()">{{standbySkillOstText()}}</button>
@@ -62,7 +68,7 @@
                     [src]="apiUrl + '/bgm/' + 'bgm_' + (card.standbyBgmId >= 100 ?  card.standbyBgmId : '0'+card.standbyBgmId) + '.wav'"
                     type="audio/mpeg" />
             </audio>
-        </div>
+        </div> -->
         }
 
         @if (card.hasFinishSkill) {

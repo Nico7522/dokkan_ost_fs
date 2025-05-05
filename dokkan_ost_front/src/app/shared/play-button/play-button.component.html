@@ -1,0 +1,33 @@
+<div class="animation">
+    <h2>Active Skill</h2>
+    <button (click)="playOst(bgmType())" [class]="backgroundClass()">{{ostText()}}</button>
+    <button (click)="onShowAnimationComponent()" [class]="backgroundClass()">Play OST +
+        Animation</button>
+    <audio #ostRef id="ostRef">
+        <source [src]="apiUrl + '/bgm/' + 'bgm_' + (bgmId() >= 100 ?  bgmId() : '0'+bgmId()) + '.wav'"
+            type="audio/mpeg" />
+    </audio>
+</div>
+
+
+
+
+<!-- @if (bgmType() === 'finishSkill') {
+@for (finishSkill of card().finishSkills; track $index) {
+<audio #finishSkillOst [id]="'finishSkillOst' + $index">
+    <source
+        [src]="apiUrl + '/bgm/' + 'bgm_' + (finishSkill.bgmId >= 100 ?  finishSkill.bgmId : '0'+finishSkill.bgmId ) + '.wav'"
+        type="audio/mpeg" />
+</audio>
+<div class="active-skill">
+    <h2>Finish Skill ({{finishSkill.name}})</h2>
+    <button (click)="playFinishSkillOst($index, finishSkillOst.paused)"
+        [class]="card().type.toLowerCase()">{{finishSkillOst.paused || ostUnplayed() ?
+        'Play OST' : 'Pause OST'}}</button>
+    <button (click)="showAnimationComponent(finishSkill.filename, $index)" [class]="card().type.toLowerCase()">Play
+        OST +
+        Animation</button>
+</div>
+
+}
+} -->

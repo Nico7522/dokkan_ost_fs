@@ -4,10 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AnimationService {
-  private lwfCache: Map<string, any> = new Map();
   constructor() {}
-
-  loadLwf(key: string, config: any): Promise<any> {
+  loadLwf(config: any): Promise<any> {
     return new Promise((resolve, reject) => {
       LWF.ResourceCache.get().loadLWF({
         ...config,
@@ -17,13 +15,5 @@ export class AnimationService {
         onerror: (err: any) => reject(err),
       });
     });
-  }
-
-  reattachLWF(instance: any, canvas: HTMLCanvasElement): void {
-    if (instance) {
-      instance.destroy();
-      instance.stage = canvas;
-      instance.init();
-    }
   }
 }

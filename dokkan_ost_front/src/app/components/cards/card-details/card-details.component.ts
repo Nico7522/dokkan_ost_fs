@@ -25,10 +25,17 @@ import { AnimationService } from '@services/animation/animation.service';
 import { randomUUID } from 'crypto';
 import { Lwf } from 'app/models/lwf.type';
 import { LwfMovie } from 'app/models/lwf-movie.type';
+import { PlayButtonComponent } from '@shared/play-button/play-button.component';
 @Component({
   selector: 'app-card-details',
   standalone: true,
-  imports: [AsyncPipe, CardComponent, AnimationComponent, NgxSpinnerModule],
+  imports: [
+    AsyncPipe,
+    CardComponent,
+    AnimationComponent,
+    NgxSpinnerModule,
+    PlayButtonComponent,
+  ],
   templateUrl: './card-details.component.html',
   styleUrl: './card-details.component.scss',
 })
@@ -74,59 +81,6 @@ export class CardDetailsComponent implements AfterViewInit {
     })
   );
 
-  // Version sans le service
-  // loadLWF() {
-  //   if (isPlatformBrowser(this.platformId)) {
-  //     this.timeout = setTimeout(() => {
-  //       if (this.canvasRef) {
-  //         console.log('Chargement LWF ...');
-
-  //         const canvas = this.canvasRef.nativeElement;
-  //         if (!canvas) {
-  //           console.error('Canvas non trouvé');
-  //           return;
-  //         }
-  //         // Utiliser LWF pour initialiser l'animation
-  //         LWF.useCanvasRenderer();
-  //         LWF.ResourceCache.get().loadLWF({
-  //           lwf: `card_${this.thumb().toString()}.lwf`,
-  //           prefix: `${this.apiUrl}/artworks/${this.thumb().toString()}/`,
-  //           stage: canvas,
-  //           onload: (loadedLwfInstance: any) => {
-  //             this.lwfInstance = loadedLwfInstance;
-  //             this.canvasRef?.nativeElement.classList.add('artwork-anim');
-  //             const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-  //               'ef_001',
-  //               'battle',
-  //               0
-  //             );
-  //             if (attachedMovie) {
-  //               attachedMovie.moveTo(
-  //                 this.lwfInstance.width / 2,
-  //                 this.lwfInstance.height / 2
-  //               );
-  //             }
-  //             this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
-  //             // this.attachedMovie = attachedMovie;
-
-  //             this.animate();
-  //             console.log('Fin du chargement LWF.');
-
-  //             this.spinnerService.hide('card');
-  //           },
-  //           onerror: (error: any) => {
-  //             console.error('Erreur lors du chargement de LWF :', error);
-  //           },
-  //         });
-  //       } else {
-  //         console.log('Non LR.');
-
-  //         this.spinnerService.hide('card');
-  //       }
-  //     }, 1000);
-  //   }
-  // }
-
   loadLWF() {
     this.ngZone.runOutsideAngular(() => {
       if (isPlatformBrowser(this.platformId)) {
@@ -135,22 +89,18 @@ export class CardDetailsComponent implements AfterViewInit {
           const canvas = canvasRef.nativeElement;
           LWF.useCanvasRenderer();
           this.animationService
-            .loadLwf('card_${this.thumb().toString()}.lwf', {
+            .loadLwf({
               lwf: `card_${this.thumb().toString()}.lwf`,
               prefix: `${this.apiUrl}/artworks/${this.thumb().toString()}/`,
               stage: canvas,
             })
             .then((loadedLwfInstance: any) => {
               this.ngZone.run(() => {
-                if (this.lwfInstance) {
-                  this.animationService.reattachLWF(this.lwfInstance, canvas);
-                } else {
-                  this.lwfInstance = loadedLwfInstance;
-                  this.canvasRef()?.nativeElement.classList.add('artwork-anim');
-                  this.attachMovie(this.lwfInstance, this.attachedMovie);
-                  this.animate();
-                  this.spinnerService.hide('artwork');
-                }
+                this.lwfInstance = loadedLwfInstance;
+                this.canvasRef()?.nativeElement.classList.add('artwork-anim');
+                this.attachMovie(this.lwfInstance, this.attachedMovie);
+                this.animate();
+                this.spinnerService.hide('artwork');
               });
             })
             .catch((error: any) => {

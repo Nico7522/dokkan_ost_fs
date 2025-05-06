@@ -1,15 +1,13 @@
 import {
   AfterViewInit,
   Component,
+  computed,
   ElementRef,
   inject,
   input,
   NgZone,
   PLATFORM_ID,
-  QueryList,
   signal,
-  ViewChild,
-  ViewChildren,
   viewChild,
 } from '@angular/core';
 import { CardsService } from '@services/cards/cards.service';
@@ -17,12 +15,11 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { map, switchMap, tap } from 'rxjs';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '@shared/card/card.component';
-import { keysToCamel, playLWF } from '../../../helpers/helpers';
+import { keysToCamel } from '../../../helpers/helpers';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AnimationComponent } from '@shared/animation/animation.component';
 import { environment } from '../../../../environments/environment';
 import { AnimationService } from '@services/animation/animation.service';
-import { randomUUID } from 'crypto';
 import { Lwf } from 'app/models/lwf.type';
 import { LwfMovie } from 'app/models/lwf-movie.type';
 import { PlayButtonComponent } from '@shared/play-button/play-button.component';
@@ -48,25 +45,23 @@ export class CardDetailsComponent implements AfterViewInit {
   lwfInstance: Lwf | null = null;
   attachedMovie: LwfMovie | null = null;
   animationId = 0;
-  entranceOstText = signal('Play OST');
-  activeSkillOstText = signal('Play OST');
-  standbySkillOstText = signal('Play OST');
-  ostUnplayed = signal(true);
-  readonly showAnimation = signal(false);
+  bgmId = signal(0);
+  showAnimation = signal(false);
   filename = signal('');
   triggerScene = signal('');
   thumb = signal(0);
+  previousTick = 0;
+  animationData = computed(() => {
+    return {
+      prefix: this.apiUrl + '/animations/' + this.filename() + '/fr/',
+      lwf: this.filename() + '.lwf',
+      bgmId: this.bgmId(),
+      triggerScene: this.triggerScene(),
+    };
+  });
   readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement> | null>(
     'cardArtwork'
   );
-  @ViewChild('entranceOst', { static: false })
-  entranceAudioRef: ElementRef<HTMLAudioElement> | null = null;
-  @ViewChild('activeSkillOst', { static: false })
-  activeSkillOstRef: ElementRef<HTMLAudioElement> | null = null;
-  @ViewChild('standbySkillOst', { static: false })
-  standbySkillOstRef: ElementRef<HTMLAudioElement> | null = null;
-  @ViewChildren('finishSkillOst')
-  finishSkillOstRef: QueryList<ElementRef<HTMLAudioElement>> | null = null;
   timeout: NodeJS.Timeout | null = null;
   private ngZone = inject(NgZone);
   id = input<string>('');
@@ -98,7 +93,13 @@ export class CardDetailsComponent implements AfterViewInit {
               this.ngZone.run(() => {
                 this.lwfInstance = loadedLwfInstance;
                 this.canvasRef()?.nativeElement.classList.add('artwork-anim');
-                this.attachMovie(this.lwfInstance, this.attachedMovie);
+                if (this.attachedMovie && this.lwfInstance) {
+                  this.attachedMovie.moveTo(
+                    this.lwfInstance.width / 2,
+                    this.lwfInstance.height / 2
+                  );
+                  this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
+                }
                 this.animate();
                 this.spinnerService.hide('artwork');
               });
@@ -110,7 +111,6 @@ export class CardDetailsComponent implements AfterViewInit {
       }
     });
   }
-  previousTick = 0;
 
   ngOnInit() {
     this.spinnerService.show('artwork');
@@ -139,110 +139,17 @@ export class CardDetailsComponent implements AfterViewInit {
     this.animationId = requestAnimationFrame(this.animate);
   };
 
-  playOst(type: 'entrance' | 'activeSkill' | 'standbySkill' | 'finishSkill') {
-    // const entranceAudio: HTMLAudioElement | null =
-    //   this.entranceAudioRef.nativeElement;
-    // const activeSkillAudio: HTMLAudioElement | null =
-    //   this.activeSkillOstRef.nativeElement;
-    // const standbySkillAudio: HTMLAudioElement | null =
-    //   this.standbySkillOstRef.nativeElement;
-
-    if (type === 'entrance') {
-      const entranceAudio: HTMLAudioElement = (
-        this.entranceAudioRef as ElementRef<HTMLAudioElement>
-      ).nativeElement;
-      if (entranceAudio && this.entranceOstText() === 'Play OST') {
-        entranceAudio.volume = 0.03;
-        entranceAudio.loop = true;
-        entranceAudio.play();
-        if (
-          this.activeSkillOstRef &&
-          this.activeSkillOstRef.nativeElement.played.length > 0
-        ) {
-          this.activeSkillOstRef.nativeElement.pause();
-          this.activeSkillOstText.set('Play OST');
-        }
-        this.entranceOstText.set('Pause OST');
-      } else {
-        entranceAudio.volume = 0.03;
-        entranceAudio.loop = true;
-        entranceAudio.pause();
-        this.entranceOstText.set('Play OST');
-      }
-    }
-
-    if (type === 'activeSkill') {
-      const activeSkillAudio: HTMLAudioElement | null = (
-        this.activeSkillOstRef as ElementRef<HTMLAudioElement>
-      ).nativeElement;
-      if (activeSkillAudio && this.activeSkillOstText() === 'Play OST') {
-        activeSkillAudio.volume = 0.03;
-        activeSkillAudio.loop = true;
-        activeSkillAudio.play();
-        if (
-          this.entranceAudioRef &&
-          this.entranceAudioRef.nativeElement.played.length > 0
-        ) {
-          this.entranceAudioRef.nativeElement.pause();
-          this.entranceOstText.set('Play OST');
-        }
-        this.activeSkillOstText.set('Pause OST');
-      } else {
-        activeSkillAudio.volume = 0.03;
-        activeSkillAudio.loop = true;
-        activeSkillAudio.pause();
-        this.activeSkillOstText.set('Play OST');
-      }
-    }
-
-    if (type === 'standbySkill') {
-      const standbySkillAudio: HTMLAudioElement | null = (
-        this.standbySkillOstRef as ElementRef<HTMLAudioElement>
-      ).nativeElement;
-      if (standbySkillAudio && this.standbySkillOstText() === 'Play OST') {
-        standbySkillAudio.volume = 0.03;
-        standbySkillAudio.loop = true;
-        standbySkillAudio.play();
-
-        this.standbySkillOstText.set('Pause OST');
-      } else {
-        standbySkillAudio.volume = 0.03;
-        standbySkillAudio.loop = true;
-        standbySkillAudio.pause();
-        this.standbySkillOstText.set('Play OST');
-      }
-    }
-  }
-
-  playFinishSkillOst(index: number, play: boolean) {
-    const audioElement = (
-      this.finishSkillOstRef as QueryList<ElementRef<HTMLAudioElement>>
-    ).toArray()[index];
-    if (this.finishSkillOstRef && audioElement) {
-      // Met les autres OST en pause
-      this.finishSkillOstRef.toArray().forEach((el) => {
-        if (el.nativeElement.played.length > 0) {
-          el.nativeElement.pause();
-        }
-      });
-      if (play) {
-        audioElement.nativeElement.volume = 0.03;
-        audioElement.nativeElement.loop = true;
-        audioElement.nativeElement.play();
-        this.ostUnplayed.set(false);
-      } else {
-        audioElement.nativeElement.pause();
-      }
-    }
-  }
-
-  showAnimationComponent(filename: string, finishSkillIndex?: number) {
+  onShowAnimationComponent(
+    data: { filename: string; bgmId: number },
+    finishSkillIndex?: number
+  ) {
     if (this.attachedMovie) this.attachedMovie.gotoAndStop();
     cancelAnimationFrame(this.animationId);
     this.showAnimation.set(true);
-    this.filename.set(filename);
+    this.filename.set(data.filename);
+    this.bgmId.set(data.bgmId);
     this.triggerScene.set('');
-    if (filename === 'battle_301261' && finishSkillIndex === 1) {
+    if (data.filename === 'battle_301261' && finishSkillIndex === 1) {
       this.triggerScene.set('ef_002');
     }
   }
@@ -250,7 +157,13 @@ export class CardDetailsComponent implements AfterViewInit {
   hideAnimationComponent() {
     this.showAnimation.set(false);
     if (this.attachedMovie) this.attachedMovie.gotoAndPlay();
-    this.attachMovie(this.lwfInstance, this.attachedMovie);
+    if (this.attachedMovie && this.lwfInstance) {
+      this.attachedMovie.moveTo(
+        this.lwfInstance.width / 2,
+        this.lwfInstance.height / 2
+      );
+      this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
+    }
     this.animationId = requestAnimationFrame(this.animate);
   }
 
@@ -268,13 +181,5 @@ export class CardDetailsComponent implements AfterViewInit {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
-  }
-
-  private attachMovie(lwfInstance: any, attachedMovie: any) {
-    attachedMovie = lwfInstance.rootMovie.attachMovie('ef_001', 'battle', 0);
-    if (attachedMovie) {
-      attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-    }
-    lwfInstance.width / 1.5, lwfInstance.height / 2;
   }
 }

@@ -11,6 +11,7 @@ import {
   Output,
   PLATFORM_ID,
   signal,
+  ViewChild,
   viewChild,
 } from '@angular/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
@@ -29,6 +30,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { AnimationService } from '@services/animation/animation.service';
 import { Lwf } from 'app/models/lwf.type';
 import { LwfMovie } from 'app/models/lwf-movie.type';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-animation',
@@ -47,12 +49,21 @@ export class AnimationComponent implements OnInit, AfterViewInit {
   lwfInstance: Lwf | null = null;
   attachedMovie: LwfMovie | null = null;
   animationId = 0;
+  apiUrl = environment.API_URL;
   private platformId = inject(PLATFORM_ID);
-  lwfData = input.required<{
+  animationData = input.required<{
     prefix: string;
     lwf: string;
+    bgmId: number;
     triggerScene?: string;
   }>();
+  // lwfData = input.required<{
+  //   prefix: string;
+  //   lwf: string;
+  //   triggerScene?: string;
+  // }>();
+  @ViewChild('ostRef', { static: false })
+  ostRef: ElementRef<HTMLAudioElement> | null = null;
   close = output<boolean>();
   body = document.querySelector('body') as HTMLBodyElement;
   readonly canvasRef =
@@ -80,6 +91,14 @@ export class AnimationComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.body.classList.add('no-scroll');
     this.ngZone.runOutsideAngular(() => {
+      const ref = this.ostRef?.nativeElement;
+      console.log(ref);
+
+      if (ref) {
+        ref.volume = 0.03;
+        ref.loop = true;
+        ref.play();
+      }
       this.loadLWF();
     });
   }
@@ -106,8 +125,8 @@ export class AnimationComponent implements OnInit, AfterViewInit {
 
           this.animationService
             .loadLwf({
-              lwf: this.lwfData().lwf,
-              prefix: this.lwfData().prefix,
+              lwf: this.animationData().lwf,
+              prefix: this.animationData().prefix,
               stage: canvas,
             })
             .then((loadedLwfInstance: Lwf) => {
@@ -123,8 +142,8 @@ export class AnimationComponent implements OnInit, AfterViewInit {
                 let isPlayed = isSpecialAnimationPlayed(
                   this.lwfInstance,
                   this.i,
-                  this.lwfData().lwf,
-                  this.lwfData().triggerScene
+                  this.animationData().lwf,
+                  this.animationData().triggerScene
                 );
 
                 // Essaie de déclencher l'animation avec la scène de base 'ef_001'.

@@ -1,14 +1,12 @@
 import {
   Component,
+  computed,
   ElementRef,
   input,
   output,
-  QueryList,
   signal,
-  ViewChild,
-  ViewChildren,
+  viewChild,
 } from '@angular/core';
-import { CardDetails } from 'app/models/card.interface';
 import { environment } from 'environments/environment';
 
 @Component({
@@ -18,20 +16,24 @@ import { environment } from 'environments/environment';
   styleUrl: './play-button.component.scss',
 })
 export class PlayButtonComponent {
-  bgmType = input.required<
-    'entrance' | 'activeSkill' | 'standbySkill' | 'finishSkill'
-  >();
   bgmId = input.required<number>();
+  bgm = computed(() => {
+    return (
+      this.apiUrl +
+      '/bgm/' +
+      'bgm_' +
+      (this.bgmId() >= 100 ? this.bgmId() : '0' + this.bgmId()) +
+      '.wav'
+    );
+  });
   backgroundClass = input.required<string>();
+  title = input.required<string>();
   filename = input.required<string>();
-  @ViewChild('ostRef', { static: false })
-  ostRef: ElementRef<HTMLAudioElement> | null = null;
+  readonly ostRef = viewChild<ElementRef<HTMLAudioElement> | null>('ostRef');
   apiUrl = environment.API_URL;
   ostText = signal('Play OST');
-  playOst(
-    bgmType: 'entrance' | 'activeSkill' | 'standbySkill' | 'finishSkill'
-  ) {
-    const ref = this.ostRef?.nativeElement;
+  playOst() {
+    const ref = this.ostRef()?.nativeElement;
     if (ref) {
       if (ref.paused) {
         ref.volume = 0.03;
@@ -45,8 +47,11 @@ export class PlayButtonComponent {
     }
   }
 
-  showAnimationComponent = output<string>();
+  showAnimationComponent = output<{ filename: string; bgmId: number }>();
   onShowAnimationComponent() {
-    this.showAnimationComponent.emit(this.filename());
+    this.showAnimationComponent.emit({
+      filename: this.filename(),
+      bgmId: this.bgmId(),
+    });
   }
 }

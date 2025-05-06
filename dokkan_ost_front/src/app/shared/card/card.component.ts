@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Card } from '../../models/card.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { AnimationService } from '@services/animation/animation.service';
@@ -35,11 +35,9 @@ export class CardComponent {
   readonly canvasRef =
     viewChild.required<ElementRef<HTMLCanvasElement>>('cardRef');
   private readonly spinnerService = inject(NgxSpinnerService);
-  private readonly router = inject(Router);
   private readonly animationService = inject(AnimationService);
   private ngZone = inject(NgZone);
   previousTick = 0;
-
   loadLWF() {
     this.ngZone.runOutsideAngular(() => {
       if (isPlatformBrowser(this.platformId)) {
@@ -68,6 +66,7 @@ export class CardComponent {
                 this.attachedMovie.scaleX = 0.9;
                 this.attachedMovie.scaleY = 0.9;
 
+                // this.animate();
                 this.animate();
                 this.spinnerService.hide('loader');
               });
@@ -138,6 +137,7 @@ export class CardComponent {
   }
 
   ngOnDestroy() {
+    console.log(this.animationId);
     if (this.lwfInstance) {
       this.lwfInstance.destroy();
       this.lwfInstance = null;
@@ -163,60 +163,21 @@ export class CardComponent {
     this.animationId = requestAnimationFrame(this.animate);
   };
 
-  goToDetails() {
-    this.router.navigate(['/cards/', this.card().id]);
-  }
-
-  // playAnimation() {
-  //   this.showArtwork.set(false);
-
-  //   // Exemple de lecture audio
-  //   // const audio = this.audioRef.nativeElement;
-  //   // if (audio) {
-  //   //   audio.volume = 0.03;
-  //   //   audio.loop = true;
-  //   //   audio.play();
-  //   // }
-  //   const canvas = this.canvasRef.nativeElement;
-
-  //   LWF.ResourceCache.get().loadLWF({
-  //     lwf: 'sp_effect_b4_00215.lwf',
-  //     prefix: './intro/sp_effect_b4_00215/',
-  //     stage: canvas,
-  //     onload: (loadedLwfInstance: any) => {
-  //       this.lwfInstance = loadedLwfInstance;
-  //       this.canvasRef.nativeElement.classList.remove('artwork');
-  //       this.canvasRef.nativeElement.classList.add('intro');
-
-  //       // Si vous devez attacher une animation spécifique
-  //       const attachedMovie = this.lwfInstance.rootMovie.attachMovie(
-  //         'ef_001',
-  //         'battle',
-  //         1
-  //       );
-  //       if (attachedMovie) {
-  //         // attachedMovie.play();
-
-  //         // Centrer la scène
-  //         attachedMovie.moveTo(
-  //           this.lwfInstance.width / 1.5,
-  //           this.lwfInstance.height / 2
-  //         );
-
-  //         // // Ajuster la mise à l'échelle
-  //         attachedMovie.scaleX = 2; // Modifier la valeur pour ajuster
-  //         attachedMovie.scaleY = 1.3;
-  //         this.lwfInstance.scaleForHeight(canvas.width, canvas.height);
-  //       }
-
-  //       // Relancer le cycle d'animation
-  //       // this.animate();
-  //     },
-  //     onerror: (error: any) => {
-  //       console.error('Erreur lors du chargement de LWF :', error);
-  //     },
-  //   });
-
-  //   // animate()
+  // private anim(lwf: Lwf) {
+  //   let tick = 0;
+  //   let getDelta = () => {
+  //     const now = Date.now() / 1000;
+  //     const delta = now - tick;
+  //     tick = now;
+  //     return delta;
+  //   };
+  //   let animate = () => {
+  //     if (this.lwfInstance) {
+  //       lwf.exec(getDelta());
+  //       lwf.render();
+  //     }
+  //     requestAnimationFrame(animate);
+  //   };
+  //   requestAnimationFrame(animate);
   // }
 }

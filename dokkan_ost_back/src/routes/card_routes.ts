@@ -24,11 +24,10 @@ cardRoutes.get("/cards", async (req: Request, res: Response) => {
         data: results.rows,
       });
     } else {
-      total = await getCards();
       const text = "SELECT * FROM cards LIMIT 90 OFFSET ($1 - 1) * 90";
       const results = await pool.query(text, [req.query.page]);
       res.json({
-        total,
+        total: 217,
         data: results.rows,
         nbPage: Math.round(total / 90 + 1),
       });
@@ -93,8 +92,4 @@ cardRoutes.post("/cards", async (req: Request, res: Response) => {
   }
 });
 
-const getCards = async (): Promise<number> => {
-  const results = await pool.query("SELECT COUNT(*) FROM cards");
-  return results.rows[0].count as number;
-};
 export default cardRoutes;

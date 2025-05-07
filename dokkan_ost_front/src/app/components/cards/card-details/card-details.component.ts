@@ -89,18 +89,23 @@ export class CardDetailsComponent implements AfterViewInit {
               prefix: `${this.apiUrl}/artworks/${this.thumb().toString()}/`,
               stage: canvas,
             })
-            .then((loadedLwfInstance: any) => {
+            .then((loadedLwfInstance: Lwf) => {
               this.ngZone.run(() => {
                 this.lwfInstance = loadedLwfInstance;
+                this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+                  'ef_001',
+                  'battle',
+                  1
+                );
                 this.canvasRef()?.nativeElement.classList.add('artwork-anim');
-                if (this.attachedMovie && this.lwfInstance) {
-                  this.attachedMovie.moveTo(
-                    this.lwfInstance.width / 2,
-                    this.lwfInstance.height / 2
-                  );
-                  this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
-                }
+
+                this.attachedMovie.moveTo(
+                  this.lwfInstance.width / 2,
+                  this.lwfInstance.height / 2
+                );
+                this.lwfInstance.width / 1.5, this.lwfInstance.height / 2;
                 this.animate();
+
                 this.spinnerService.hide('artwork');
               });
             })
@@ -123,21 +128,6 @@ export class CardDetailsComponent implements AfterViewInit {
       }, 500);
     });
   }
-
-  getDelta() {
-    const now = Date.now() / 1000;
-    const delta = now - this.previousTick;
-    this.previousTick = now;
-    return delta;
-  }
-
-  animate = () => {
-    if (this.lwfInstance) {
-      this.lwfInstance.exec(this.getDelta());
-      this.lwfInstance.render();
-    }
-    this.animationId = requestAnimationFrame(this.animate);
-  };
 
   onShowAnimationComponent(
     data: { filename: string; bgmId: number },
@@ -182,4 +172,19 @@ export class CardDetailsComponent implements AfterViewInit {
       clearTimeout(this.timeout);
     }
   }
+
+  private getDelta() {
+    const now = Date.now() / 1000;
+    const delta = now - this.previousTick;
+    this.previousTick = now;
+    return delta;
+  }
+
+  private animate = () => {
+    if (this.lwfInstance) {
+      this.lwfInstance.exec(this.getDelta());
+      this.lwfInstance.render();
+    }
+    this.animationId = requestAnimationFrame(this.animate);
+  };
 }

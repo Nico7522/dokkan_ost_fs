@@ -40,17 +40,6 @@ export class CardsComponent {
     this.spinnerService.show('loader');
     this.updateQueryParams({ page: this.page() });
   }
-  // cardData$ = this.cardService.getCards().pipe(
-  //   map((result) => {
-  //     this.spinnerService.show('cards');
-  //     let cards = result.data.map((c) => keysToCamel(c));
-  //     return {
-  //       cards,
-  //       total: result.total,
-  //       nbPage: result.nbPage,
-  //     };
-  //   })
-  // );
 
   result = this.cardService.cards.value;
   error = computed(() => {

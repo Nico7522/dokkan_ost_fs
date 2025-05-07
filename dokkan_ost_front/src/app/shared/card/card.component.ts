@@ -66,7 +66,6 @@ export class CardComponent {
                 this.attachedMovie.scaleX = 0.9;
                 this.attachedMovie.scaleY = 0.9;
 
-                // this.animate();
                 this.animate();
                 this.spinnerService.hide('loader');
               });
@@ -83,7 +82,7 @@ export class CardComponent {
     });
   }
 
-  // Version dans le service
+  // Version sans le service
   // loadLWF() {
   //   this.ngZone.runOutsideAngular(() => {
   //     if (isPlatformBrowser(this.platformId)) {
@@ -137,7 +136,6 @@ export class CardComponent {
   }
 
   ngOnDestroy() {
-    console.log(this.animationId);
     if (this.lwfInstance) {
       this.lwfInstance.destroy();
       this.lwfInstance = null;
@@ -149,35 +147,17 @@ export class CardComponent {
     }
   }
 
-  getDelta() {
+  private getDelta() {
     const now = Date.now() / 1000;
     const delta = now - this.previousTick;
     this.previousTick = now;
     return delta;
   }
-  animate = () => {
+  private animate = () => {
     if (this.lwfInstance) {
       this.lwfInstance.exec(this.getDelta());
       this.lwfInstance.render();
     }
     this.animationId = requestAnimationFrame(this.animate);
   };
-
-  // private anim(lwf: Lwf) {
-  //   let tick = 0;
-  //   let getDelta = () => {
-  //     const now = Date.now() / 1000;
-  //     const delta = now - tick;
-  //     tick = now;
-  //     return delta;
-  //   };
-  //   let animate = () => {
-  //     if (this.lwfInstance) {
-  //       lwf.exec(getDelta());
-  //       lwf.render();
-  //     }
-  //     requestAnimationFrame(animate);
-  //   };
-  //   requestAnimationFrame(animate);
-  // }
 }

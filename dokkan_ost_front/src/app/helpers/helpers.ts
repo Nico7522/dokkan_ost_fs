@@ -1,3 +1,4 @@
+import { Lwf } from 'app/models/lwf.type';
 import {
   sp_effect_a1_00144_scenes,
   sp_effect_a1_00364_scenes,

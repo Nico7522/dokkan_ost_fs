@@ -30,7 +30,7 @@ export class CardsService {
   }
 
   getCardById(id: number): Observable<CardDetails> {
-    return this.httpClient.get<CardDetails>(`${this.apiUrl}/crds/${id}`).pipe(
+    return this.httpClient.get<CardDetails>(`${this.apiUrl}/cards/${id}`).pipe(
       switchMap((card) => {
         card = keysToCamel(card);
         if (card.hasFinishSkill) {
@@ -67,7 +67,7 @@ export class CardsService {
     loader: ({ request }) =>
       this.httpClient
         .get<ApiResponse<Card[]>>(
-          `${this.apiUrl}/crds?page=${request.page}&name=${request.name}`
+          `${this.apiUrl}/cards?page=${request.page}&name=${request.name}`
         )
         .pipe(
           debounceTime(500),

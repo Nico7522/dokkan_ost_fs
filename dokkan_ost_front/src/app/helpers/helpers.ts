@@ -1,8 +1,6 @@
-import { Lwf } from 'app/models/lwf.type';
 import {
   sp_effect_a1_00144_scenes,
   sp_effect_a1_00364_scenes,
-  sp_effect_a2_00174_scenes,
   sp_effect_a9_00094_scenes,
 } from '../data/scenes';
 import {
@@ -22,6 +20,7 @@ import {
   attachScenesForCard4026541FinishSkill,
   attachScenesForCard9526401FinishSkill,
   attachScenesForCard40304511ActiveSkill,
+  attachScenesForCard1022091ActiveSkill,
 } from './attach_scene';
 
 export const toCamel = (s: string) => {
@@ -979,29 +978,6 @@ export function isSpecialAnimationPlayed(
       break;
     }
 
-    case 'sp_effect_a2_00207.lwf': {
-      isPlayed = true;
-
-      let attachedMovie = lwfInstance.rootMovie.attachMovie(
-        'ef_002',
-        'battle',
-        1
-      );
-      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
-        'ef_001',
-        'battle2',
-        1
-      );
-      if (attachedMovie) {
-        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-      }
-
-      if (attachedMovie2) {
-        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
-      }
-      break;
-    }
-
     case 'sp_effect_b1_00324.lwf': {
       isPlayed = true;
 
@@ -1047,6 +1023,52 @@ export function isSpecialAnimationPlayed(
       }
       attachScenesForCard40304511ActiveSkill(lwfInstance, attachedMovie);
 
+      break;
+    }
+
+    case 'sp_effect_a2_00160.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_002',
+        'battle',
+        1
+      );
+
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+
+      attachScenesForCard1022091ActiveSkill(lwfInstance, attachedMovie);
+      break;
+    }
+
+    case 'sp_effect_b1_00261.lwf': {
+      isPlayed = true;
+      let attachedMovie = lwfInstance.rootMovie.attachMovie(
+        'ef_001b',
+        'battle',
+        1
+      );
+
+      let attachedMovie2 = lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle2',
+        1
+      );
+      if (attachedMovie) {
+        attachedMovie.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
+      if (attachedMovie2) {
+        attachedMovie2.moveTo(lwfInstance.width / 2, lwfInstance.height / 2);
+      }
       break;
     }
     default:

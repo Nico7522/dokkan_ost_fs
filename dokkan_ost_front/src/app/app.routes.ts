@@ -15,4 +15,8 @@ export const routes: Routes = [
     path: 'cards',
     loadChildren: () => import('./components/cards/cards.routes'),
   },
+  {
+    path: 'events',
+    loadChildren: () => import('./components/events/events.routes'),
+  },
 ];

@@ -4,11 +4,14 @@
         <app-searchbar (searchByName)="onSearchByName($event)" />
 
     </div>
-    @if (error()) {
-    <div class="error">
-        <span>Cards can't be fetch</span>
-    </div>
+    @if (loading()) {
+    <div class="loading">
+        <span>Loading ...</span>
 
+    </div>
+    }
+    @if (error() ) {
+    <app-error error="Cards can't be fetch" />
     }
     @if (noResultFound()) {
     <div class="error">

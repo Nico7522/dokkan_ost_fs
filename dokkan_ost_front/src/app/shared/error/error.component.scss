@@ -1,0 +1,26 @@
+.error {
+  background: #923b3b;
+  height: 50px;
+  display: flex;
+  width: 10%;
+  margin: 20px auto;
+  align-items: center;
+  justify-content: center;
+
+  & span {
+    padding: 3px;
+    font-family: "dokkan";
+  }
+}
+
+@media screen and (max-width: 1325px) {
+  .error {
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 665px) {
+  .error {
+    width: 40%;
+  }
+}

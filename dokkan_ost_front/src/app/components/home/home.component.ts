@@ -1,13 +1,14 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { HomeService } from '@services/home/home.service';
 import { CardComponent } from '@shared/card/card.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { ErrorComponent } from '@shared/error/error.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CardComponent],
+  imports: [CardComponent, ErrorComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -34,7 +35,10 @@ export class HomeComponent {
     this.updateQueryParams(this.offset().toString());
   }
   cards = this.homeService.cards.value;
-
+  error = computed(() => {
+    this.spinnerService.hide('loader');
+    return this.homeService.cards.error;
+  });
   private updateQueryParams(queryParams: string) {
     this.router.navigate([], {
       queryParams: { offset: queryParams, limit: 20 },

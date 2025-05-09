@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { CardsService } from '@services/cards/cards.service';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { map, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, map, switchMap, tap } from 'rxjs';
 import { AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { CardComponent } from '@shared/card/card.component';
 import { keysToCamel } from '../../../helpers/helpers';
@@ -23,6 +23,7 @@ import { AnimationService } from '@services/animation/animation.service';
 import { Lwf } from 'app/models/lwf.type';
 import { LwfMovie } from 'app/models/lwf-movie.type';
 import { PlayButtonComponent } from '@shared/play-button/play-button.component';
+import { ErrorComponent } from '@shared/error/error.component';
 @Component({
   selector: 'app-card-details',
   standalone: true,
@@ -32,6 +33,7 @@ import { PlayButtonComponent } from '@shared/play-button/play-button.component';
     AnimationComponent,
     NgxSpinnerModule,
     PlayButtonComponent,
+    ErrorComponent,
   ],
   templateUrl: './card-details.component.html',
   styleUrl: './card-details.component.scss',
@@ -46,6 +48,7 @@ export class CardDetailsComponent implements AfterViewInit {
   attachedMovie: LwfMovie | null = null;
   animationId = 0;
   bgmId = signal(0);
+  error = signal('');
   showAnimation = signal(false);
   filename = signal('');
   triggerScene = signal('');
@@ -71,6 +74,10 @@ export class CardDetailsComponent implements AfterViewInit {
         tap((x) => this.thumb.set(x.thumb)),
         map((card) => {
           return keysToCamel(card);
+        }),
+        catchError(() => {
+          this.error.set("Card can't be fetch");
+          return EMPTY;
         })
       );
     })

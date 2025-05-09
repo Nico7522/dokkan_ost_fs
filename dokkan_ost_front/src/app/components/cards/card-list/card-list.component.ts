@@ -6,6 +6,7 @@ import { CardComponent } from '@shared/card/card.component';
 import { Router, RouterOutlet } from '@angular/router';
 import { SearchbarComponent } from '@shared/searchbar/searchbar.component';
 import { Card } from 'app/models/card.interface';
+import { ErrorComponent } from '@shared/error/error.component';
 
 @Component({
   selector: 'app-cards',
@@ -14,6 +15,7 @@ import { Card } from 'app/models/card.interface';
     RouterOutlet,
     NgxSpinnerComponent,
     SearchbarComponent,
+    ErrorComponent,
   ],
   templateUrl: './card-list.component.html',
   styleUrl: './card-list.component.scss',
@@ -42,12 +44,14 @@ export class CardsComponent {
   }
 
   result = this.cardService.cards.value;
+  loading = this.cardService.cards.isLoading;
   error = computed(() => {
+    this.spinnerService.hide('loader');
     return this.cardService.cards.error();
   });
   nbButton = computed(() => Array(this.result()?.nbPage));
   noResultFound = computed(
-    () => this.result().cards.length <= 0 && !this.error()
+    () => this.result().cards.length <= 0 && !this.error() && !this.loading()
   );
   setPage(pageNumber: number) {
     this.updateQueryParams({ page: pageNumber.toString() });

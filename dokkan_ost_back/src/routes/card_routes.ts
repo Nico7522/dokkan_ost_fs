@@ -3,7 +3,8 @@ import pool from "../db/db";
 import { Card } from "../interfaces/card";
 import { cardChecker } from "../utils/checker";
 const cardRoutes = Router();
-let total = 0;
+const totalCard = 217;
+
 cardRoutes.get("/home", async (req: Request, res: Response, next) => {
   try {
     const text = "SELECT * FROM cards LIMIT 20 OFFSET $1";
@@ -27,9 +28,9 @@ cardRoutes.get("/cards", async (req: Request, res: Response) => {
       const text = "SELECT * FROM cards LIMIT 90 OFFSET ($1 - 1) * 90";
       const results = await pool.query(text, [req.query.page]);
       res.json({
-        total: 217,
+        total: totalCard,
         data: results.rows,
-        nbPage: Math.round(total / 90 + 1),
+        nbPage: Math.round(totalCard / 90 + 1),
       });
     }
   } catch (error) {

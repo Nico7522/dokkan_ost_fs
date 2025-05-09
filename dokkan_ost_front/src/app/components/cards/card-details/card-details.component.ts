@@ -153,8 +153,13 @@ export class CardDetailsComponent implements AfterViewInit {
 
   hideAnimationComponent() {
     this.showAnimation.set(false);
-    if (this.attachedMovie) this.attachedMovie.gotoAndPlay();
     if (this.attachedMovie && this.lwfInstance) {
+      this.attachedMovie.gotoAndPlay();
+      this.attachedMovie = this.lwfInstance.rootMovie.attachMovie(
+        'ef_001',
+        'battle',
+        1
+      );
       this.attachedMovie.moveTo(
         this.lwfInstance.width / 2,
         this.lwfInstance.height / 2

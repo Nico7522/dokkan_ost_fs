@@ -2,7 +2,9 @@ import { ActiveSkill } from "../interfaces/active_skill";
 import { Bgm } from "../interfaces/bgm";
 import { Card } from "../interfaces/card";
 import { Entrance } from "../interfaces/entrance";
+import { Event } from "../interfaces/event";
 import { FinishSkill } from "../interfaces/finish_skill";
+import { Level } from "../interfaces/level";
 import { StandBySkill } from "../interfaces/standby_skill";
 
 export const cardChecker = (card: Card): Boolean => {
@@ -73,5 +75,31 @@ export const finishSkillChecker = (finishSkill: FinishSkill): Boolean => {
   ) {
     return false;
   }
+  return true;
+};
+
+export const eventChecker = (event: Event): boolean => {
+  if (
+    typeof event.id !== "number" ||
+    typeof event.name !== "string" ||
+    typeof event.category !== "string" ||
+    typeof event.banner !== "string"
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+export const levelChecker = (level: Level): boolean => {
+  if (
+    typeof level.id !== "number" ||
+    typeof level.title !== "string" ||
+    typeof level.eventId !== "number" ||
+    typeof level.level !== "number"
+  ) {
+    return false;
+  }
+
   return true;
 };

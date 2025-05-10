@@ -163,6 +163,11 @@ AND substr(card_awakening_routes.open_at,0, 5) < '2038'
 ORDER BY card_awakening_routes.open_at DESC
 
 
+-- Récupère les événements 
+SELECT * FROM areas WHERE name LIKE '%red%' AND category = 20
+
+-- Récupère les événements avec les niveaux
+SELECT * FROM quests JOIN areas ON quests.area_id = areas.id WHERE areas.name LIKE '%red%' AND areas.category = 20
 
 -- TEST 
 

@@ -28,7 +28,6 @@ finishSkillRoutes.post("/finishskills", async (req: Request, res: Response) => {
     bgmId: +bgm_id,
     standBySkillId: +standby_skill_id,
   };
-  console.log(finishSkill);
 
   const isValid = finishSkillChecker(finishSkill);
   if (!isValid) {

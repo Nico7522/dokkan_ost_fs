@@ -4,7 +4,7 @@ import sqlite3
 import requests
 import time
 import pathlib
-dbfile = './db_22042025.db'
+dbfile = './db30042025.db'
 
 # Calcul les dégâts des attaques spéciales
 def calc_super_attack_damage(base_attack: int, special_description: str):
@@ -226,4 +226,55 @@ def add_is_legendary():
         print(res.json())
         time.sleep(3)
 
-feed_cards()
+def feed_events():
+    con = sqlite3.connect(dbfile)
+
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    query = "SELECT * FROM areas WHERE name LIKE '%red%' AND category = 20"
+    cur.execute(query)
+    row = cur.fetchall()
+    for event in row:
+        data = {
+            "id": event['id'],
+            "name": event['name'],
+            "category": 'Challenge',
+            "banner": event['banner_image_path'].split('/')[4]
+        }
+        res = requests.post('http://localhost:3200/events', data=data)
+        print(res.json())
+        time.sleep(3)
+
+
+
+def feed_levels():
+    con = sqlite3.connect(dbfile)
+
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    query = "SELECT * FROM quests JOIN areas ON quests.area_id = areas.id WHERE areas.name LIKE '%red%' AND areas.category = 20"
+    cur.execute(query)
+    row = cur.fetchall()
+    l = 0
+    first_area = 770
+    for level in row:
+        current_area = level['area_id']
+        print(first_area)
+        if first_area == current_area:
+            l = l + 1
+        else:
+            l = 1
+            first_area = current_area
+        data = {
+            "id": level['id'],
+            "title": level['name'],
+            "event_id": level['area_id'],
+            'level': l
+        }
+
+        print(data)
+        res = requests.post('http://localhost:3200/levels', data=data)
+        print(res.json())
+        time.sleep(3)
+# feed_events()
+feed_levels()

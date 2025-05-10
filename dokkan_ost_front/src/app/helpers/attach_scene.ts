@@ -430,7 +430,7 @@ export function attachScenesForCard9517981ActiveSkill(
 ) {
   attachedMovie.addEventHandler('update', () => {
     if (attachedMovie.currentFrame >= attachedMovie.totalFrames - 60) {
-      let { attachedMovieBase, attachedMovie2 } = triggerNextScenes(
+      let { attachedMovieBase } = triggerNextScenes(
         attachedMovie,
         lwfInstance,
         ['ef_002', 'ef_003']

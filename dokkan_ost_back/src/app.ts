@@ -11,6 +11,8 @@ import standBySkillRoutes from "./routes/standby_skill_routes";
 import finishSkillRoutes from "./routes/finish_skill_routes";
 import disablePostRequestMiddleware from "./middlewares/disable-post-request.middleware";
 import logger from "./middlewares/logger.middleware";
+import eventRoutes from "./routes/event_routes";
+import levelRoutes from "./routes/level_routes";
 
 const app = express();
 
@@ -33,6 +35,8 @@ app.use(activeSkillRoutes);
 app.use(bgmRoutes);
 app.use(standBySkillRoutes);
 app.use(finishSkillRoutes);
+app.use(eventRoutes);
+app.use(levelRoutes);
 
 app.listen(port, () => {
   console.log(`server is listening on http://localhost:${port}....`);

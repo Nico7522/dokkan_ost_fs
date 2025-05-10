@@ -22,7 +22,6 @@ entranceRoutes.post("/entrances", async (req: Request, res: Response) => {
     bgmId: +bgm_id,
     cardId: +card_id,
   };
-  console.log(entrance);
 
   const isValid = entranceChecker(entrance);
   if (!isValid) {

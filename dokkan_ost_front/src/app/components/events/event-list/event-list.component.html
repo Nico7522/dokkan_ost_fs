@@ -1,4 +1,7 @@
-<div>
-    <img src="./soon.png" alt="">
-
-</div>
+<section>
+    <div class="event">
+        @for (event of events$ | async; track $index) {
+        <img routerLink="/events/{{event.id}}/levels" [src]="apiUrl + '/events/' + event.banner" alt="">
+        }
+    </div>
+</section>

@@ -14,7 +14,20 @@ eventRoutes.get("/events", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error fetching events" });
   }
 });
+eventRoutes.get("/events/:id/levels", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const text = "SELECT * FROM levels WHERE levels.event_id = $1";
 
+    const values = [id];
+    const results = await pool.query(text, values);
+
+    res.json(results.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching event" });
+  }
+});
 eventRoutes.post("/events", async (req: Request, res: Response) => {
   const { id, name, category, banner } = req.body;
   const event: Event = {

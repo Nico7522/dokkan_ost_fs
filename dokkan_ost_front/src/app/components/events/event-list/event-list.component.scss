@@ -1,4 +1,13 @@
-div {
-  width: 100%;
-  text-align: center;
+.event {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 90%;
+  margin: 10px auto;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+img {
+  cursor: pointer;
 }

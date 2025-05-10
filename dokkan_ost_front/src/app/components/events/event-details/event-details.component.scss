@@ -1,0 +1,14 @@
+.level {
+  width: 80%;
+  height: 90px;
+  margin: 20px auto;
+  border-radius: 15px;
+  border: 1px solid white;
+  background: rgb(27, 27, 27);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  cursor: pointer;
+}

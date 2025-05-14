@@ -13,12 +13,15 @@ import disablePostRequestMiddleware from "./middlewares/disable-post-request.mid
 import logger from "./middlewares/logger.middleware";
 import eventRoutes from "./routes/event_routes";
 import levelRoutes from "./routes/level_routes";
-
+let corsOptions = {
+  origin: process.env.AUTHORIZED_ORIGIN,
+};
 const app = express();
+app.use(cors(corsOptions));
 
 // app.use(logger);
 // app.use(disablePostRequestMiddleware);
-app.use(cors());
+
 app.use(express.static("public"));
 
 const port = 3200;

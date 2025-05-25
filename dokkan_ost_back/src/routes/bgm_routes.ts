@@ -2,13 +2,15 @@ import { Router, Request, Response } from "express";
 import pool from "../db/db";
 import { Bgm } from "../interfaces/bgm";
 import { bgmChecker } from "../utils/checker";
+import { mapToCamel } from "../utils/mapper";
 
 const bgmRoutes = Router();
 
 bgmRoutes.get("/bgm", async (req: Request, res: Response) => {
   try {
     const results = await pool.query("SELECT * FROM background_music");
-    res.json(results.rows);
+    const data = await mapToCamel(results.rows);
+    res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error fetching bgm" });

@@ -1,0 +1,27 @@
+h2 {
+  font-family: "dokkan";
+  padding: 5px;
+  font-size: 2rem;
+}
+
+.round {
+  text-align: center;
+  background: #18191d;
+  width: 90%;
+  margin: 5px auto;
+  border-radius: 5px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  & div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+}

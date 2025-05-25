@@ -72,9 +72,7 @@ export class CardDetailsComponent implements AfterViewInit {
     switchMap((id) => {
       return this.cardService.getCardById(+id).pipe(
         tap((x) => this.thumb.set(x.thumb)),
-        map((card) => {
-          return keysToCamel(card);
-        }),
+
         catchError(() => {
           this.error.set("Card can't be fetch");
           return EMPTY;

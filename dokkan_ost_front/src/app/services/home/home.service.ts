@@ -21,19 +21,10 @@ export class HomeService {
     this._offset.set(offset);
   }
 
-  cards = httpResource<Card[]>(
-    () => ({
-      url: this._offset()
-        ? `${this.apiUrl}/home?offset=${this._offset()}`
-        : `${this.apiUrl}/home?offset=0`,
-      defaultValue: [],
-    }),
-    {
-      parse: (value) =>
-        (value as Card[]).map((c) => {
-          c = keysToCamel(c);
-          return c;
-        }),
-    }
-  );
+  cards = httpResource<Card[]>(() => ({
+    url: this._offset()
+      ? `${this.apiUrl}/home?offset=${this._offset()}`
+      : `${this.apiUrl}/home?offset=0`,
+    defaultValue: [],
+  }));
 }

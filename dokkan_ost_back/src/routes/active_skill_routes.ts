@@ -3,13 +3,15 @@ import pool from "../db/db";
 import { activeSkillChecker } from "../utils/checker";
 import { ActiveSkill } from "../interfaces/active_skill";
 import path from "path";
+import { mapToCamel } from "../utils/mapper";
 
 const activeSkillRoutes = Router();
 
 activeSkillRoutes.get("/active-skills", async (req: Request, res: Response) => {
   try {
     const results = await pool.query("SELECT * FROM active_skills");
-    res.json(results.rows);
+    const data = await mapToCamel(results.rows);
+    res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error fetching active skills" });

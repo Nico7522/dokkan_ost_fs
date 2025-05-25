@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { keysToCamel } from 'app/helpers/helpers';
+import { Card } from 'app/models/card.interface';
 import { Event } from 'app/models/event.interface';
 import { Level } from 'app/models/level.interface';
+import { ApiRoundResponse, Round } from 'app/models/round.interface';
 import { environment } from 'environments/environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +21,10 @@ export class EventService {
   }
 
   getEventById(id: number): Observable<Level[]> {
-    console.log(id);
-
     return this.httpService.get<Level[]>(`${this.apiUrl}/events/${id}/levels`);
+  }
+
+  getLevelInfo(id: number): Observable<any> {
+    return this.httpService.get<any>(`${this.apiUrl}/levels/${id}`);
   }
 }

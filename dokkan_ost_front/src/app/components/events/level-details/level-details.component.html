@@ -1,0 +1,15 @@
+@for (round of levelInfo$ | async; track $index) {
+<div class="round">
+    <h2>Round {{round.roundNb}}</h2>
+    <div class="card">
+        @for (card of round.cards; track $index) {
+        <div>
+            <app-card [card]="card" />
+            <h3>{{card.name}}</h3>
+
+        </div>
+        }
+    </div>
+
+</div>
+}

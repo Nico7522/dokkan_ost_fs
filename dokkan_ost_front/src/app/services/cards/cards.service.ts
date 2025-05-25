@@ -11,7 +11,6 @@ import {
 import { Card, CardDetails } from '../../models/card.interface';
 import { environment } from '../../../environments/environment';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { keysToCamel } from '../../helpers/helpers';
 import { ApiResponse } from 'app/models/api-response.interface';
 import { FinishSkill } from 'app/models/finish-skill.interface';
 
@@ -32,7 +31,6 @@ export class CardsService {
   getCardById(id: number): Observable<CardDetails> {
     return this.httpClient.get<CardDetails>(`${this.apiUrl}/cards/${id}`).pipe(
       switchMap((card) => {
-        card = keysToCamel(card);
         if (card.hasFinishSkill) {
           return this.httpClient
             .get<FinishSkill[]>(`${this.apiUrl}/cards/${id}/finishskills`)
@@ -73,9 +71,8 @@ export class CardsService {
           debounceTime(500),
           distinctUntilChanged(),
           map((result) => {
-            let cards = result.data.map((c) => keysToCamel(c));
             return {
-              cards,
+              cards: result.data,
               total: result.total,
               nbPage: result.nbPage,
             };

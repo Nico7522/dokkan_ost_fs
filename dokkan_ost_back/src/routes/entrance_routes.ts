@@ -1,13 +1,15 @@
 import { Router, Request, Response } from "express";
 import pool from "../db/db";
-import { cardChecker, entranceChecker } from "../utils/checker";
+import { entranceChecker } from "../utils/checker";
 import { Entrance } from "../interfaces/entrance";
+import { mapToCamel } from "../utils/mapper";
 const entranceRoutes = Router();
 
 entranceRoutes.get("/entrances", async (req: Request, res: Response) => {
   try {
     const results = await pool.query("SELECT * FROM entrances");
-    res.json(results.rows);
+    const data = await mapToCamel(results.rows);
+    res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error fetching entrances" });

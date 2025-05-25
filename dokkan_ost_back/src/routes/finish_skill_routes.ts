@@ -1,19 +1,15 @@
 import { Router, Request, Response } from "express";
 import pool from "../db/db";
-import {
-  activeSkillChecker,
-  finishSkillChecker,
-  standBySkillChecker,
-} from "../utils/checker";
-import { ActiveSkill } from "../interfaces/active_skill";
-import { StandBySkill } from "../interfaces/standby_skill";
+import { finishSkillChecker } from "../utils/checker";
 import { FinishSkill } from "../interfaces/finish_skill";
+import { mapToCamel } from "../utils/mapper";
 const finishSkillRoutes = Router();
 
 finishSkillRoutes.get("/finishskills", async (req: Request, res: Response) => {
   try {
     const results = await pool.query("SELECT * FROM finish_skills");
-    res.json(results.rows);
+    const data = await mapToCamel(results.rows);
+    res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error fetching standby skills" });

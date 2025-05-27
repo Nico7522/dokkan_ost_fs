@@ -180,4 +180,4 @@ ORDER BY card_awakening_routes.open_at DESC
 
 
 
-SELECT enemy_info FROM sugoroku_map_enemy_informations WHERE sugoroku_map_id = 7700065
+SELECT enemy_info FROM sugoroku_map_enemy_informations WHERE sugoroku_map_id = 7700075

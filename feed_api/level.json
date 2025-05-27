@@ -1,0 +1,155 @@
+{
+  "token": "pqSGtks5Vdwd3vl0RAhNCQ==",
+  "dummy_card_id": 1000780,
+  "sugoroku": {
+    "map": "770_007",
+    "events": {
+      "0": { "type": 501, "content": { "script_id": 0 } },
+      "2": {
+        "type": 301,
+        "content": {
+          "before_script_id": 0,
+          "after_script_id": 0,
+          "battle_info": [
+            {
+              "round_id": 77007531,
+              "before_script_id": null,
+              "after_script_id": null,
+              "background_id": 69,
+              "bgm_id": 28,
+              "charge_limit": 0,
+              "charge_limit_script_id": null
+            },
+            {
+              "round_id": 77007532,
+              "before_script_id": null,
+              "after_script_id": null,
+              "background_id": 69,
+              "bgm_id": 41,
+              "charge_limit": 0,
+              "charge_limit_script_id": null
+            },
+            {
+              "round_id": 77007533,
+              "before_script_id": null,
+              "after_script_id": null,
+              "background_id": 132,
+              "bgm_id": 143,
+              "charge_limit": 0,
+              "charge_limit_script_id": null
+            }
+          ],
+          "enemies": [
+            [
+              {
+                "card_id": 1021881,
+                "hp": 31000000,
+                "attack": 220000,
+                "defence": 75000,
+                "ai_type": 76,
+                "turn": 0,
+                "exp": 0,
+                "zeni": 0,
+                "extra_hp_gauges_count": 8,
+                "multi_atk_num": 9,
+                "is_finish_special_only": false,
+                "finish_special_inform_hp": 0,
+                "is_necessary_to_defeat": true,
+                "enemy_skill_ids": [19110, 19230, 19250, 19260],
+                "enemy_round_skill_set_id": null,
+                "first_turn": 0
+              }
+            ],
+            [
+              {
+                "card_id": 9111491,
+                "hp": 40500000,
+                "attack": 340000,
+                "defence": 78000,
+                "ai_type": 76,
+                "turn": 0,
+                "exp": 0,
+                "zeni": 0,
+                "extra_hp_gauges_count": 10,
+                "multi_atk_num": 9,
+                "is_finish_special_only": false,
+                "finish_special_inform_hp": 0,
+                "is_necessary_to_defeat": true,
+                "enemy_skill_ids": [19130, 19150, 19170, 19180, 19190],
+                "enemy_round_skill_set_id": null,
+                "first_turn": 0
+              }
+            ],
+            [
+              {
+                "card_id": 9111321,
+                "hp": 35000000,
+                "attack": 450000,
+                "defence": 84000,
+                "ai_type": 17000,
+                "turn": 0,
+                "exp": 0,
+                "zeni": 0,
+                "extra_hp_gauges_count": 9,
+                "multi_atk_num": 10,
+                "is_finish_special_only": false,
+                "finish_special_inform_hp": 0,
+                "is_necessary_to_defeat": true,
+                "enemy_skill_ids": [19140, 19150, 19170, 19180, 19190],
+                "enemy_round_skill_set_id": null,
+                "first_turn": 0
+              }
+            ]
+          ],
+          "battle_round_condition_sets": [],
+          "link_skill_lv_up": []
+        }
+      },
+      "4": { "type": 502, "content": { "script_id": 0 } }
+    },
+    "first_focus_step": 2,
+    "dice": {
+      "nums": [
+        { "num": 1, "weight": 0 },
+        { "num": 2, "weight": 100 },
+        { "num": 3, "weight": 0 },
+        { "num": 4, "weight": 0 },
+        { "num": 5, "weight": 0 },
+        { "num": 6, "weight": 0 }
+      ]
+    }
+  },
+  "user": {
+    "id": 1403599674,
+    "name": "Nico75",
+    "is_ondemand": false,
+    "rank": 843,
+    "exp": 957826033,
+    "act": 8,
+    "boost_point": 0,
+    "act_max": 360,
+    "act_at": 1748286115,
+    "act_cure_shortened_sec": 35,
+    "boost_at": 1748284362,
+    "boost_cure_shortened_sec": 695,
+    "wallpaper_item_id": 62,
+    "achievement_id": 28,
+    "mainpage_card_id": 1020341,
+    "mainpage_user_card_id": 1379077629,
+    "mydata_subpage_visible": true,
+    "card_capacity": 115,
+    "total_card_capacity": 1720,
+    "friends_capacity": 100,
+    "support_item_capacity": 4,
+    "is_support_item_capacity_extended": true,
+    "zeni": 67783061,
+    "gasha_point": 3413580,
+    "exchange_point": 481672,
+    "stone": 8398,
+    "tutorial": { "progress": 999, "is_finished": true, "contents_lv": 3200 },
+    "is_potential_releaseable": true,
+    "processed_at": 1748355662
+  },
+  "missions": [],
+  "is_team_trend": true
+}

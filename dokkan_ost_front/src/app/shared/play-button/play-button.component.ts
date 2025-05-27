@@ -22,7 +22,11 @@ export class PlayButtonComponent {
       this.apiUrl +
       '/bgm/' +
       'bgm_' +
-      (this.bgmId() >= 100 ? this.bgmId() : '0' + this.bgmId()) +
+      (this.bgmId() >= 100
+        ? this.bgmId()
+        : this.bgmId() < 10
+        ? '00' + this.bgmId()
+        : '0' + this.bgmId()) +
       '.wav'
     );
   });

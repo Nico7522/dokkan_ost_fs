@@ -17,4 +17,16 @@ export const serverRoutes: ServerRoute[] = [
     path: 'cards/:id',
     renderMode: RenderMode.Server,
   },
+  {
+    path: 'events',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'events/:id/levels',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'events/:id/levels/:levelId',
+    renderMode: RenderMode.Server,
+  },
 ];

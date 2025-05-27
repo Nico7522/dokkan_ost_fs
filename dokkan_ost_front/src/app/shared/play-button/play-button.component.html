@@ -1,8 +1,11 @@
 <div class="animation">
     <h2>{{title()}}</h2>
     <button (click)="playOst()" [class]="backgroundClass()">{{ostText()}}</button>
+    @if (filename()) {
     <button (click)="onShowAnimationComponent()" [class]="backgroundClass()">Play OST +
         Animation</button>
+
+    }
     <audio #ostRef id="ostRef">
         <source [src]="bgm()" type="audio/mpeg" />
     </audio>

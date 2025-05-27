@@ -1,6 +1,6 @@
 @for ( level of levels$ | async; track $index) {
 
-<div class="level">
+<div class="level" [routerLink]="[level.id]">
     <span>{{'Level ' + level.level + ' : ' + level.title}}</span>
 
 </div>

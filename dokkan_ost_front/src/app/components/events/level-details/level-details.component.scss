@@ -6,10 +6,11 @@ h2 {
 
 .round {
   text-align: center;
-  background: #18191d;
+  background: rgb(27, 27, 27);
   width: 90%;
   margin: 5px auto;
   border-radius: 5px;
+  padding-bottom: 15px;
 }
 
 .card {
@@ -24,4 +25,36 @@ h2 {
     width: 100%;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
+}
+
+button {
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  background: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+button:hover,
+button:focus {
+  background-color: #dbcfd3;
 }

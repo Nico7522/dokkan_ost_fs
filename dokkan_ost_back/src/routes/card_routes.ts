@@ -8,7 +8,8 @@ const totalCard = 217;
 
 cardRoutes.get("/home", async (req: Request, res: Response, next) => {
   try {
-    const text = "SELECT * FROM cards LIMIT 20 OFFSET $1";
+    const text =
+      "SELECT * FROM cards WHERE is_enemy = FALSE LIMIT 20 OFFSET $1";
     const offset = [req.query.offset];
     const results = await pool.query(text, offset);
     const data = await mapToCamel(results.rows);
@@ -21,14 +22,16 @@ cardRoutes.get("/home", async (req: Request, res: Response, next) => {
 cardRoutes.get("/cards", async (req: Request, res: Response) => {
   try {
     if (req.query.name) {
-      const text = "SELECT * FROM cards WHERE name ILIKE $1";
+      const text =
+        "SELECT * FROM cards WHERE name ILIKE $1 AND is_enemy = FALSE";
       const results = await pool.query(text, [`%${req.query.name}%`]);
       const data = await mapToCamel(results.rows);
       res.json({
         data,
       });
     } else {
-      const text = "SELECT * FROM cards LIMIT 90 OFFSET ($1 - 1) * 90";
+      const text =
+        "SELECT * FROM cards WHERE is_enemy = FALSE LIMIT 90 OFFSET ($1 - 1) * 90";
       const results = await pool.query(text, [req.query.page]);
       const data = await mapToCamel(results.rows);
       res.json({

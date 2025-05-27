@@ -10,6 +10,11 @@
         </div>
         }
     </div>
+    <app-play-button [bgmId]="round.bgmId" [backgroundClass]="'base'" />
+    <audio #ostRef id="ostRef">
+        <source [src]="this.apiUrl + '/bgm/' + 'bgm_' + (round.bgmId >= 100 ? round.bgmId : '0' + round.bgmId) + '.wav'"
+            type="audio/mpeg" />
+    </audio>
 
 </div>
 }

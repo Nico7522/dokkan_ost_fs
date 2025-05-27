@@ -1,13 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { RouterModule } from '@angular/router';
 import { EventService } from '@services/event/event.service';
-import { keysToCamel } from 'app/helpers/helpers';
-import { catchError, EMPTY, map, switchMap } from 'rxjs';
+import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-event-details',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, RouterModule],
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.scss',
 })

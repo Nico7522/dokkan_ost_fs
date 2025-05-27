@@ -27,8 +27,8 @@ export class PlayButtonComponent {
     );
   });
   backgroundClass = input.required<string>();
-  title = input.required<string>();
-  filename = input.required<string>();
+  title = input<string>();
+  filename = input<string>();
   readonly ostRef = viewChild<ElementRef<HTMLAudioElement> | null>('ostRef');
   apiUrl = environment.API_URL;
   ostText = signal('Play OST');
@@ -47,11 +47,16 @@ export class PlayButtonComponent {
     }
   }
 
-  showAnimationComponent = output<{ filename: string; bgmId: number }>();
+  showAnimationComponent = output<{
+    filename: string | undefined;
+    bgmId: number;
+  }>();
   onShowAnimationComponent() {
-    this.showAnimationComponent.emit({
-      filename: this.filename(),
-      bgmId: this.bgmId(),
-    });
+    if (this.filename) {
+      this.showAnimationComponent.emit({
+        filename: this.filename(),
+        bgmId: this.bgmId(),
+      });
+    }
   }
 }

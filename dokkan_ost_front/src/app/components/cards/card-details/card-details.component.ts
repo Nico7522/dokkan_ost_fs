@@ -135,13 +135,15 @@ export class CardDetailsComponent implements AfterViewInit {
   }
 
   onShowAnimationComponent(
-    data: { filename: string; bgmId: number },
+    data: { filename: string | undefined; bgmId: number },
     finishSkillIndex?: number
   ) {
     if (this.attachedMovie) this.attachedMovie.gotoAndStop();
     cancelAnimationFrame(this.animationId);
     this.showAnimation.set(true);
-    this.filename.set(data.filename);
+    if (data.filename) {
+      this.filename.set(data.filename);
+    }
     this.bgmId.set(data.bgmId);
     this.triggerScene.set('');
     if (data.filename === 'battle_301261' && finishSkillIndex === 1) {

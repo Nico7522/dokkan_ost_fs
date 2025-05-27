@@ -21,7 +21,13 @@ export class EventService {
   }
 
   getEventById(id: number): Observable<Level[]> {
-    return this.httpService.get<Level[]>(`${this.apiUrl}/events/${id}/levels`);
+    return this.httpService
+      .get<Level[]>(`${this.apiUrl}/events/${id}/levels`)
+      .pipe(
+        map((events) => {
+          return events.sort((a, b) => a.level - b.level);
+        })
+      );
   }
 
   getLevelInfo(id: number): Observable<any> {

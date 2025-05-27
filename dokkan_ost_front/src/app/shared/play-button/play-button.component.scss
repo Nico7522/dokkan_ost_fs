@@ -1,3 +1,7 @@
+.base {
+  background: #43494b;
+}
+
 .phy {
   background: #b89933;
 }
@@ -18,9 +22,7 @@
   background: #6d295e;
 }
 .animation {
-  border: 1px solid black;
   width: 100%;
-  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,7 +31,6 @@
     width: 200px;
     margin-top: 5px;
   }
-
   & h2 {
     font-family: dokkan;
   }

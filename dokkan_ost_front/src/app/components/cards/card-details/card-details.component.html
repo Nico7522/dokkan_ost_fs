@@ -25,33 +25,39 @@
     <div class="card">
         <app-card [card]="card" />
         <h2>{{card.name}}</h2>
+        <div class="play-button">
 
-        @if (card.entranceBgmId && card.entranceFilename) {
-        <app-play-button title="Entry" [bgmId]="card.entranceBgmId" [filename]="card.entranceFilename"
-            [backgroundClass]="card.type.toLowerCase()" (showAnimationComponent)="onShowAnimationComponent($event)" />
+            @if (card.entranceBgmId && card.entranceFilename) {
+            <app-play-button title="Entry" [bgmId]="card.entranceBgmId" [filename]="card.entranceFilename"
+                [backgroundClass]="card.type.toLowerCase()"
+                (showAnimationComponent)="onShowAnimationComponent($event)" />
 
-        }
-        @if (card.asBgmId && card.asFilename ) {
-        <app-play-button title="Active Skill" [bgmId]="card.asBgmId" [filename]="card.asFilename"
-            [backgroundClass]="card.type.toLowerCase()" (showAnimationComponent)="onShowAnimationComponent($event)" />
+            }
+            @if (card.asBgmId && card.asFilename ) {
+            <app-play-button title="Active Skill" [bgmId]="card.asBgmId" [filename]="card.asFilename"
+                [backgroundClass]="card.type.toLowerCase()"
+                (showAnimationComponent)="onShowAnimationComponent($event)" />
 
-        }
+            }
 
-        @if (card.standbyBgmId && card.standbyFilename) {
-        <app-play-button title="Standby Skill" [bgmId]="card.standbyBgmId" [filename]="card.standbyFilename"
-            [backgroundClass]="card.type.toLowerCase()" (showAnimationComponent)="onShowAnimationComponent($event)" />
-        }
+            @if (card.standbyBgmId && card.standbyFilename) {
+            <app-play-button title="Standby Skill" [bgmId]="card.standbyBgmId" [filename]="card.standbyFilename"
+                [backgroundClass]="card.type.toLowerCase()"
+                (showAnimationComponent)="onShowAnimationComponent($event)" />
+            }
 
-        @if (card.hasFinishSkill) {
-        @for (finishSkill of card.finishSkills; track $index) {
-        @if (finishSkill.bgmId && finishSkill.filename) {
-        <app-play-button [title]="'Finish Skill' + ' ('+ finishSkill.name +')'" [bgmId]="+finishSkill.bgmId"
-            [filename]="finishSkill.filename" [backgroundClass]="card.type.toLowerCase()"
-            (showAnimationComponent)="onShowAnimationComponent($event, $index)" />
-        }
+            @if (card.hasFinishSkill) {
+            @for (finishSkill of card.finishSkills; track $index) {
+            @if (finishSkill.bgmId && finishSkill.filename) {
+            <app-play-button [title]="'Finish Skill' + ' ('+ finishSkill.name +')'" [bgmId]="+finishSkill.bgmId"
+                [filename]="finishSkill.filename" [backgroundClass]="card.type.toLowerCase()"
+                (showAnimationComponent)="onShowAnimationComponent($event, $index)" />
+            }
 
-        }
-        }
+            }
+            }
+        </div>
+
     </div>
 </div>
 @if (showAnimation()) {

@@ -21,7 +21,7 @@ levelRoutes.get("/levels/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const text =
-      "SELECT rounds.round_number AS round_nb, cards.* FROM rounds JOIN cards_rounds ON cards_rounds.round_id = rounds.id JOIN cards ON cards.id = cards_rounds.card_id WHERE level_id = $1";
+      "SELECT rounds.round_number AS round_nb, rounds.bgm_id, cards.* FROM rounds JOIN cards_rounds ON cards_rounds.round_id = rounds.id JOIN cards ON cards.id = cards_rounds.card_id WHERE level_id = $1";
 
     const values = [id];
     const results = await pool.query(text, values);
@@ -31,7 +31,7 @@ levelRoutes.get("/levels/:id", async (req: Request, res: Response) => {
       );
 
       if (!group) {
-        group = { roundNb: item.round_nb, cards: [] };
+        group = { roundNb: item.round_nb, bgmId: item.bgm_id, cards: [] };
         acc.push(group);
       }
 
